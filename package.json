@@ -1,0 +1,25 @@
+{
+  "name": "monogo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "v16.x"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "mongoose": "^6.3.1",
+    "nodemon": "^2.0.16",
+    "path": "^0.12.7",
+    "url": "^0.11.0",
+    "ws": "^8.5.0"
+  } 
+}

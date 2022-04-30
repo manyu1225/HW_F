@@ -1,0 +1,5 @@
+node_modules/
+*.env
+wsserver.js
+client.js
+index.html
