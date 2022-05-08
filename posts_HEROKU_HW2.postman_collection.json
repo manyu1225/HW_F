@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "取得所有",
+			"name": "取得單筆",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -18,12 +18,12 @@
 					"raw": "",
 					"options": {
 						"raw": {
-							"language": "json"
+							"language": "text"
 						}
 					}
 				},
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/posts",
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts/6277e9c9ef21352f297f57dc",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -31,7 +31,8 @@
 						"com"
 					],
 					"path": [
-						"posts"
+						"posts",
+						"6277e9c9ef21352f297f57dc"
 					]
 				}
 			},
@@ -44,7 +45,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"HELLP22222\",\r\n    \"type\": \"group\",\r\n      \"tags\": \"group\",\r\n        \"image\": \"\",\r\n            \"content\": \"ContentContentConteˇˇnt\",\r\n              \"likes\": \"12\", \r\n               \"comments\": \"122\"\r\n}",
+					"raw": "{\r\n    \"name\": \"33333333\",\r\n    \"type\": \"group\",\r\n      \"tags\": \"group\",\r\n        \"image\": \"3333\",\r\n            \"content\": \"Conte333nt\",\r\n              \"likes\": \"13332\", \r\n               \"comments\": \"133322\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,7 +53,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/posts/626d7e64eec3ce3c172ddda6",
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts/6277d46be93e323f322248d7",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -61,7 +62,7 @@
 					],
 					"path": [
 						"posts",
-						"626d7e64eec3ce3c172ddda6"
+						"6277d46be93e323f322248d7"
 					]
 				}
 			},
@@ -94,7 +95,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"HELLOYO\",\r\n    \"type\": \"group\",\r\n      \"tags\": \"44\",\r\n        \"image\": \"\",\r\n            \"content\": \"ContentContentContent\",\r\n              \"likes\": \"123\", \r\n               \"comments\": \"123\"\r\n}",
+					"raw": "{\r\n    \"name\": \"HELLO2222YO\",\r\n    \"type\": \"group\",\r\n      \"tags\": \"44444\",\r\n        \"image\": \"\",\r\n            \"content\": \"ContentCont2entContent\",\r\n              \"likes\": \"12322\", \r\n               \"comments\": \"123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -122,7 +123,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/posts/626d6c5407846d9c40badbb8",
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts/6277e9c9ef21352f297f57dc",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -131,7 +132,38 @@
 					],
 					"path": [
 						"posts",
-						"626d6c5407846d9c40badbb8"
+						"6277e9c9ef21352f297f57dc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "取得所有Sort",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts/?timeSort=asc&limit=15",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						""
+					],
+					"query": [
+						{
+							"key": "timeSort",
+							"value": "asc"
+						},
+						{
+							"key": "limit",
+							"value": "15"
+						}
 					]
 				}
 			},
