@@ -35,10 +35,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
+/*
 app.use((req, res, next) => {
-    //http://localhost:3000/posts/
-    handleError(res,httpStatus.BAD_REQUEST,"BAD REQUEST");
-
+    next();
 });
-  
+*/
+app.use((req, res, next) => {
+    res.status(httpStatus.NOT_FOUND).send("NOT FOUND")
+});
+app.use(function(err,req,res,next){
+    res.status(httpStatus.INTERNAL_SERVER).send('程式有些問題，請稍後嘗試')
+})
 module.exports = app;
