@@ -4,10 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
-const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('./swagger_output.json') // 剛剛輸出的 JSON
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger_output.json') ;// 剛剛輸出的 JSON
 
-
+require('./conn') ;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
