@@ -7,6 +7,9 @@
     "start:dev": "nodemon ./bin/www",
     "swagger-autogen": "node ./swagger.js"
   },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",

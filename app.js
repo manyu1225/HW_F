@@ -37,7 +37,12 @@ app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
+app.use((req, res, next) => {
+  res.status(404).send("NOT FOUND")
+});
+app.use(function(err,req,res,next){
+  res.status(500).send('程式有些問題，請稍後嘗試')
+})
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
