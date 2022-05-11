@@ -32,7 +32,7 @@ const usersSchema = new mongoose.Schema(
     }
 );
 
-const posts = mongoose.model(
+const User = mongoose.model(
     'users', usersSchema
 );
 
