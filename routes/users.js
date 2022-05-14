@@ -1,10 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const userController = require('../controller/users');
+const userController = require("../controller/users");
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+router.get("/", function (req, res, next) {
+  /*
+   *   #swagger.tags = ['Users']
+   *   #swagger.description = 'Endpoint to  Users'
+   *   #swagger.path = '/users'
+   *   #swagger.method = 'GET'
+   *   #swagger.produces = ["application/json"]
+   */
+  res.send("respond with a resource");
 });
 
 /* 取得 User 資訊

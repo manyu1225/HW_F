@@ -1,50 +1,48 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const postsSchema = new mongoose.Schema(
-    {
-        name :{
-            type :String,
-            required :[true, 'name must be value.']
-      },
-    tags:[
-      {  
-        type: String, 
-        required :[true, 'the Posts tags must have value.']
-      }
-    ],
-    type:{
-        type :String, 
-        enum:['group','person'],
-        required :[true,'Posts type must have value.']
+  {
+    name: {
+      type: String,
+      required: [true, "name must be value."],
     },
-    image:{
-        type : String,
-        default :""
-    },
-    createAt:{
-        type : Date, 
-        default :Date.now,
-        select: false
-    },
-    content:{
-        type :String ,
-        required :[true, 'Content must have values.']
-    },
-    likes:{
+    tags: [
+      {
         type: String,
-        default :0
+        required: [true, "the Posts tags must have value."],
+      },
+    ],
+    type: {
+      type: String,
+      enum: ["group", "person"],
+      required: [true, "Posts type must have value."],
     },
-    comments:{
-        type : Number,
-        default :0
-    }
- },
-    {
-        versionKey: false,
-    }
+    image: {
+      type: String,
+      default: "",
+    },
+    createAt: {
+      type: Date,
+      default: Date.now,
+      select: false,
+    },
+    content: {
+      type: String,
+      required: [true, "Content must have values."],
+    },
+    likes: {
+      type: String,
+      default: 0,
+    },
+    comments: {
+      type: Number,
+      default: 0,
+    },
+  },
+  {
+    versionKey: false,
+  }
 );
 
-const posts = mongoose.model(
-    'posts', postsSchema
-);
+const posts = mongoose.model("posts", postsSchema);
 
 module.exports = posts;

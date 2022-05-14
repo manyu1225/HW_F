@@ -2,25 +2,43 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "REST API",
+    "title": "My API",
     "description": ""
   },
   "host": "localhost:3000",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
-  "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
+  "tags": [
+    {
+      "name": "Posts",
+      "description": "貼文 router"
     },
-    "/users/": {
+    {
+      "name": "Users",
+      "description": "使用者 router"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY",
+      "description": "請加上API TOKEN"
+    }
+  },
+  "paths": {
+    "/users": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "Endpoint to Users",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -32,18 +50,7 @@
     "/posts/": {
       "get": {
         "description": "",
-        "parameters": [
-          {
-            "name": "timeSort",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {}
       },
       "post": {
