@@ -61,7 +61,7 @@ router.patch(
   /*
       #swagger.tags = ['Users']
       #swagger.description = '更新User'
-      #swagger.path = '/users/{mail}'
+      #swagger.path = '/users/{email}'
       #swagger.method = 'PATCH'
       #swagger.produces = ["application/json"]
       #swagger.parameters['body'] = {
@@ -81,35 +81,19 @@ router.patch(
   )
 );
 router.delete(
-  /*
-      #swagger.tags = ['Users']
-      #swagger.description = 'DELETE User'
-      #swagger.path = '/users/{id}'
-      #swagger.method = 'DELETE'
-      #swagger.produces = ["application/json"]
-      #swagger.security = [{
-               "apiKeyAuth": []
-        }]
-     */
+  // #swagger.ignore = true
   "/:id",
   handleErrorAsync(async (req, res, next) =>
     UsersController.delUser(req, res, next)
   )
 );
-/*
+
 router.delete(
- 
-     #swagger.tags = ['Users']
-     #swagger.description = 'EDELETE All Users'
-     #swagger.path = '/users'
-     #swagger.method = 'DELETE'
-     #swagger.produces = ["application/json"]
-    
+  // #swagger.ignore = true
   "/",
   handleErrorAsync(async (req, res, next) =>
     UsersController.delAllUsers(req, res, next)
   )
 );
-*/
 
 module.exports = router;

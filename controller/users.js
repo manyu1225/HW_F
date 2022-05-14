@@ -63,11 +63,11 @@ const usersController = {
     const data = await usersModel.findByIdAndDelete(user);
     handleSuccess(res, httpStatus.OK, data);
   },
-  /*
+
   async delAllUsers(req, res, next) {
-    await usersModel.deleteMany({});
-    handleSuccess(res, httpStatus.OK, []);
+    return appError(httpStatus.BAD_REQUEST, "參數有缺", next);
+    // await usersModel.deleteMany({});
+    // handleSuccess(res, httpStatus.OK, []);
   },
-  */
 };
 module.exports = usersController;

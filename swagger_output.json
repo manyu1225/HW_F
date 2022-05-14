@@ -44,11 +44,6 @@
             "description": "Some description..."
           }
         }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
       }
     },
     "/users/{email}": {
@@ -73,6 +68,47 @@
             "description": "Bad Request"
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "description": "更新User",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon DoeB"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "BBB"
+                }
+              },
+              "required": [
+                "name",
+                "photo"
+              ]
+            }
+          }
+        ],
+        "responses": {}
       }
     },
     "/users/register": {
@@ -110,74 +146,6 @@
           }
         ],
         "responses": {}
-      }
-    },
-    "/users/{mail}": {
-      "patch": {
-        "tags": [
-          "Users"
-        ],
-        "description": "更新User",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "mail",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "資料格式",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Jhon DoeB"
-                },
-                "photo": {
-                  "type": "string",
-                  "example": "BBB"
-                }
-              },
-              "required": [
-                "name",
-                "photo"
-              ]
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/users/{id}": {
-      "delete": {
-        "tags": [
-          "Users"
-        ],
-        "description": "DELETE User",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {},
-        "security": [
-          {
-            "apiKeyAuth": []
-          }
-        ]
       }
     },
     "/posts": {
