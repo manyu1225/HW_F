@@ -1,7 +1,7 @@
 const swaggerAutogen = require("swagger-autogen")();
 const doc = {
   info: {
-    version: "", // by default: "1.0.0"
+    version: "1.0.1", // by default: "1.0.0"
     title: "My API",
     description: "", // by default: ""
   },
@@ -28,9 +28,7 @@ const doc = {
       description: "請加上API TOKEN",
     },
   }, // by default: empty object
-  definitions: {
-      
-  },
+  definitions: {},
 };
 const outputFile = "./swagger_output.json"; // 輸出的文件名稱
 const endpointsFiles = ["./app.js"]; // 要指向的 API，通常使用 Express 直接指向到 app.js 就可以

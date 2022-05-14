@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "title": "My API",
     "description": ""
   },
@@ -30,21 +30,61 @@
     }
   },
   "paths": {
-    "/users": {
+    "/users/": {
       "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "Endpoint to Users",
-        "produces": [
-          "application/json"
-        ],
+        "description": "",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
+        "responses": {}
+      },
+      "delete": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
-        }
+        ],
+        "responses": {}
+      },
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/users/register": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
       }
     },
     "/posts/": {

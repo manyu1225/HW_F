@@ -2,7 +2,7 @@ const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../utils/handleSuccess");
-const postsModel = require("../model/Posts");
+const postsModel = require("../model/Post");
 
 const postsController = {
   /*
@@ -40,7 +40,6 @@ const postsController = {
      * #swagger.method = 'GET'
      *  #swagger.produces = ["application/json"]
      */
-
     const id = req.params.id;
     const data = await postsModel.find({ _id: id });
     if (data.length) {
@@ -151,7 +150,6 @@ const postsController = {
      * #swagger.method = 'DELETE'
      * #swagger.produces = ["application/json"]
      */
-
     await postsModel.deleteMany({});
     // #swagger.responses[200]
     handleSuccess(res, httpStatus.OK, []);
