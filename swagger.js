@@ -1,13 +1,13 @@
 const swaggerAutogen = require("swagger-autogen")();
 const doc = {
   info: {
-    version: "1.0.1", // by default: "1.0.0"
+    version: "1.2.2", // by default: "1.0.0"
     title: "My API",
     description: "", // by default: ""
   },
   host: "localhost:3000", // by default: "localhost:3000"
   basePath: "/", // by default: "/"
-  schemes: ["http", "https"], // by default: ['http']
+  schemes: ["http"], // by default: ['http']
   consumes: [], // by default: ['application/json']
   produces: [], // by default: ['application/json']
   tags: [

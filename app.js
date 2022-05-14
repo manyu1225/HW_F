@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan"); // Log 紀錄
 const cors = require("cors");
+const cookieParser = require("cookie-parser"); // Cookie 解析
 require("./utils/conn.js");
 const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json"); // 剛剛輸出的 JSON
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 //靜態資源路徑設定
 app.use(express.static(path.join(__dirname, "public")));
 

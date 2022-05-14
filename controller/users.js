@@ -1,17 +1,18 @@
 const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
 const httpStatus = require("../utils/httpStatus");
-const handleSuccess = require("../utils/handleSuccess");
+const handleSuccess = require("../service/handleSuccess");
 const usersModel = require("../model/User");
 
 const usersController = {
+  // #swagger.tags = ['Users']
   getAllUsers: handleErrorAsync(async (req, res, next) => {
     /*
-     * #swagger.tags = ['Users']
-     * #swagger.description = 'Endpoint to get All Users'
-     * #swagger.path = '/users'
-     * #swagger.method = 'GET'
-     * #swagger.produces = ["application/json"]
+      #swagger.tags = ['Users']
+      #swagger.description = 'Endpoint to get All Users'
+      #swagger.path = '/users'
+      #swagger.method = 'GET'
+      #swagger.produces = ["application/json"]
      */
     const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt";
     const limit = req.query.limit;
@@ -21,16 +22,16 @@ const usersController = {
   }),
   getUser: handleErrorAsync(async (req, res, next) => {
     /*
-     * #swagger.tags = ['Users']
-     * #swagger.description = '取得 User 資訊'
-     * #swagger.path = '/users/{id}'
-     * #swagger.method = 'GET'
-     * #swagger.produces = ["application/json"]
+      #swagger.tags = ['Users']
+      #swagger.description = '取得 User 資訊'
+      #swagger.path = '/users/{id}'
+      #swagger.method = 'GET'
+      #swagger.produces = ["application/json"]
      */
     const id = req.params.id;
     const data = await usersModel.find({ _id: id });
     if (data.length) {
-      // #swagger.responses[200] = { description: `get successfully.` }
+      // #swagger.responses[200] = { description: 'Some description...' }
       handleSuccess(res, httpStatus.OK, data);
     } else {
       // #swagger.responses[400]
@@ -39,12 +40,12 @@ const usersController = {
   }),
   createUser: handleErrorAsync(async (req, res, next) => {
     /*
-     * #swagger.tags = ['Users']
-     * #swagger.description = ' User註冊'
-     * #swagger.path = '/users'
-     * #swagger.method = 'POST'
-     * #swagger.produces = ["application/json"]
-     * #swagger.parameters['body'] = {
+      #swagger.tags = ['Users']
+      #swagger.description = ' User註冊'
+      #swagger.path = '/users'
+      #swagger.method = 'POST'
+      #swagger.produces = ["application/json"]
+      #swagger.parameters['body'] = {
         in: 'body',
         type :"object",
         required:true,
@@ -70,12 +71,12 @@ const usersController = {
   }),
   updUser: handleErrorAsync(async (req, res, next) => {
     /*
-     * #swagger.tags = ['Users']
-     * #swagger.description = '更新User'
-     * #swagger.path = '/users/{id}'
-     * #swagger.method = 'PATCH'
-     * #swagger.produces = ["application/json"]
-     *   #swagger.parameters['body'] = {
+      #swagger.tags = ['Users']
+      #swagger.description = '更新User'
+      #swagger.path = '/users/{id}'
+      #swagger.method = 'PATCH'
+      #swagger.produces = ["application/json"]
+      #swagger.parameters['body'] = {
         in: 'body',
         type :"object",
         required:true,
@@ -108,12 +109,12 @@ const usersController = {
   }),
   delUser: handleErrorAsync(async (req, res, next) => {
     /*
-     * #swagger.tags = ['Users']
-     * #swagger.description = 'DELETE User'
-     * #swagger.path = '/users/{id}'
-     * #swagger.method = 'DELETE'
-     * #swagger.produces = ["application/json"]
-    *  #swagger.security = [{
+      #swagger.tags = ['Users']
+      #swagger.description = 'DELETE User'
+      #swagger.path = '/users/{id}'
+      #swagger.method = 'DELETE'
+      #swagger.produces = ["application/json"]
+      #swagger.security = [{
                "apiKeyAuth": []
         }]
      */
@@ -131,11 +132,11 @@ const usersController = {
   }),
   delAllUsers: handleErrorAsync(async (req, res, next) => {
     /*
-     * #swagger.tags = ['Users']
-     * #swagger.description = 'EDELETE All Users'
-     * #swagger.path = '/users'
-     * #swagger.method = 'DELETE'
-     * #swagger.produces = ["application/json"]
+     #swagger.tags = ['Users']
+     #swagger.description = 'EDELETE All Users'
+     #swagger.path = '/users'
+     #swagger.method = 'DELETE'
+     #swagger.produces = ["application/json"]
      */
     await usersModel.deleteMany({});
     // #swagger.responses[200]

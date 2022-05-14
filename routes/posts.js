@@ -1,7 +1,7 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const PostsController = require("../controller/posts");
-
+// #swagger.tags = ['Posts']
 router.get("/", PostsController.getAllPosts);
 router.get("/:id", PostsController.getPosts);
 router.post("/", PostsController.createPosts);
