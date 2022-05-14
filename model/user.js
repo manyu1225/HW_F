@@ -16,11 +16,11 @@ const usersSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    password: {
-      type: String,
-      required: [true, "password must have value."],
-      select: false,
-    },
+    //  password: {
+    //    type: String,
+    //    required: [true, "password must have value."],
+    //    select: false,
+    //  },
     createdAt: {
       type: Date,
       default: Date.now,

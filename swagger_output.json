@@ -29,11 +29,21 @@
     }
   },
   "paths": {
-    "/users/": {
+    "/users": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "Endpoint to get All Users",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Some description..."
+          }
+        }
       },
       "delete": {
         "description": "",
@@ -41,71 +51,202 @@
         "responses": {}
       }
     },
-    "/users/{id}": {
+    "/users/{email}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "取得 User 資訊",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
             "required": true,
             "type": "string"
           }
         ],
-        "responses": {}
-      },
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
+        "responses": {
+          "400": {
+            "description": "Bad Request"
           }
-        ],
-        "responses": {}
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {}
+        }
       }
     },
     "/users/register": {
       "post": {
-        "description": "",
-        "parameters": [],
+        "tags": [
+          "Users"
+        ],
+        "description": " User註冊",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "HELLOYO"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "d@gmail.com"
+                }
+              },
+              "required": [
+                "name",
+                "email"
+              ]
+            }
+          }
+        ],
         "responses": {}
       }
     },
-    "/posts/": {
+    "/users/{mail}": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "description": "更新User",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "mail",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon DoeB"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "BBB"
+                }
+              },
+              "required": [
+                "name",
+                "photo"
+              ]
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/users/{id}": {
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "description": "DELETE User",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/posts": {
       "get": {
-        "description": "",
+        "tags": [
+          "Posts"
+        ],
+        "description": "Endpoint to get All Posts",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [],
         "responses": {}
       },
       "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      },
-      "delete": {
-        "description": "",
-        "parameters": [],
+        "tags": [
+          "Posts"
+        ],
+        "description": "Endpoint create Posts",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon Doe"
+                },
+                "tags": {
+                  "type": "string",
+                  "example": "AAA"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "group"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "XXX"
+                }
+              },
+              "required": [
+                "name",
+                "tags",
+                "type",
+                "content"
+              ]
+            }
+          }
+        ],
         "responses": {}
       }
     },
     "/posts/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Posts"
+        ],
+        "description": "Endpoint get Posts in a specific user",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -117,19 +258,64 @@
         "responses": {}
       },
       "patch": {
-        "description": "",
+        "tags": [
+          "Posts"
+        ],
+        "description": "Endpoint to update Posts",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon DoeB"
+                },
+                "tags": {
+                  "type": "string",
+                  "example": "BBB"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "group"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "XXXB"
+                }
+              },
+              "required": [
+                "name",
+                "tags",
+                "type",
+                "content"
+              ]
+            }
           }
         ],
         "responses": {}
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Posts"
+        ],
+        "description": "Endpoint to delete Posts ",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -138,7 +324,12 @@
             "type": "string"
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
       }
     }
   }

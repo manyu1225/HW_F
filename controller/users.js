@@ -5,142 +5,69 @@ const handleSuccess = require("../service/handleSuccess");
 const usersModel = require("../model/User");
 
 const usersController = {
-  // #swagger.tags = ['Users']
-  getAllUsers: handleErrorAsync(async (req, res, next) => {
-    /*
-      #swagger.tags = ['Users']
-      #swagger.description = 'Endpoint to get All Users'
-      #swagger.path = '/users'
-      #swagger.method = 'GET'
-      #swagger.produces = ["application/json"]
-     */
+  async getAllUsers(req, res, next) {
     const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt";
     const limit = req.query.limit;
     const all = await usersModel.find().sort(timeSort).limit(limit);
-    // #swagger.responses[200] = { description: 'successfully.' }
     handleSuccess(res, httpStatus.OK, all);
-  }),
-  getUser: handleErrorAsync(async (req, res, next) => {
-    /*
-      #swagger.tags = ['Users']
-      #swagger.description = '取得 User 資訊'
-      #swagger.path = '/users/{id}'
-      #swagger.method = 'GET'
-      #swagger.produces = ["application/json"]
-     */
-    const id = req.params.id;
-    const data = await usersModel.find({ _id: id });
-    if (data.length) {
-      // #swagger.responses[200] = { description: 'Some description...' }
-      handleSuccess(res, httpStatus.OK, data);
-    } else {
-      // #swagger.responses[400]
-      return appError(httpStatus.BAD_REQUES, "id 不存在");
+  },
+  async getUser(req, res, next) {
+    const email = req.params.id;
+    const data = await usersModel.find({ email: email });
+    if (!data.length) {
+      return appError(httpStatus.BAD_REQUES, "email 不存在", next);
     }
-  }),
-  createUser: handleErrorAsync(async (req, res, next) => {
-    /*
-      #swagger.tags = ['Users']
-      #swagger.description = ' User註冊'
-      #swagger.path = '/users'
-      #swagger.method = 'POST'
-      #swagger.produces = ["application/json"]
-      #swagger.parameters['body'] = {
-        in: 'body',
-        type :"object",
-        required:true,
-        description: "資料格式",
-        schema: {
-                "$name": 'Jhon Doe',
-                "$tags": 'AAA',
-                "$type":  'group',
-                "$content":'XXX'
-            }
-        }
-     */
+    handleSuccess(res, httpStatus.OK, data);
+  },
+  async createUser(req, res, next) {
     const data = req.body;
-    let { name, tags, type, content } = data; //解構
-    if (!name || !type || !tags || !content) {
-      // #swagger.responses[400]
-      return appError(httpStatus.BAD_REQUEST, "請確認欄位");
+    let { name, email } = data; //解構
+    if (!name || !email) {
+      return appError(httpStatus.BAD_REQUEST, "請確認欄位", next);
     } else {
-      // #swagger.responses[200]
-      const newUser = await usersModel.create({ name, tags, type, content });
+      const newUser = await usersModel.create({ name, email });
       handleSuccess(res, httpStatus.OK, newUser);
     }
-  }),
-  updUser: handleErrorAsync(async (req, res, next) => {
-    /*
-      #swagger.tags = ['Users']
-      #swagger.description = '更新User'
-      #swagger.path = '/users/{id}'
-      #swagger.method = 'PATCH'
-      #swagger.produces = ["application/json"]
-      #swagger.parameters['body'] = {
-        in: 'body',
-        type :"object",
-        required:true,
-        description: "資料格式",
-        schema: {
-                "$name": 'Jhon DoeB',
-                "$tags": 'BBB',
-                "$type":  'group',
-                "$content":'XXXB'
-            }
-        }
-     */
-    const id = req.params.id;
+  },
+  async updUser(req, res, next) {
+    const email = req.params.id;
     const data = req.body;
-    if (!data) {
-      // #swagger.responses[400]
-      return appError(httpStatus.BAD_REQUEST, "不可為空物件");
+    if (!email) {
+      return appError(httpStatus.BAD_REQUEST, "email不可為空", next);
     }
-    const updPost = await usersModel.findByIdAndUpdate(id, data, {
+    if (!data.name) {
+      return appError(httpStatus.BAD_REQUEST, "name不可為空", next);
+    }
+    const updPost = await usersModel.findOneAndUpdate(email, data, {
       new: true,
       runValidators: true,
     });
     if (!updPost) {
-      // #swagger.responses[400]
-      return appError(httpStatus.BAD_REQUEST, "無此ID");
+      return appError(httpStatus.BAD_REQUEST, "無此email", next);
     } else {
-      // #swagger.responses[200]
       handleSuccess(res, httpStatus.OK, updPost);
     }
-  }),
-  delUser: handleErrorAsync(async (req, res, next) => {
-    /*
-      #swagger.tags = ['Users']
-      #swagger.description = 'DELETE User'
-      #swagger.path = '/users/{id}'
-      #swagger.method = 'DELETE'
-      #swagger.produces = ["application/json"]
-      #swagger.security = [{
-               "apiKeyAuth": []
-        }]
-     */
-    const id = req.params.id;
-    if (!id) {
-      return appError(httpStatus.BAD_REQUEST, "參數有缺");
+  },
+  async delUser(req, res, next) {
+    const email = req.params.id;
+    const originalUrl = req.originalUrl;
+
+    if (!email || !originalUrl) {
+      return appError(httpStatus.BAD_REQUEST, "參數有缺", next);
     }
-    const data = await usersModel.findByIdAndDelete(id);
-    if (!data) {
-      // #swagger.responses[400]
-      return appError(httpStatus.BAD_REQUEST, "無該ID");
+    const user = await usersModel.find({ email: email });
+    console.log("99 user.length =" + user);
+    if (!user.length) {
+      return appError(httpStatus.BAD_REQUEST, "無此email", next);
     }
-    // #swagger.responses[200]
+    const data = await usersModel.findByIdAndDelete(user);
     handleSuccess(res, httpStatus.OK, data);
-  }),
-  delAllUsers: handleErrorAsync(async (req, res, next) => {
-    /*
-     #swagger.tags = ['Users']
-     #swagger.description = 'EDELETE All Users'
-     #swagger.path = '/users'
-     #swagger.method = 'DELETE'
-     #swagger.produces = ["application/json"]
-     */
+  },
+  /*
+  async delAllUsers(req, res, next) {
     await usersModel.deleteMany({});
-    // #swagger.responses[200]
     handleSuccess(res, httpStatus.OK, []);
-  }),
+  },
+  */
 };
 module.exports = usersController;

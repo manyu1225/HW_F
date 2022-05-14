@@ -28,7 +28,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //靜態資源路徑設定
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
