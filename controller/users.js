@@ -2,7 +2,7 @@ const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
-const usersModel = require("../model/User");
+const usersModel = require("../models/User");
 
 const usersController = {
   async getAllUsers(req, res, next) {

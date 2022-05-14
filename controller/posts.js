@@ -2,7 +2,7 @@ const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
-const postsModel = require("../model/Post");
+const postsModel = require("../models/Post");
 const postsController = {
   async getPostsbyContent(req, res, next) {
     const timeSort = req.query.s === "asc" ? "createdAt" : "-createdAt";
