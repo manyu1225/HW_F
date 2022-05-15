@@ -6,9 +6,9 @@ const doc = {
     title: "REST API",
     description: "",
   },
-  host: "g11herokuexpress.herokuapp.com",
+  host: "localhost:3000", // "g11herokuexpress.herokuapp.com",
   basePath: "/", // by default: "/"
-  schemes: ["https"],
+  schemes: ["http"], //https
   consumes: [], // by default: ['application/json']
   produces: [], // by default: ['application/json']
   tags: [
@@ -22,11 +22,11 @@ const doc = {
     },
   ],
   securityDefinitions: {
-    apiKeyAuth: {
+    Bearer: {
       type: "apiKey",
       in: "header", // can be 'header', 'query' or 'cookie'
-      name: "X-API-KEY", // name of the header, query parameter or cookie
-      description: "請加上API TOKEN",
+      name: "Authorization", // name of the header, query parameter or cookie
+      description: "請加上 JWT TOKEN",
     },
   }, // by default: empty object
   definitions: {},
