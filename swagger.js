@@ -6,9 +6,9 @@ const doc = {
     title: "API",
     description: "",
   },
-  host: "localhost:3000",
+  host: "https://g11herokuexpress.herokuapp.com/",
   basePath: "/", // by default: "/"
-  schemes: ["http", "https"],
+  schemes: ["https"],
   consumes: [], // by default: ['application/json']
   produces: [], // by default: ['application/json']
   tags: [
