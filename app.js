@@ -89,7 +89,3 @@ process.on("unhandledRejection", (err, promise) => {
   // 記錄於 log 上
 });
 module.exports = app;
-
-
-var port = process.env.PORT || 3005;
-app.listen(port);
