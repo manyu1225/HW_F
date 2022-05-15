@@ -5,11 +5,29 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "g11herokuexpress.herokuapp.com",
   "basePath": "/",
-  "schemes": [
-    "http"
+  "tags": [
+    {
+      "name": "Posts",
+      "description": "貼文 router"
+    },
+    {
+      "name": "Users",
+      "description": "使用者 router"
+    }
   ],
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY",
+      "description": "請加上API TOKEN"
+    }
+  },
   "paths": {
     "/users": {
       "get": {

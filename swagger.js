@@ -3,10 +3,10 @@ const swaggerAutogen = require("swagger-autogen")();
 const doc = {
   info: {
     version: "1.0.0",
-    title: "API",
+    title: "REST API",
     description: "",
   },
-  host: "https://g11herokuexpress.herokuapp.com/",
+  host: "g11herokuexpress.herokuapp.com",
   basePath: "/", // by default: "/"
   schemes: ["https"],
   consumes: [], // by default: ['application/json']
@@ -33,5 +33,4 @@ const doc = {
 };
 const outputFile = "./swagger_output.json";
 const endpointsFiles = ["./app.js"];
-
-swaggerAutogen(outputFile, endpointsFiles);
+swaggerAutogen(outputFile, endpointsFiles, doc);
