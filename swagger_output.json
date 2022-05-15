@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "g11herokuexpress.herokuapp.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "tags": [
     {
@@ -18,105 +18,23 @@
     }
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
-    "apiKeyAuth": {
+    "Bearer": {
       "type": "apiKey",
       "in": "header",
-      "name": "X-API-KEY",
-      "description": "請加上API TOKEN"
+      "name": "Authorization",
+      "description": "請加上 JWT TOKEN"
     }
   },
   "paths": {
-    "/users": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "Endpoint to get All Users",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Some description..."
-          }
-        }
-      }
-    },
-    "/users/{email}": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "取得 User 資訊",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Users"
-        ],
-        "description": "更新User",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "資料格式",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Jhon DoeB"
-                },
-                "photo": {
-                  "type": "string",
-                  "example": "BBB"
-                }
-              },
-              "required": [
-                "name",
-                "photo"
-              ]
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/users/register": {
+    "/users/sign_up": {
       "post": {
         "tags": [
           "Users"
         ],
-        "description": " User註冊",
+        "description": "User註冊",
         "produces": [
           "application/json"
         ],
@@ -136,13 +54,197 @@
                 "email": {
                   "type": "string",
                   "example": "d@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "123456"
                 }
               },
               "required": [
                 "name",
-                "email"
+                "email",
+                "password"
               ]
             }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/users/sign_in": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "User登入",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "d@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/users/updatePassword": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "重設密碼",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "newpassword": {
+                  "type": "string",
+                  "example": "1234567"
+                }
+              },
+              "required": [
+                "password",
+                "newpassword"
+              ]
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得個人資料",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "description": "更新個人資料",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon DoeC"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "BBB"
+                }
+              },
+              "required": [
+                "name",
+                "photo"
+              ]
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Endpoint to get All Users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Some description..."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/users/{email}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得個人資料",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {}

@@ -17,10 +17,10 @@ router.get(
 );
 router.get(
   /* 
-#swagger.tags = ['Posts']
-#swagger.description = 'Endpoint get Posts in a specific user'
- #swagger.path = '/posts/{id}'
-#swagger.method = 'GET'
+  #swagger.tags = ['Posts']
+  #swagger.description = 'Endpoint get Posts in a specific user'
+  #swagger.path = '/posts/{id}'
+  #swagger.method = 'GET'
   #swagger.produces = ["application/json"]
 */
   "/:id",
@@ -81,12 +81,12 @@ router.patch(
 );
 router.delete(
   /*
-#swagger.tags = ['Posts']
- #swagger.description = 'Endpoint to delete Posts '
-#swagger.path = '/posts/{id}'
- #swagger.method = 'DELETE'
- #swagger.produces = ["application/json"]
- #swagger.security = [{
+  #swagger.tags = ['Posts']
+  #swagger.description = 'Endpoint to delete Posts '
+  #swagger.path = '/posts/{id}'
+  #swagger.method = 'DELETE'
+  #swagger.produces = ["application/json"]
+  #swagger.security = [{
          "apiKeyAuth": []
   }]
 */

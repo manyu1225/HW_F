@@ -12,15 +12,19 @@ const usersSchema = new mongoose.Schema(
       select: false,
       unique: true,
     },
+    password: {
+      type: String,
+      required: [true, "password must have value."],
+      select: false,
+    },
+    token: {
+      type: String,
+      select: false,
+    },
     photo: {
       type: String,
       default: "",
     },
-    //  password: {
-    //    type: String,
-    //    required: [true, "password must have value."],
-    //    select: false,
-    //  },
     createdAt: {
       type: Date,
       default: Date.now,
