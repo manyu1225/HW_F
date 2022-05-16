@@ -9,12 +9,16 @@
   "basePath": "/",
   "tags": [
     {
+      "name": "Users",
+      "description": "使用者 router"
+    },
+    {
       "name": "Posts",
       "description": "貼文 router"
     },
     {
-      "name": "Users",
-      "description": "使用者 router"
+      "name": "Comments",
+      "description": "回覆 router"
     }
   ],
   "schemes": [
@@ -35,7 +39,7 @@
         "tags": [
           "Users"
         ],
-        "description": "User註冊",
+        "description": "註冊",
         "produces": [
           "application/json"
         ],
@@ -54,11 +58,11 @@
                 },
                 "email": {
                   "type": "string",
-                  "example": "d@gmail.com"
+                  "example": "test@gmail.com"
                 },
                 "password": {
                   "type": "string",
-                  "example": "123456"
+                  "example": "a12345678"
                 }
               },
               "required": [
@@ -77,7 +81,7 @@
         "tags": [
           "Users"
         ],
-        "description": "User登入",
+        "description": "登入",
         "produces": [
           "application/json"
         ],
@@ -92,11 +96,11 @@
               "properties": {
                 "email": {
                   "type": "string",
-                  "example": "d@gmail.com"
+                  "example": "test@gmail.com"
                 },
                 "password": {
                   "type": "string",
-                  "example": "123456"
+                  "example": "a12345678"
                 }
               },
               "required": [
@@ -123,22 +127,17 @@
             "name": "body",
             "in": "body",
             "required": true,
-            "description": "資料格式",
+            "description": "密碼需至少 8 碼以上，並中英混合",
             "schema": {
               "type": "object",
               "properties": {
                 "password": {
                   "type": "string",
-                  "example": "123456"
-                },
-                "newpassword": {
-                  "type": "string",
-                  "example": "1234567"
+                  "example": "a123456789"
                 }
               },
               "required": [
-                "password",
-                "newpassword"
+                "password"
               ]
             }
           }
@@ -191,7 +190,7 @@
                 },
                 "photo": {
                   "type": "string",
-                  "example": "BBB"
+                  "example": "https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png"
                 }
               },
               "required": [
@@ -214,7 +213,7 @@
         "tags": [
           "Users"
         ],
-        "description": "Endpoint to get All Users",
+        "description": "Endpoint to get All Users(測試用)",
         "parameters": [],
         "responses": {
           "200": {
@@ -226,7 +225,7 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "description": "DELETE所有資料(測試用)",
         "parameters": [],
         "responses": {}
       }
@@ -236,7 +235,7 @@
         "tags": [
           "Users"
         ],
-        "description": "取得個人資料",
+        "description": "取得個人資料(測試用)",
         "produces": [
           "application/json"
         ],

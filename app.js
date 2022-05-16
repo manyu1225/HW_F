@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
-const swaggerFile = require("./swagger_output.json"); // 剛剛輸出的 JSON
+const swaggerFile = require("./swagger_output.json");
 require("./utils/conn.js");
 
 var indexRouter = require("./routes/index");
@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use(usersRouter);
 app.use("/posts", postsRouter);
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
