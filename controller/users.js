@@ -31,12 +31,11 @@ const usersController = {
         expiresIn: process.env.JWT_EXPIRES_DAY,
       }
     );
-
     handleSuccess(res, httpStatus.OK, {
-      id: newUser?._id,
-      name: newUser?.name,
-      photo: newUser?.photo,
-      token: newUser?.token,
+      id: newUser._id,
+      name: newUser.name,
+      photo: newUser.photo,
+      token: newUser.token,
     });
   },
   async signin(req, res, next) {
@@ -62,10 +61,10 @@ const usersController = {
       }
     );
     handleSuccess(res, httpStatus.OK, {
-      id: user?._id,
-      name: user?.name,
-      photo: user?.photo,
-      token: user?.token,
+      id: user._id,
+      name: user.name,
+      photo: user.photo,
+      token: user.token,
     });
   },
   //從 Middleware 之 JWT 取得 User 資訊
