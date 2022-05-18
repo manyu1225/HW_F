@@ -1,33 +1,36 @@
 var express = require('express');
 const { json } = require('express/lib/response');
 var router = express.Router();
-var newPost =require('.././models/newArticlePost');
+var article =require('../models/ArticlePost');
+const { isAuth } = require('../middleware/auth');
+const articleController = require('../controller/article')
+const handleErrorAsync = require("../service/handleErrorAsync");
 
 /**
  * 新增貼文
  */
-router.post('/',async function(req,res){      
-    if (! req.body.content) {
-        throw  new Error("貼文內容為必填!");
-    }
-    //預設讀取登入者資料
-    let userId ="0";
-    if(! userId){
-        throw new Error("請先登入在填寫!"); 
-    }
+router.post(
+    '/',
+    isAuth,
+    handleErrorAsync(async (req,res,next)=> 
+    articleController.createPosts(req,res,next))
+)
 
-    let imageId =req.body.imageId
-    if (! imageId) {
-        imageId = "";
-    }
+//檢測用
+router.get(
+    '/',
+    handleErrorAsync( async (req,res,next)=>
+    articleController.getAll(req,res,next)
+))
 
-    await newPost.create({
-        "content":req.body.content,
-        "userId":userId,
-        "imageId": imageId
-    });
-
-    res.send('新增成功!');
-})
+/**
+ * 刪除貼文
+ */
+router.delete(
+    '/:postId',
+    isAuth,
+    handleErrorAsync( async(req,res,next)=>
+    articleController.deletePosts(req,res,next))
+)
 
 module.exports = router;
