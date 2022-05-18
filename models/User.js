@@ -15,6 +15,7 @@ const usersSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "password must have value."],
+      minlength: 8,
       select: false,
     },
     token: {
