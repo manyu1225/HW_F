@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
-app.use("/newPosts", newPostRouter);
+app.use("/article", newPostRouter);
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use(function (req, res, next) {
