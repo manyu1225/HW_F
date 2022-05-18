@@ -1,11 +1,11 @@
 var express = require('express');
 const { json } = require('express/lib/response');
 var router = express.Router();
-var article =require('.././models/newArticlePost');
+var article =require('../models/ArticlePost');
 const { isAuth } = require('../middleware/auth');
 const articleController = require('../controller/article')
 const handleErrorAsync = require("../service/handleErrorAsync");
-//var article =require('.././models/Article');
+
 /**
  * 新增貼文
  */

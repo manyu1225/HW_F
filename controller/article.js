@@ -1,4 +1,4 @@
-var article =require('.././models/newArticlePost');
+var article =require('../models/ArticlePost');
 const appError = require("../service/appError");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
