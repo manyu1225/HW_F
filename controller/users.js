@@ -31,7 +31,13 @@ const usersController = {
         expiresIn: process.env.JWT_EXPIRES_DAY,
       }
     );
-    handleSuccess(res, httpStatus.OK, newUser);
+
+    handleSuccess(res, httpStatus.OK, {
+      id: newUser?._id,
+      name: newUser?.name,
+      photo: newUser?.photo,
+      token: newUser?.token,
+    });
   },
   async signin(req, res, next) {
     const data = req.body;
@@ -55,25 +61,30 @@ const usersController = {
         expiresIn: process.env.JWT_EXPIRES_DAY,
       }
     );
-    handleSuccess(res, httpStatus.OK, user);
+    handleSuccess(res, httpStatus.OK, {
+      id: user?._id,
+      name: user?.name,
+      photo: user?.photo,
+      token: user?.token,
+    });
   },
   //從 Middleware 之 JWT 取得 User 資訊
   async updatePassword(req, res, next) {
     const data = req.body;
     const userId = req.user?._id;
-    let { newpassword } = data; //解構
-    if (!newpassword) {
+    let { password } = data; //解構
+    if (!password) {
       return appError(httpStatus.BAD_REQUEST, "password不可為空", next);
     }
-    const psd = await bcrypt.hash(newpassword, 8);
-    const updUser = await usersModel.updateOne(
+    const psd = await bcrypt.hash(password, 8);
+    const updpsd = await usersModel.updateOne(
       { _id: userId },
       { $set: { password: psd } }
     );
-    if (!updUser) {
+    if (!updpsd) {
       return appError(httpStatus.BAD_REQUEST, "更新失敗！", next);
     }
-    handleSuccess(res, httpStatus.OK, updUser);
+    handleSuccess(res, httpStatus.OK, "更新成功!");
   },
   //從 Middleware 之 JWT 取得 User 資訊
   async getProfile(req, res, next) {
@@ -99,7 +110,7 @@ const usersController = {
     if (!updUser) {
       return appError(httpStatus.BAD_REQUEST, "更新失敗！", next);
     }
-    handleSuccess(res, httpStatus.OK, updUser);
+    handleSuccess(res, httpStatus.OK, "更新成功!");
   },
   async getAllUsers(req, res, next) {
     const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt";
