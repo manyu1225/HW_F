@@ -1,31 +1,32 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.2.2",
-    "title": "My API",
+    "version": "1.0.0",
+    "title": "MY API",
     "description": ""
   },
   "host": "localhost:3000",
   "basePath": "/",
   "tags": [
     {
-      "name": "Posts",
-      "description": "貼文 router"
-    },
-    {
       "name": "Users",
       "description": "使用者 router"
+    },
+    {
+      "name": "Posts",
+      "description": "貼文 router"
     }
   ],
   "schemes": [
+    "https",
     "http"
   ],
   "securityDefinitions": {
-    "apiKeyAuth": {
+    "Bearer": {
       "type": "apiKey",
       "in": "header",
-      "name": "X-API-KEY",
-      "description": "請加上API TOKEN"
+      "name": "Authorization",
+      "description": "請加上 JWT TOKEN"
     }
   },
   "paths": {
@@ -35,15 +36,20 @@
           "Users"
         ],
         "description": "Endpoint to get All Users",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [],
         "responses": {
           "200": {
             "description": "Some description..."
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "description": "DELETE所有資料(測試用)",
+        "parameters": [],
+        "responses": {}
       }
     },
     "/users/{email}": {
@@ -51,7 +57,7 @@
         "tags": [
           "Users"
         ],
-        "description": "取得 User 資訊",
+        "description": "取得個人資料",
         "produces": [
           "application/json"
         ],
@@ -63,27 +69,19 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      },
-      "patch": {
+        "responses": {}
+      }
+    },
+    "/users/sign_in": {
+      "post": {
         "tags": [
           "Users"
         ],
-        "description": "更新User",
+        "description": "登入",
         "produces": [
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "body",
             "in": "body",
@@ -92,18 +90,18 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
+                "email": {
                   "type": "string",
-                  "example": "Jhon DoeB"
+                  "example": "test@gmail.com"
                 },
-                "photo": {
+                "password": {
                   "type": "string",
-                  "example": "BBB"
+                  "example": "a12345678"
                 }
               },
               "required": [
-                "name",
-                "photo"
+                "email",
+                "password"
               ]
             }
           }
@@ -111,12 +109,12 @@
         "responses": {}
       }
     },
-    "/users/register": {
+    "/users/sign_up": {
       "post": {
         "tags": [
           "Users"
         ],
-        "description": " User註冊",
+        "description": "註冊",
         "produces": [
           "application/json"
         ],
@@ -135,17 +133,64 @@
                 },
                 "email": {
                   "type": "string",
-                  "example": "d@gmail.com"
+                  "example": "test@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "a12345678"
                 }
               },
               "required": [
                 "name",
-                "email"
+                "email",
+                "password"
               ]
             }
           }
         ],
         "responses": {}
+      }
+    },
+    "/users/profile": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "description": "更新個人資料",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon DoeC"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png"
+                }
+              },
+              "required": [
+                "name",
+                "photo"
+              ]
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/posts": {

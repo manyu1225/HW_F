@@ -1,36 +1,36 @@
 const swaggerAutogen = require("swagger-autogen")();
+
 const doc = {
   info: {
-    version: "1.2.2", // by default: "1.0.0"
-    title: "My API",
-    description: "", // by default: ""
+    version: "1.0.0",
+    title: "MY API",
+    description: "",
   },
-  host: "localhost:3000", // by default: "localhost:3000"
+  host: "localhost:3000", //"localhost:3000"
   basePath: "/", // by default: "/"
-  schemes: ["http"], // by default: ['http']
+  schemes: ["https", "http"], //https
   consumes: [], // by default: ['application/json']
   produces: [], // by default: ['application/json']
   tags: [
     {
-      name: "Posts",
-      description: "貼文 router",
-    },
-    {
       name: "Users",
       description: "使用者 router",
     },
+    {
+      name: "Posts",
+      description: "貼文 router",
+    },
   ],
   securityDefinitions: {
-    apiKeyAuth: {
+    Bearer: {
       type: "apiKey",
       in: "header", // can be 'header', 'query' or 'cookie'
-      name: "X-API-KEY", // name of the header, query parameter or cookie
-      description: "請加上API TOKEN",
+      name: "Authorization", // name of the header, query parameter or cookie
+      description: "請加上 JWT TOKEN",
     },
   }, // by default: empty object
   definitions: {},
 };
-const outputFile = "./swagger_output.json"; // 輸出的文件名稱
-const endpointsFiles = ["./app.js"]; // 要指向的 API，通常使用 Express 直接指向到 app.js 就可以
-
-swaggerAutogen(outputFile, endpointsFiles, doc); // swaggerAutogen 的方法
+const outputFile = "./swagger_output.json";
+const endpointsFiles = ["./app.js"];
+swaggerAutogen(outputFile, endpointsFiles, doc);

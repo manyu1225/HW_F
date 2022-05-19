@@ -2,43 +2,59 @@ const express = require("express");
 const router = express.Router();
 const UsersController = require("../controller/users");
 const handleErrorAsync = require("../service/handleErrorAsync");
-/**
- * #swagger.tags = ['Users']
- */
+const auth = require("../middleware/auth");
+
 router.get(
-  /*
-      #swagger.tags = ['Users']
-      #swagger.description = 'Endpoint to get All Users'
-      #swagger.path = '/users'
-      #swagger.method = 'GET'
-      #swagger.produces = ["application/json"]
-      #swagger.responses[200] = { description: 'Some description...' }
-     */
-  "/",
+  /*#swagger.tags = ['Users']
+    #swagger.description = 'Endpoint to get All Users'
+    #swagger.path = '/users'
+    #swagger.method = 'GET'
+    #swagger.responses[200] = { description: 'Some description...' }
+   */
+  "/users",
   handleErrorAsync(async (req, res, next) =>
     UsersController.getAllUsers(req, res, next)
   )
 );
 router.get(
-  "/:id",
-  /*
-      #swagger.tags = ['Users']
-      #swagger.description = '取得 User 資訊'
+  /* #swagger.tags = ['Users']
+     #swagger.description = '取得個人資料'
       #swagger.path = '/users/{email}'
       #swagger.method = 'GET'
       #swagger.produces = ["application/json"]
-      #swagger.responses[400]
-     */
+  */
+  "/users/:id",
   handleErrorAsync(async (req, res, next) =>
     UsersController.getUser(req, res, next)
   )
 );
 
 router.post(
-  /*
-      #swagger.tags = ['Users']
-      #swagger.description = ' User註冊'
-      #swagger.path = '/users/register'
+  /* #swagger.tags = ['Users']
+     #swagger.description = '登入'
+     #swagger.path = '/users/sign_in'
+     #swagger.method = 'POST'
+     #swagger.produces = ["application/json"]
+     #swagger.parameters['body'] = {
+        in: 'body',
+        type :"object",
+        required:true,
+        description: "資料格式",
+        schema: {
+               "$email":'test@gmail.com',
+               "$password":'a12345678',
+            }
+        }
+  */
+  "/users/sign_in",
+  handleErrorAsync(async (req, res, next) =>
+    UsersController.signin(req, res, next)
+  )
+);
+router.post(
+  /*  #swagger.tags = ['Users']
+      #swagger.description = '註冊'
+      #swagger.path = '/users/sign_up'
       #swagger.method = 'POST'
       #swagger.produces = ["application/json"]
       #swagger.parameters['body'] = {
@@ -48,49 +64,60 @@ router.post(
         description: "資料格式",
         schema: {
                 "$name": 'HELLOYO',
-                "$email":'d@gmail.com',
+                "$email":'test@gmail.com',
+                "$password":'a12345678',
             }
         }
-     */
-  "/register",
+   */
+  "/users/sign_up",
   handleErrorAsync(async (req, res, next) =>
-    UsersController.createUser(req, res, next)
+    UsersController.register(req, res, next)
   )
 );
+// PATCH：{url}/users/profile: 更新個人資料，需設計 isAuth middleware
 router.patch(
-  /*
-      #swagger.tags = ['Users']
-      #swagger.description = '更新User'
-      #swagger.path = '/users/{email}'
+  /*  #swagger.tags = ['Users']
+      #swagger.description = '更新個人資料'
+      #swagger.path = '/users/profile'
       #swagger.method = 'PATCH'
       #swagger.produces = ["application/json"]
+      #swagger.security = [{
+         "Bearer": []
+      }]
       #swagger.parameters['body'] = {
         in: 'body',
         type :"object",
         required:true,
         description: "資料格式",
         schema: {
-                "$name": 'Jhon DoeB',
-                "$photo": 'BBB'
+                "$name": 'Jhon DoeC',
+                "$photo": 'https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png'
             }
         }
      */
-  "/:id",
+  "/users/profile",
+  auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
     UsersController.updUser(req, res, next)
   )
 );
 router.delete(
-  // #swagger.ignore = true
-  "/:id",
+  /*
+    #swagger.ignore = true
+   */
+  "/users/:id",
   handleErrorAsync(async (req, res, next) =>
     UsersController.delUser(req, res, next)
   )
 );
-
 router.delete(
-  // #swagger.ignore = true
-  "/",
+  /* 
+  #swagger.tags = ['Users']
+  #swagger.description = 'DELETE所有資料(測試用)'
+  #swagger.path = '/users'
+  #swagger.method = 'DELETE'
+  */
+  "/users",
   handleErrorAsync(async (req, res, next) =>
     UsersController.delAllUsers(req, res, next)
   )

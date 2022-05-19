@@ -9,18 +9,23 @@ const usersSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       required: [true, "email must have value."],
-      select: false,
+      select: true,
       unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, "password must have value."],
+      minlength: 8,
+      select: false,
+    },
+    token: {
+      type: String,
+      select: false,
     },
     photo: {
       type: String,
       default: "",
     },
-    //  password: {
-    //    type: String,
-    //    required: [true, "password must have value."],
-    //    select: false,
-    //  },
     createdAt: {
       type: Date,
       default: Date.now,
