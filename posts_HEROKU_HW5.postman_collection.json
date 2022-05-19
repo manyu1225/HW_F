@@ -1,0 +1,291 @@
+{
+	"info": {
+		"_postman_id": "27275a98-91e4-4af0-b957-829aff0ddca0",
+		"name": "posts_HEROKU_HW5",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "取得所有貼文",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "取得搜尋的貼文",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts?q=測試&s=asc",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "測試"
+						},
+						{
+							"key": "s",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "編輯單筆貼文",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"HELLP22222\",\r\n    \"type\": \"group\",\r\n      \"tags\": \"group\",\r\n        \"image\": \"\",\r\n            \"content\": \"ContentContentConteˇˇnt\",\r\n              \"likes\": \"12\", \r\n               \"comments\": \"122\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts/6285e23fca4aad5be8c93157",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						"6285e23fca4aad5be8c93157"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "新增單筆",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"HELLOYO\",\r\n    \"type\": \"group\",\r\n      \"tags\": \"sssddddss\",\r\n    \"image\": \"XXXX\",\r\n   \"content\": \"ContentContentCont333ent\",\r\n  \"comments\": \"123\",\r\n  \"user\": \"627ff1164c0d644eb06460d2\"\r\n               \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts/",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除單筆",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts/6285e23fca4aad5be8c93157",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						"6285e23fca4aad5be8c93157"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "註冊",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"HELLOYO\",\r\n  \"email\": \"test@gmail.com\",\r\n  \"password\": \"a12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/users/sign_up",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users",
+						"sign_up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "取得USER資料",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/users/",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "更新USER",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODZjZjhjOGRjZjIyNmY4ODJkMTZkZCIsIm5hbWUiOiJIRUxMT1lPIiwiaWF0IjoxNjUzMDAyMTI0LCJleHAiOjE2NTMwODg1MjR9.yeOGfa4_CPoKwgtrQusf-LlXjuYpWaSHcbDQC3u5msw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"HELLOYO222\",\r\n  \"photo\": \"XAAAAX\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/users/profile",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除USER",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/users/",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localUrl",
+			"value": "http://localhost",
+			"type": "string"
+		}
+	]
+}
