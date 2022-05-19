@@ -5,7 +5,7 @@
     "title": "MY API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "intense-fortress-59028.herokuapp.com",
   "basePath": "/",
   "tags": [
     {
