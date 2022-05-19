@@ -9,7 +9,7 @@ const usersSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       required: [true, "email must have value."],
-      select: false,
+      select: true,
       unique: true,
     },
     password: {
