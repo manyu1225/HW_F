@@ -179,7 +179,6 @@
           {
             "name": "body",
             "in": "body",
-            "required": true,
             "description": "資料格式",
             "schema": {
               "type": "object",
@@ -192,11 +191,7 @@
                   "type": "string",
                   "example": "BBB"
                 }
-              },
-              "required": [
-                "name",
-                "photo"
-              ]
+              }
             }
           }
         ],
@@ -400,6 +395,33 @@
             "apiKeyAuth": []
           }
         ]
+      }
+    },
+    "/newPosts/": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "example": "any"
+                },
+                "imageId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   }

@@ -6,6 +6,21 @@ const appError = require("../service/appError");
 const bcrypt = require("bcrypt"); //處理密碼，獲得 hashed password
 const jwt = require("jsonwebtoken"); //JWT 產生與驗證
 
+const generateAndSendToken = async (res, statusCode, user) => {
+  const token = jwt.sign(
+    { id: user._id, name: user.name },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_DAY,
+    }
+  );
+  const resData = {
+    token,
+    user,
+  };
+  handleSuccess(res, statusCode, resData);
+};
+
 const usersController = {
   async register(req, res, next) {
     const data = req.body;
@@ -23,15 +38,8 @@ const usersController = {
       email,
       password: psd,
     });
-    // 產生 JWT token =>SSO
-    newUser.token = jwt.sign(
-      { id: newUser._id, name: newUser.name },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_EXPIRES_DAY,
-      }
-    );
-    handleSuccess(res, httpStatus.OK, newUser);
+
+    await generateAndSendToken(res, httpStatus.CREATED, newUser);
   },
   async signin(req, res, next) {
     const data = req.body;
@@ -47,15 +55,8 @@ const usersController = {
     if (!isValidated) {
       return appError(httpStatus.BAD_REQUEST, "密碼錯誤！", next);
     }
-    // 產生 JWT token =>SSO
-    user.token = jwt.sign(
-      { id: user._id, name: user.name },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_EXPIRES_DAY,
-      }
-    );
-    handleSuccess(res, httpStatus.OK, user);
+
+    await generateAndSendToken(res, httpStatus.OK, user);
   },
   //從 Middleware 之 JWT 取得 User 資訊
   async updatePassword(req, res, next) {
@@ -77,8 +78,25 @@ const usersController = {
   },
   //從 Middleware 之 JWT 取得 User 資訊
   async getProfile(req, res, next) {
-    const user = req.user;
-    handleSuccess(res, httpStatus.OK, user);
+    handleSuccess(res, httpStatus.OK, req.user);
+  },
+  async updateProfile(req, res, next) {
+    const { name, photo } = req.body;
+
+    const editedUer = await usersModel.findByIdAndUpdate(
+      req.user._id,
+      {
+        name,
+        photo,
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!editedUer) {
+      return appError(httpStatus.NOT_FOUND, "查無此使用者", next);
+    }
+
+    await generateAndSendToken(res, httpStatus.OK, editedUer);
   },
   async getUser(req, res, next) {
     const email = req.params.id;
@@ -88,19 +106,19 @@ const usersController = {
     }
     handleSuccess(res, httpStatus.OK, data);
   },
-  async updUser(req, res, next) {
-    const userId = req.user?._id;
-    const data = req.body;
-    let { name, photo } = data; //解構
-    const updUser = await usersModel.updateOne(
-      { _id: userId },
-      { $set: { name, photo } }
-    );
-    if (!updUser) {
-      return appError(httpStatus.BAD_REQUEST, "更新失敗！", next);
-    }
-    handleSuccess(res, httpStatus.OK, updUser);
-  },
+  // async updUser(req, res, next) {
+  //   const userId = req.user?._id;
+  //   const data = req.body;
+  //   let { name, photo } = data; //解構
+  //   const updUser = await usersModel.updateOne(
+  //     { _id: userId },
+  //     { $set: { name, photo } }
+  //   );
+  //   if (!updUser) {
+  //     return appError(httpStatus.BAD_REQUEST, "更新失敗！", next);
+  //   }
+  //   handleSuccess(res, httpStatus.OK, updUser);
+  // },
   async getAllUsers(req, res, next) {
     const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt";
     const limit = req.query.limit;

@@ -106,18 +106,17 @@ router.patch(
       #swagger.parameters['body'] = {
         in: 'body',
         type :"object",
-        required:true,
         description: "資料格式",
         schema: {
-                "$name": 'Jhon DoeC',
-                "$photo": 'BBB'
+                "name": 'Jhon DoeC',
+                "photo": 'BBB'
             }
         }
      */
   "/profile",
   auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
-    UsersController.updUser(req, res, next)
+    UsersController.updateProfile(req, res, next)
   )
 );
 router.delete(
