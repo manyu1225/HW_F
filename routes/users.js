@@ -23,9 +23,9 @@ router.get(
       #swagger.method = 'GET'
       #swagger.produces = ["application/json"]
   */
-  "/users/:id",
+  "/users/profile",
   handleErrorAsync(async (req, res, next) =>
-    UsersController.getUser(req, res, next)
+    UsersController.getProfile(req, res, next)
   )
 );
 
