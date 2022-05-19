@@ -122,5 +122,30 @@ router.delete(
     UsersController.delAllUsers(req, res, next)
   )
 );
-
+// POST：{url}/users/updatePassword: 重設密碼，登入後才可以重設密碼
+router.post(
+  /* #swagger.tags = ['Users']
+     #swagger.description = '重設密碼'
+     #swagger.path = '/users/updatePassword'
+     #swagger.method = 'POST'
+     #swagger.produces = ["application/json"]
+     #swagger.parameters['body'] = {
+        in: 'body',
+        type :"object",
+        required:true,
+        description: "密碼需至少 8 碼以上，並中英混合",
+        schema: {
+                "$password":'a123456789',
+            }
+        }
+     #swagger.security = [{
+          "Bearer": []
+     }]
+  */
+  "/users/updatePassword",
+  auth.isAuth,
+  handleErrorAsync(async (req, res, next) =>
+    UsersController.updatePassword(req, res, next)
+  )
+);
 module.exports = router;
