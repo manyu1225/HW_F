@@ -62,8 +62,8 @@ router.post(
         required:true,
         description: "資料格式",
         schema: {
-                "$password":'123456',
-                "$newpassword":'1234567',
+                "$password":'password123',
+                "$passwordConfirm":'password123',
             }
         }
      #swagger.security = [{

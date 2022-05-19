@@ -128,16 +128,16 @@
               "properties": {
                 "password": {
                   "type": "string",
-                  "example": "123456"
+                  "example": "password123"
                 },
-                "newpassword": {
+                "passwordConfirm": {
                   "type": "string",
-                  "example": "1234567"
+                  "example": "password123"
                 }
               },
               "required": [
                 "password",
-                "newpassword"
+                "passwordConfirm"
               ]
             }
           }
