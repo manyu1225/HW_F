@@ -22,7 +22,7 @@ const doc = {
     },
   ],
   securityDefinitions: {
-    apiKeyAuth: {
+    Bearer: {
       type: "apiKey",
       in: "header", // can be 'header', 'query' or 'cookie'
       name: "Authorization", // name of the header, query parameter or cookie

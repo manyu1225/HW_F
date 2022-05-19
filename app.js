@@ -7,12 +7,14 @@ const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json"); // 剛剛輸出的 JSON
 require("./utils/conn.js");
+var httpStatusCodes = require("./utils/httpStatus");
 
+// routes
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var postsRouter = require("./routes/posts");
-
 var newPostRouter = require("./routes/article");
+
 var app = express();
 
 process.on("uncaughtException", (err) => {
@@ -21,6 +23,7 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
+// middlewares
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
@@ -37,6 +40,7 @@ app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
 // 自己設定的 err 錯誤
 const resErrorProd = (err, res) => {
   if (err.isOperational) {
@@ -63,25 +67,48 @@ const resErrorDev = (err, res) => {
 };
 
 app.use(function (err, req, res, next) {
-  // dev
+  // dev way
   err.statusCode = err.statusCode || 500;
   if (process.env.NODE_ENV === "dev") {
     return resErrorDev(err, res);
   }
-  if (err.name === "CastError") {
-    err.message = "無此 id 資料，請確認後重新輸入！";
-    err.isOperational = true;
-    return resErrorDev(err, res);
-  }
-  // production
-  if (err.name === "ValidationError") {
-    err.message = "資料欄位未填寫正確，請重新輸入！";
-    err.isOperational = true;
-    return resErrorProd(err, res);
-  }
 
-  resErrorProd(err, res);
+  // production way
+  switch (err.name) {
+    case "CastError":
+      err.statusCode = httpStatusCodes.BAD_REQUEST;
+      err.message = "無此 id 資料，請確認後重新輸入！";
+      err.isOperational = true;
+      resErrorProd(err, res);
+      break;
+
+    case "ValidationError":
+      err.statusCode = httpStatusCodes.BAD_REQUEST;
+      err.message = "資料欄位未填寫正確，請重新輸入！";
+      err.isOperational = true;
+      resErrorProd(err, res);
+      break;
+
+    case "TokenExpiredError":
+      err.statusCode = httpStatusCodes.UNAUTHORIZED;
+      err.message = "登入憑證過期，請重新登入！";
+      err.isOperational = true;
+      resErrorProd(err, res);
+      break;
+      s;
+    case "JsonWebTokenError":
+      err.statusCode = httpStatusCodes.UNAUTHORIZED;
+      err.message = "登入憑證錯誤！";
+      err.isOperational = true;
+      resErrorProd(err, res);
+      break;
+
+    default:
+      resErrorProd(err, res);
+      break;
+  }
 });
+
 /**
  * 非同步程式/未捕捉到的 catch
  */
