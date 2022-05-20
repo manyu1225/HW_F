@@ -3,14 +3,14 @@ const newArticleSchema = new mongoose.Schema(
   {
     content: {
         type: String,
-        required: [true, "貼文內容是必填項目"],
+        required: [true, "貼文內容是必填項目"]
       },
     imageId:{
         type:String
     },
     userId: {
       type:String,
-      required: [true, "登入後才可填寫"],
+      required: [true, "登入後才可填寫"]
     },
     isActive:{
         type:Boolean,

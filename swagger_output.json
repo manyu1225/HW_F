@@ -5,21 +5,23 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "g11herokuexpress.herokuapp.com",
   "basePath": "/",
   "tags": [
+    {
+      "name": "Users",
+      "description": "使用者 router"
+    },
     {
       "name": "Posts",
       "description": "貼文 router"
     },
     {
-      "name": "Users",
-      "description": "使用者 router"
+      "name": "Comments",
+      "description": "回覆 router"
     }
   ],
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["https", "http"],
   "securityDefinitions": {
     "Bearer": {
       "type": "apiKey",
@@ -31,13 +33,9 @@
   "paths": {
     "/users/sign_up": {
       "post": {
-        "tags": [
-          "Users"
-        ],
-        "description": "User註冊",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Users"],
+        "description": "註冊",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "body",
@@ -53,18 +51,14 @@
                 },
                 "email": {
                   "type": "string",
-                  "example": "d@gmail.com"
+                  "example": "test@gmail.com"
                 },
                 "password": {
                   "type": "string",
-                  "example": "123456"
+                  "example": "a12345678"
                 }
               },
-              "required": [
-                "name",
-                "email",
-                "password"
-              ]
+              "required": ["name", "email", "password"]
             }
           }
         ],
@@ -73,13 +67,9 @@
     },
     "/users/sign_in": {
       "post": {
-        "tags": [
-          "Users"
-        ],
-        "description": "User登入",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Users"],
+        "description": "登入",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "body",
@@ -91,17 +81,14 @@
               "properties": {
                 "email": {
                   "type": "string",
-                  "example": "d@gmail.com"
+                  "example": "test@gmail.com"
                 },
                 "password": {
                   "type": "string",
-                  "example": "123456"
+                  "example": "a12345678"
                 }
               },
-              "required": [
-                "email",
-                "password"
-              ]
+              "required": ["email", "password"]
             }
           }
         ],
@@ -110,19 +97,15 @@
     },
     "/users/updatePassword": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "重設密碼",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "body",
             "in": "body",
             "required": true,
-            "description": "資料格式",
+            "description": "密碼需至少 8 碼以上，並中英混合",
             "schema": {
               "type": "object",
               "properties": {
@@ -135,10 +118,7 @@
                   "example": "password123"
                 }
               },
-              "required": [
-                "password",
-                "passwordConfirm"
-              ]
+              "required": ["password", "passwordConfirm"]
             }
           }
         ],
@@ -152,13 +132,9 @@
     },
     "/users/profile": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "取得個人資料",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {},
         "security": [
@@ -168,13 +144,9 @@
         ]
       },
       "patch": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "description": "更新個人資料",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "body",
@@ -189,7 +161,7 @@
                 },
                 "photo": {
                   "type": "string",
-                  "example": "BBB"
+                  "example": "https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png"
                 }
               }
             }
@@ -205,10 +177,8 @@
     },
     "/users": {
       "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "Endpoint to get All Users",
+        "tags": ["Users"],
+        "description": "Endpoint to get All Users(測試用)",
         "parameters": [],
         "responses": {
           "200": {
@@ -217,23 +187,17 @@
         }
       },
       "delete": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
+        "tags": ["Users"],
+        "description": "DELETE所有資料(測試用)",
         "parameters": [],
         "responses": {}
       }
     },
     "/users/{email}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "取得個人資料",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Users"],
+        "description": "取得個人資料(測試用)",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "email",
@@ -247,24 +211,16 @@
     },
     "/posts": {
       "get": {
-        "tags": [
-          "Posts"
-        ],
+        "tags": ["Posts"],
         "description": "Endpoint to get All Posts",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {}
       },
       "post": {
-        "tags": [
-          "Posts"
-        ],
+        "tags": ["Posts"],
         "description": "Endpoint create Posts",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "body",
@@ -291,12 +247,7 @@
                   "example": "XXX"
                 }
               },
-              "required": [
-                "name",
-                "tags",
-                "type",
-                "content"
-              ]
+              "required": ["name", "tags", "type", "content"]
             }
           }
         ],
@@ -305,13 +256,9 @@
     },
     "/posts/{id}": {
       "get": {
-        "tags": [
-          "Posts"
-        ],
+        "tags": ["Posts"],
         "description": "Endpoint get Posts in a specific user",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -323,13 +270,9 @@
         "responses": {}
       },
       "patch": {
-        "tags": [
-          "Posts"
-        ],
+        "tags": ["Posts"],
         "description": "Endpoint to update Posts",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -362,25 +305,16 @@
                   "example": "XXXB"
                 }
               },
-              "required": [
-                "name",
-                "tags",
-                "type",
-                "content"
-              ]
+              "required": ["name", "tags", "type", "content"]
             }
           }
         ],
         "responses": {}
       },
       "delete": {
-        "tags": [
-          "Posts"
-        ],
+        "tags": ["Posts"],
         "description": "Endpoint to delete Posts ",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",

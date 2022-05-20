@@ -6,19 +6,23 @@ const doc = {
     title: "REST API",
     description: "",
   },
-  host: "localhost:3000", // "g11herokuexpress.herokuapp.com",
+  host: "g11herokuexpress.herokuapp.com", //"localhost:3000",
   basePath: "/", // by default: "/"
-  schemes: ["http"], //https
+  schemes: ["https", "http"], //https
   consumes: [], // by default: ['application/json']
   produces: [], // by default: ['application/json']
   tags: [
+    {
+      name: "Users",
+      description: "使用者 router",
+    },
     {
       name: "Posts",
       description: "貼文 router",
     },
     {
-      name: "Users",
-      description: "使用者 router",
+      name: "Comments",
+      description: "回覆 router",
     },
   ],
   securityDefinitions: {

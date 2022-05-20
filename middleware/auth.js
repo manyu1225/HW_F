@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken"); //JWT 產生與驗證
-const bcrypt = require("bcrypt"); //處理密碼，獲得 hashed password
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
 const usersModel = require("../models/User");
@@ -21,8 +21,11 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
   const decoded = await new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
-        reject(err);
-        //     return next(appError(httpStatus.UNAUTHORIZED, "尚未登入！", next));
+        if ("JsonWebTokenError" === err.name) {
+          return next(appError(httpStatus.UNAUTHORIZED, "登入錯誤！", next));
+        }
+        //reject(err); //  "message": "系統錯誤，請恰系統管理員"
+        return next(appError(httpStatus.UNAUTHORIZED, "登入錯誤！", next));
       } else {
         resolve(payload);
       }

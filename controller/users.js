@@ -5,7 +5,6 @@ const { isAlpha, isNumeric, isLength } = require("validator");
 const usersModel = require("../models/User");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
-const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
 
 const generateAndSendToken = async (res, statusCode, user) => {
