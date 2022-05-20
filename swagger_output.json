@@ -52,7 +52,7 @@
         "responses": {}
       }
     },
-    "/users/{email}": {
+    "/users/profile": {
       "get": {
         "tags": [
           "Users"
@@ -61,15 +61,48 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [],
+        "responses": {}
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "description": "更新個人資料",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
-            "name": "email",
-            "in": "path",
+            "name": "body",
+            "in": "body",
             "required": true,
-            "type": "string"
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon DoeC"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png"
+                }
+              },
+              "required": [
+                "name",
+                "photo"
+              ]
+            }
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/users/sign_in": {
@@ -149,48 +182,6 @@
           }
         ],
         "responses": {}
-      }
-    },
-    "/users/profile": {
-      "patch": {
-        "tags": [
-          "Users"
-        ],
-        "description": "更新個人資料",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "資料格式",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Jhon DoeC"
-                },
-                "photo": {
-                  "type": "string",
-                  "example": "https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png"
-                }
-              },
-              "required": [
-                "name",
-                "photo"
-              ]
-            }
-          }
-        ],
-        "responses": {},
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
       }
     },
     "/users/updatePassword": {

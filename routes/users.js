@@ -19,7 +19,7 @@ router.get(
 router.get(
   /* #swagger.tags = ['Users']
      #swagger.description = '取得個人資料'
-      #swagger.path = '/users/{email}'
+      #swagger.path = '/users/profile'
       #swagger.method = 'GET'
       #swagger.produces = ["application/json"]
   */
