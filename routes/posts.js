@@ -13,6 +13,7 @@ router.get(
     #swagger.produces = ["application/json"]
   */
   "/posts",
+  auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
     PostsController.getPostsbyContent(req, res, next)
   )
