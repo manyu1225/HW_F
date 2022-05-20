@@ -5,7 +5,7 @@
     "title": "MY API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "intense-fortress-59028.herokuapp.com",
   "basePath": "/",
   "tags": [
     {
@@ -193,12 +193,49 @@
         ]
       }
     },
+    "/users/updatePassword": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "重設密碼",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "密碼需至少 8 碼以上，並中英混合",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "a123456789"
+                }
+              },
+              "required": [
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
     "/posts": {
       "get": {
         "tags": [
           "Posts"
         ],
-        "description": "Endpoint to get All Posts",
+        "description": "觀看所有動態",
         "produces": [
           "application/json"
         ],
@@ -209,7 +246,7 @@
         "tags": [
           "Posts"
         ],
-        "description": "Endpoint create Posts",
+        "description": "張貼個人動態",
         "produces": [
           "application/json"
         ],
