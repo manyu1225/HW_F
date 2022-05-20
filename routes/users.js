@@ -62,7 +62,8 @@ router.post(
         required:true,
         description: "密碼需至少 8 碼以上，並中英混合",
         schema: {
-                "$password":'a123456789',
+                "$password":'password123',
+                "$passwordConfirm":'password123',
             }
         }
      #swagger.security = [{
@@ -105,7 +106,6 @@ router.patch(
       #swagger.parameters['body'] = {
         in: 'body',
         type :"object",
-        required:true,
         description: "資料格式",
         schema: {
                 "$name": 'Jhon DoeC',
@@ -116,7 +116,7 @@ router.patch(
   "/users/profile",
   auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
-    UsersController.updUser(req, res, next)
+    UsersController.updateProfile(req, res, next)
   )
 );
 //測試用
