@@ -1,10 +1,30 @@
 {
 	"info": {
-		"_postman_id": "13d11287-f7b5-45a7-86c5-d24f8eb3b9f2",
-		"name": "posts_HEROKU_HW2",
+		"_postman_id": "27275a98-91e4-4af0-b957-829aff0ddca0",
+		"name": "posts_HEROKU_HW5",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "取得所有貼文",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "取得搜尋的貼文",
 			"protocolProfileBehavior": {
@@ -23,7 +43,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/posts?q=ContentC&s=asc",
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts?q=測試&s=asc",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -36,7 +56,7 @@
 					"query": [
 						{
 							"key": "q",
-							"value": "ContentC"
+							"value": "測試"
 						},
 						{
 							"key": "s",
@@ -48,7 +68,7 @@
 			"response": []
 		},
 		{
-			"name": "編輯單筆",
+			"name": "編輯單筆貼文",
 			"request": {
 				"method": "PATCH",
 				"header": [],
@@ -62,7 +82,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/posts/627ff16d4c0d644eb06460da",
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts/6285e23fca4aad5be8c93157",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -71,27 +91,7 @@
 					],
 					"path": [
 						"posts",
-						"627ff16d4c0d644eb06460da"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "刪除所有",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/posts",
-					"protocol": "https",
-					"host": [
-						"intense-fortress-59028",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts"
+						"6285e23fca4aad5be8c93157"
 					]
 				}
 			},
@@ -133,7 +133,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/posts/627ff18a4c0d644eb06460e2",
+					"raw": "https://intense-fortress-59028.herokuapp.com/posts/6285e23fca4aad5be8c93157",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -142,28 +142,7 @@
 					],
 					"path": [
 						"posts",
-						"627ff18a4c0d644eb06460e2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "取得貼文",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/posts/627ff1734c0d644eb06460dc",
-					"protocol": "https",
-					"host": [
-						"intense-fortress-59028",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"posts",
-						"627ff1734c0d644eb06460dc"
+						"6285e23fca4aad5be8c93157"
 					]
 				}
 			},
@@ -176,7 +155,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"HELLOYO2\",\r\n    \"email\": \"2222@gmail.com\"\r\n}",
+					"raw": "{\r\n    \"name\": \"HELLOYO\",\r\n  \"email\": \"test@gmail.com\",\r\n  \"password\": \"a12345678\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -184,7 +163,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/users/register",
+					"raw": "https://intense-fortress-59028.herokuapp.com/users/sign_up",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -193,7 +172,7 @@
 					],
 					"path": [
 						"users",
-						"register"
+						"sign_up"
 					]
 				}
 			},
@@ -223,11 +202,21 @@
 		{
 			"name": "更新USER",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODZjZjhjOGRjZjIyNmY4ODJkMTZkZCIsIm5hbWUiOiJIRUxMT1lPIiwiaWF0IjoxNjUzMDAyMTI0LCJleHAiOjE2NTMwODg1MjR9.yeOGfa4_CPoKwgtrQusf-LlXjuYpWaSHcbDQC3u5msw",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PATCH",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"HELLOYO222\",\r\n      \"photo\": \"XAAAAX\"\r\n}",
+					"raw": "{\r\n    \"name\": \"HELLOYO222\",\r\n  \"photo\": \"XAAAAX\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -235,7 +224,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/users/2222@gmail.com",
+					"raw": "https://intense-fortress-59028.herokuapp.com/users/profile",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -244,7 +233,7 @@
 					],
 					"path": [
 						"users",
-						"2222@gmail.com"
+						"profile"
 					]
 				}
 			},
