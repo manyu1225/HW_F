@@ -2,15 +2,17 @@ const express = require("express");
 const router = express.Router();
 const PostsController = require("../controller/posts");
 const handleErrorAsync = require("../service/handleErrorAsync");
+const auth = require("../middleware/auth");
+
 router.get(
   /* 
     #swagger.tags = ['Posts']
-    #swagger.description = 'Endpoint to get All Posts'
+    #swagger.description = '觀看所有動態'
     #swagger.path = '/posts'
     #swagger.method = 'GET'
     #swagger.produces = ["application/json"]
   */
-  "/",
+  "/posts",
   handleErrorAsync(async (req, res, next) =>
     PostsController.getPostsbyContent(req, res, next)
   )
@@ -23,7 +25,7 @@ router.get(
 #swagger.method = 'GET'
   #swagger.produces = ["application/json"]
 */
-  "/:id",
+  "/posts/:id",
   handleErrorAsync(async (req, res, next) =>
     PostsController.getPosts(req, res, next)
   )
@@ -31,7 +33,7 @@ router.get(
 router.post(
   /*
 #swagger.tags = ['Posts']
-#swagger.description = Endpoint create Posts'
+#swagger.description =  張貼個人動態'
 #swagger.path = '/posts'
 #swagger.method = 'POST'
 #swagger.produces = ["application/json"]
@@ -48,8 +50,8 @@ router.post(
       }
   }
 */
-
-  "/",
+  "/posts",
+  auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
     PostsController.createPosts(req, res, next)
   )
@@ -74,7 +76,7 @@ router.patch(
      }
  }
 */
-  "/:id",
+  "/posts/:id",
   handleErrorAsync(async (req, res, next) =>
     PostsController.updPosts(req, res, next)
   )
@@ -90,7 +92,7 @@ router.delete(
          "apiKeyAuth": []
   }]
 */
-  "/:id",
+  "/posts/:id",
   handleErrorAsync(async (req, res, next) =>
     PostsController.delPosts(req, res, next)
   )
@@ -99,7 +101,7 @@ router.delete(
   /*
     #swagger.ignore = true
    */
-  "/",
+  "/posts",
   handleErrorAsync(async (req, res, next) =>
     PostsController.delAllPosts(req, res, next)
   )
