@@ -6,7 +6,16 @@ const doc = {
     title: "MY API",
     description: "",
   },
+<<<<<<< .mine
   host: "intense-fortress-59028.herokuapp.com", //"localhost:3000"
+
+=======
+<<<<<<< HEAD
+  host: "intense-fortress-59028.herokuapp.com", //intense-fortress-59028.herokuapp.com
+>>>>>>> .theirs
+=======
+  host: "intense-fortress-59028.herokuapp.com", //"localhost:3000"
+>>>>>>> remotes/origin/Branch_f_w6_JWT身份驗證機制
   basePath: "/", // by default: "/"
   schemes: ["https", "http"], //https
   consumes: [], // by default: ['application/json']
