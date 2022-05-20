@@ -16,18 +16,6 @@ router.get(
     UsersController.getAllUsers(req, res, next)
   )
 );
-router.get(
-  /* #swagger.tags = ['Users']
-     #swagger.description = '取得個人資料'
-      #swagger.path = '/users/profile'
-      #swagger.method = 'GET'
-      #swagger.produces = ["application/json"]
-  */
-  "/users/profile",
-  handleErrorAsync(async (req, res, next) =>
-    UsersController.getProfile(req, res, next)
-  )
-);
 
 router.post(
   /* #swagger.tags = ['Users']
@@ -133,7 +121,7 @@ router.post(
         in: 'body',
         type :"object",
         required:true,
-        description: "密碼需至少 8 碼以上，並中英混合",
+        description: "密碼需至少 8 碼以上",
         schema: {
                 "$password":'a123456789',
             }
@@ -146,6 +134,22 @@ router.post(
   auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
     UsersController.updatePassword(req, res, next)
+  )
+);
+router.get(
+  /* #swagger.tags = ['Users']
+     #swagger.description = '取得個人資料'
+     #swagger.path = '/users/profile'
+     #swagger.method = 'GET'
+     #swagger.produces = ["application/json"]
+     #swagger.security = [{
+         "Bearer": []
+     }]
+  */
+  "/users/profile",
+  auth.isAuth,
+  handleErrorAsync(async (req, res, next) =>
+    UsersController.getProfile(req, res, next)
   )
 );
 module.exports = router;

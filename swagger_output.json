@@ -52,59 +52,6 @@
         "responses": {}
       }
     },
-    "/users/profile": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "取得個人資料",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {}
-      },
-      "patch": {
-        "tags": [
-          "Users"
-        ],
-        "description": "更新個人資料",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "資料格式",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Jhon DoeC"
-                },
-                "photo": {
-                  "type": "string",
-                  "example": "https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png"
-                }
-              },
-              "required": [
-                "name",
-                "photo"
-              ]
-            }
-          }
-        ],
-        "responses": {},
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
-      }
-    },
     "/users/sign_in": {
       "post": {
         "tags": [
@@ -184,6 +131,64 @@
         "responses": {}
       }
     },
+    "/users/profile": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "description": "更新個人資料",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon DoeC"
+                },
+                "photo": {
+                  "type": "string",
+                  "example": "https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png"
+                }
+              },
+              "required": [
+                "name",
+                "photo"
+              ]
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得個人資料",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
     "/users/updatePassword": {
       "post": {
         "tags": [
@@ -198,7 +203,7 @@
             "name": "body",
             "in": "body",
             "required": true,
-            "description": "密碼需至少 8 碼以上，並中英混合",
+            "description": "密碼需至少 8 碼以上",
             "schema": {
               "type": "object",
               "properties": {
