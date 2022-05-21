@@ -9,8 +9,9 @@ const articleController ={
         handleSuccess(res, httpStatus.OK, result);
     },
     async createPosts(req, res, next) {
-        if (! req.body.content) {
-            return appError(httpStatus.BAD_REQUES, "貼文內容為必填!", next);
+        let imageId =req.body.imageId
+        if (! req.body.content && ! imageId) {            
+            return appError(httpStatus.BAD_REQUEST, "文章內容或文章照片為必選擇一個填寫", next);
         }
         //預設讀取登入者資料
         let userId ="0";
@@ -18,7 +19,7 @@ const articleController ={
             return appError(httpStatus.BAD_REQUES, "請先登入在填寫!", next);
         }
     
-        let imageId =req.body.imageId
+        
         if (! imageId) {
             imageId = "";
         }
