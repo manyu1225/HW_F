@@ -39,7 +39,6 @@ const usersController = {
       email,
       password: psd,
     });
-
     await generateAndSendToken(res, httpStatus.CREATED, newUser);
   },
   async signin(req, res, next) {
