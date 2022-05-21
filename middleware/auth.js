@@ -4,6 +4,7 @@ const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
 const usersModel = require("../models/User");
 const httpStatus = require("../utils/httpStatus");
+const validator = require("validator");
 
 const isAuth = handleErrorAsync(async (req, res, next) => {
   // 確認 token 是否存在
@@ -12,11 +13,9 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
   if (authorization && authorization.startsWith("Bearer")) {
     token = authorization.split(" ")[1];
   }
-
   if (!token) {
     return next(appError(httpStatus.UNAUTHORIZED, "尚未登入！", next));
   }
-
   // 驗證 token 正確性
   const decoded = await new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
@@ -31,13 +30,20 @@ const isAuth = handleErrorAsync(async (req, res, next) => {
       }
     });
   });
-
   // 取得 User
   const currentUser = await usersModel.findById(decoded.id);
   req.user = currentUser;
   next();
 });
+const isPassValidate = handleErrorAsync(async (req, res, next) => {
+  // 密碼是否有大於 8 碼
+  validator.isLength(password, { min: 8 });
+  // 是否為 Email 格式
+  validator.isEmail(email);
+  next();
+});
 
 module.exports = {
   isAuth,
+  isPassValidate,
 };
