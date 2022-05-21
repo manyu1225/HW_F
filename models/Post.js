@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 const postsSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: [true, "name must be value."],
-    },
     tags: [
       {
         type: String,
@@ -20,7 +16,7 @@ const postsSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    createAt: {
+    createdAt: {
       type: Date,
       default: Date.now,
       select: false,
@@ -40,6 +36,7 @@ const postsSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "users",
+      required: [true, "使用者 ID 必填"],
     },
   },
   {

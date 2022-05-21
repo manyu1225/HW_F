@@ -6,7 +6,7 @@ const doc = {
     title: "MY API",
     description: "",
   },
-  host: "localhost:3000", //"localhost:3000"
+  host: "https://intense-fortress-59028.herokuapp.com", //""localhost:3000
   basePath: "/", // by default: "/"
   schemes: ["https", "http"], //https
   consumes: [], // by default: ['application/json']

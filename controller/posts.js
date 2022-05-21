@@ -31,12 +31,11 @@ const postsController = {
   async createPosts(req, res, next) {
     const data = req.body;
     let { name, tags, type, content } = data; //解構
-    if (!name || !type || !tags || !content) {
+    if (!type || !tags || !content) {
       return appError(httpStatus.BAD_REQUEST, "請確認欄位", next);
-    } else {
-      const newUser = await postsModel.create(data);
-      handleSuccess(res, httpStatus.OK, newUser);
     }
+    const newUser = await postsModel.create(data);
+    handleSuccess(res, httpStatus.OK, newUser);
   },
   async updPosts(req, res, next) {
     const id = req.params.id;
@@ -62,12 +61,6 @@ const postsController = {
     }
 
     handleSuccess(res, httpStatus.OK, data);
-  },
-
-  async delAllPosts(req, res, next) {
-    // await postsModel.deleteMany({});
-    return appError(httpStatus.BAD_REQUEST, "參數有缺", next);
-    // handleSuccess(res, httpStatus.OK, []);
   },
 };
 module.exports = postsController;
