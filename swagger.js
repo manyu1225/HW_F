@@ -6,8 +6,8 @@ const doc = {
     title: "MY API",
     description: "",
   },
-
-  host: "intense-fortress-59028.herokuapp.com", //"localhost:3000"  basePath: "/", // by default: "/"
+  host: "https://intense-fortress-59028.herokuapp.com", //""localhost:3000
+  basePath: "/", // by default: "/"
   schemes: ["https", "http"], //https
   consumes: [], // by default: ['application/json']
   produces: [], // by default: ['application/json']
@@ -34,3 +34,4 @@ const doc = {
 const outputFile = "./swagger_output.json";
 const endpointsFiles = ["./app.js"];
 swaggerAutogen(outputFile, endpointsFiles, doc);
+

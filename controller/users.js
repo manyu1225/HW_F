@@ -118,22 +118,17 @@ const usersController = {
     handleSuccess(res, httpStatus.OK, all);
   },
   async delUser(req, res, next) {
-    const email = req.params.id;
+    const id = req.params.id;
     const originalUrl = req.originalUrl;
-    if (!email || !originalUrl) {
+    if (!id || !originalUrl) {
       return appError(httpStatus.BAD_REQUEST, "參數有缺", next);
     }
-    const user = await usersModel.find({ email: email });
+    const user = await usersModel.find({ _id: id });
     if (!user.length) {
-      return appError(httpStatus.BAD_REQUEST, "無此email", next);
+      return appError(httpStatus.BAD_REQUEST, "無此人", next);
     }
     const data = await usersModel.findByIdAndDelete(user);
     handleSuccess(res, httpStatus.OK, data);
-  },
-  async delAllUsers(req, res, next) {
-    // return appError(httpStatus.BAD_REQUEST, "參數有缺", next);
-    await usersModel.deleteMany({});
-    handleSuccess(res, httpStatus.OK, []);
   },
 };
 module.exports = usersController;
