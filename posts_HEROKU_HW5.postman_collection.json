@@ -1,24 +1,14 @@
 {
 	"info": {
-		"_postman_id": "2dd28517-3f93-44c6-b3a7-d42809f101b3",
-		"name": "posts_HEROKU_HW6",
+		"_postman_id": "27275a98-91e4-4af0-b957-829aff0ddca0",
+		"name": "posts_HEROKU_HW5",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "9557020"
 	},
 	"item": [
 		{
-			"name": "觀看所有動態",
+			"name": "取得所有貼文",
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODdjNTQ5ODNiOWI5NDQ1NTc4NzZlNSIsIm5hbWUiOiJIRUxMT1lPIiwiaWF0IjoxNjUzMDY1MDUyLCJleHAiOjE2NTMxNTE0NTJ9.uuNBGPxbEbBMv5goJo-0muncED-6WB25ae0C9O2D2v0",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -37,21 +27,11 @@
 			"response": []
 		},
 		{
-			"name": "觀看搜尋的動態",
+			"name": "取得搜尋的貼文",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODdjNTQ5ODNiOWI5NDQ1NTc4NzZlNSIsIm5hbWUiOiJIRUxMT1lPIiwiaWF0IjoxNjUzMDY1MDUyLCJleHAiOjE2NTMxNTE0NTJ9.uuNBGPxbEbBMv5goJo-0muncED-6WB25ae0C9O2D2v0",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
 				"header": [],
 				"body": {
@@ -89,18 +69,38 @@
 			"response": []
 		},
 		{
-			"name": "張貼個人動態",
+			"name": "編輯單筆貼文",
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODdjNTQ5ODNiOWI5NDQ1NTc4NzZlNSIsIm5hbWUiOiJIRUxMT1lPIiwiaWF0IjoxNjUzMDY1MDUyLCJleHAiOjE2NTMxNTE0NTJ9.uuNBGPxbEbBMv5goJo-0muncED-6WB25ae0C9O2D2v0",
-							"type": "string"
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"HELLP22222\",\r\n    \"type\": \"group\",\r\n      \"tags\": \"group\",\r\n        \"image\": \"\",\r\n            \"content\": \"ContentContentConteˇˇnt\",\r\n              \"likes\": \"12\", \r\n               \"comments\": \"122\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
-					]
+					}
 				},
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/post/6286d4108dcf226f882d16ed",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"post",
+						"6286d4108dcf226f882d16ed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "新增單筆",
+			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -134,7 +134,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/posts/6285e249ca4aad5be8c9315b",
+					"raw": "https://intense-fortress-59028.herokuapp.com/post/6286cf248dcf226f882d16d7",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -142,8 +142,8 @@
 						"com"
 					],
 					"path": [
-						"posts",
-						"6285e249ca4aad5be8c9315b"
+						"post",
+						"6286cf248dcf226f882d16d7"
 					]
 				}
 			},
@@ -156,7 +156,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"HELLOYO\",\r\n  \"email\": \"test2@gmail.com\",\r\n  \"password\": \"a12345678\"\r\n}",
+					"raw": "{\r\n    \"name\": \"HELLOYO\",\r\n  \"email\": \"tes3t@gmail.com\",\r\n  \"password\": \"a12345678\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -164,15 +164,14 @@
 					}
 				},
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/users/sign_up",
+					"raw": "https://intense-fortress-59028.herokuapp.comusers/sign_up",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
 						"herokuapp",
-						"com"
+						"comusers"
 					],
 					"path": [
-						"users",
 						"sign_up"
 					]
 				}
@@ -186,7 +185,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"HELLOYO\",\r\n  \"email\": \"testi2@gmail.com\",\r\n  \"password\": \"a12345678\"\r\n}",
+					"raw": "{\r\n  \"name\": \"HELLOYO\",\r\n \"email\": \"tes3t@gmail.com\",\r\n  \"password\": \"a12345678\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -210,85 +209,14 @@
 			"response": []
 		},
 		{
-			"name": "重設密碼",
+			"name": "更新USER",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODdjNTQ5ODNiOWI5NDQ1NTc4NzZlNSIsIm5hbWUiOiJIRUxMT1lPIiwiaWF0IjoxNjUzMDY1MDUyLCJleHAiOjE2NTMxNTE0NTJ9.uuNBGPxbEbBMv5goJo-0muncED-6WB25ae0C9O2D2v0",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"password\": \"a12345676\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/users/updatePassword",
-					"protocol": "https",
-					"host": [
-						"intense-fortress-59028",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"users",
-						"updatePassword"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "取得個人資料",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODdjNTQ5ODNiOWI5NDQ1NTc4NzZlNSIsIm5hbWUiOiJIRUxMT1lPIiwiaWF0IjoxNjUzMDY1MDUyLCJleHAiOjE2NTMxNTE0NTJ9.uuNBGPxbEbBMv5goJo-0muncED-6WB25ae0C9O2D2v0",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/users/profile",
-					"protocol": "https",
-					"host": [
-						"intense-fortress-59028",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"users",
-						"profile"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "更新個人資料",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODZjZjhjOGRjZjIyNmY4ODJkMTZkZCIsIm5hbWUiOiJIRUxMT1lPIiwiaWF0IjoxNjUzMDAyMTI0LCJleHAiOjE2NTMwODg1MjR9.yeOGfa4_CPoKwgtrQusf-LlXjuYpWaSHcbDQC3u5msw",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyODgyZWJlZWQzOWEyMDBlMGNkNjMwMCIsIm5hbWUiOiJIRUxMT1lPMjIyIiwiaWF0IjoxNjUzMDkzNDM0LCJleHAiOjE2NTMxNzk4MzR9.YWJwF1SGT2lwRX33Ldiz5l9F9av-dZb0wpP9If5Z8mk",
 							"type": "string"
 						}
 					]
@@ -305,7 +233,28 @@
 					}
 				},
 				"url": {
-					"raw": "https://intense-fortress-59028.herokuapp.com/users/profile",
+					"raw": "https://intense-fortress-59028.herokuapp.com/user/profile",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "取得USER資料",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/users/",
 					"protocol": "https",
 					"host": [
 						"intense-fortress-59028",
@@ -314,7 +263,28 @@
 					],
 					"path": [
 						"users",
-						"profile"
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除USER",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://intense-fortress-59028.herokuapp.com/user/6285e464ca4aad5be8c93171",
+					"protocol": "https",
+					"host": [
+						"intense-fortress-59028",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"6285e464ca4aad5be8c93171"
 					]
 				}
 			},
