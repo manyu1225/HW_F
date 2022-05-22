@@ -29,10 +29,14 @@
           scope;
         $.ajax({
           url: LineLoginUrl,
-          type: "GET", // 请求方式
-          headers: { "Access-Control-Allow-Origin": "*" },
+          type: "GET",
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+          },
           crossDomain: true,
           success: function (url) {
+            console.log("url=" + url);
             window.open(url, "_blank", "width=800px,height=600px");
           },
           error: function (xhr) {
