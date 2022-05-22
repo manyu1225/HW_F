@@ -82,7 +82,7 @@ const articleController = {
         isActive: false,
       });
 
-      handleSuccess(res, httpStatus.OK, data);
+      handleSuccess(res, httpStatus.OK, data);  
     })(req, res, next);
   },
   async likePost(req, res, next) {
@@ -130,7 +130,7 @@ const articleController = {
         return appError(httpStatus.BAD_REQUEST, "請填寫要刪除的貼文!", next);
       }
 
-      const updatedArticle = await Article.findOneAndUpdate(
+      const updatedArticle = await Article.findByIdAndUpdate(
         postId,
         {
           $pull: { likes: req.user._id },
