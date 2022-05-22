@@ -89,16 +89,15 @@ const articleController = {
     handleErrorAsync(async (req, res, next) => {
       /*  #swagger.tags = ['Posts']
           #swagger.description = '登入者按讚'
-          #swagger.method = 'GET'
           #swagger.produces = ["application/json"]
           #swagger.security = [{ "Bearer": [] }]
+          #swagger.responses[205]
       */
       const postId = req.params.id;
 
       if (!postId) {
         return appError(httpStatus.BAD_REQUEST, "請填寫要刪除的貼文!", next);
       }
-      console.log("postId :>> ", postId);
 
       const updatedArticle = await Article.findByIdAndUpdate(
         postId,
@@ -107,7 +106,6 @@ const articleController = {
         },
         { new: true }
       );
-      console.log("updatedArticle :>> ", updatedArticle);
 
       if (!updatedArticle) {
         return appError(httpStatus.BAD_REQUEST, "查無貼文!", next);
@@ -120,9 +118,9 @@ const articleController = {
     handleErrorAsync(async (req, res, next) => {
       /*  #swagger.tags = ['Posts']
           #swagger.description = '登入者退讚'
-          #swagger.method = 'GET'
           #swagger.produces = ["application/json"]
           #swagger.security = [{ "Bearer": [] }]
+          #swagger.responses[205]
       */
       const postId = req.params.id;
 

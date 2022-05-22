@@ -9,7 +9,8 @@ const newArticleSchema = new mongoose.Schema(
       type: String,
     },
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
       required: [true, "登入後才可填寫"],
     },
     isActive: {
@@ -19,7 +20,7 @@ const newArticleSchema = new mongoose.Schema(
     },
     likes: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "User",
+      ref: "users",
     },
     updateAt: {
       type: Date,

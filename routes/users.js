@@ -119,6 +119,29 @@ router.patch(
     UsersController.updateProfile(req, res, next)
   )
 );
+
+router.get(
+  "/users/:id/likes",
+  handleErrorAsync(async (req, res, next) =>
+    /*#swagger.tags = ['Users']
+      #swagger.description = '取得使用者的按讚列表'
+      #swagger.method = 'GET'
+      #swagger.responses[200] = {
+        schema: {
+          "_id": "628909974247c44568d85428",
+          "userId": {
+            "_id": "62838f86ddb475c3f2c6d2ef",
+            "name": "Han Lai",
+            "photo": "someImage"
+          },
+          "createAt": "2022-05-21T15:47:35.953Z"
+        }
+      }
+    */
+    UsersController.getlikeList(req, res, next)
+  )
+);
+
 //測試用
 router.delete(
   /*
