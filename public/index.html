@@ -32,15 +32,16 @@
           type: "GET",
           headers: {
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+            "Access-Control-Allow-Methods":
+              "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH",
           },
           crossDomain: true,
           success: function (url) {
-            console.log("url=" + url);
+            console.log(url);
             window.open(url, "_blank", "width=800px,height=600px");
           },
           error: function (xhr) {
-            console.log("error=" + xhr);
+            console.log(xhr);
           },
         });
       }
