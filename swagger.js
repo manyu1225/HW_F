@@ -20,6 +20,10 @@ const doc = {
       name: "Posts",
       description: "貼文 router",
     },
+    {
+      name: "LINELogin",
+      description: "LINE Login router",
+    },
   ],
   securityDefinitions: {
     Bearer: {
@@ -34,4 +38,3 @@ const doc = {
 const outputFile = "./swagger_output.json";
 const endpointsFiles = ["./app.js"];
 swaggerAutogen(outputFile, endpointsFiles, doc);
-
