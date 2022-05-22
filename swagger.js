@@ -2,11 +2,11 @@ const swaggerAutogen = require("swagger-autogen")();
 
 const doc = {
   info: {
-    version: "1.0.1",
+    version: "1.0.2",
     title: "REST API",
     description: "",
   },
-  host: host: "g11herokuexpress.herokuapp.com",
+  host: "g11herokuexpress.herokuapp.com",
   // ,
   basePath: "/", // by default: "/"
   schemes: ["https", "http"], //https
