@@ -1,13 +1,50 @@
 <html>
-
-<head>
-  <title>Express</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
-</head>
-
-<body>
-  <h1>Express</h1>
-  <p>Welcome to Express</p>
-</body>
-
+  <head>
+    <title>Express</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+    ></script>
+    <script>
+      function LineLoginDirect() {
+        $("#result").html(""); //清空顯示結果
+        //另開popup window前，每次都取得新的LineLoginUrl(每次Url的state參數都不一樣)
+        const response_type = "code";
+        const client_id = "1657154166";
+        const redirect_uri =
+          "https://webhook.site/ad17a96b-2c1f-4b4c-bc45-83800a3d7a09";
+        const state = "123123";
+        const scope = "profile";
+        const LineLoginUrl =
+          "https://access.line.me/oauth2/v2.1/authorize?" +
+          "response_type=" +
+          response_type +
+          "&client_id=" +
+          client_id +
+          "&redirect_uri=" +
+          redirect_uri +
+          "&state=" +
+          state +
+          "&scope=" +
+          scope;
+        $.ajax({
+          url: LineLoginUrl,
+          method: "get",
+          success: function (url) {
+            window.open(url, "_blank", "width=800px,height=600px");
+          },
+          error: function (xhr) {
+            console.log(xhr);
+          },
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Express</h1>
+    <p>Welcome to Express</p>
+    <a href="javascript:LineLoginDirect()"> Line Login </a>
+    <div id="result"></div>
+  </body>
 </html>
