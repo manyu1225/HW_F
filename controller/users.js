@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken"); //JWT 產生與驗證
 const { isAlpha, isNumeric, isLength } = require("validator");
 
 const usersModel = require("../models/User");
+const Article = require("../models/ArticlePost");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
 const appError = require("../service/appError");
@@ -118,6 +119,17 @@ const usersController = {
     }
 
     await generateAndSendToken(res, httpStatus.OK, editedUer);
+  },
+  async getlikeList(req, res, next) {
+    const id = req.params.id;
+
+    const posts = await Article.find({ likes: { $in: [id] } })
+      .populate({
+        path: "userId",
+        select: "name photo",
+      })
+      .select("userId createAt");
+    handleSuccess(res, httpStatus.OK, posts);
   },
   async getUser(req, res, next) {
     const email = req.params.id;

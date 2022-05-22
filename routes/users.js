@@ -119,6 +119,19 @@ router.patch(
     UsersController.updateProfile(req, res, next)
   )
 );
+
+router.get(
+  "/users/:id/likes",
+  handleErrorAsync(async (req, res, next) =>
+    /*#swagger.tags = ['Users']
+      #swagger.description = '取得使用者的按讚列表'
+      #swagger.method = 'GET'
+      #swagger.responses[200] = { description: 'Some description...' }
+    */
+    UsersController.getlikeList(req, res, next)
+  )
+);
+
 //測試用
 router.delete(
   /*
