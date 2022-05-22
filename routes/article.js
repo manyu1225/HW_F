@@ -1,36 +1,19 @@
-var express = require('express');
-const { json } = require('express/lib/response');
-var router = express.Router();
-var article =require('../models/ArticlePost');
-const { isAuth } = require('../middleware/auth');
-const articleController = require('../controller/article')
-const handleErrorAsync = require("../service/handleErrorAsync");
+const express = require("express");
+const router = express.Router();
+const { isAuth } = require("../middleware/auth");
+const articleController = require("../controller/article");
 
-/**
- * 新增貼文
- */
-router.post(
-    '/',
-    isAuth,
-    handleErrorAsync(async (req,res,next)=> 
-    articleController.createPosts(req,res,next))
-)
+router
+  .route("/")
+  .get([isAuth, articleController.getAll]) // 檢測用
+  .post([isAuth, articleController.createPosts]); // 新增貼文
 
-//檢測用
-router.get(
-    '/',
-    handleErrorAsync( async (req,res,next)=>
-    articleController.getAll(req,res,next)
-))
+// 刪除貼文
+router.route("/:postId").delete([isAuth, articleController.deletePosts]);
 
-/**
- * 刪除貼文
- */
-router.delete(
-    '/:postId',
-    isAuth,
-    handleErrorAsync( async(req,res,next)=>
-    articleController.deletePosts(req,res,next))
-)
+router
+  .route("/:id/likes")
+  .get([isAuth, articleController.likePost]) // 按讚
+  .delete([isAuth, articleController.unlikePost]); // 退讚
 
 module.exports = router;

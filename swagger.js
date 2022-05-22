@@ -6,7 +6,8 @@ const doc = {
     title: "REST API",
     description: "",
   },
-  host: "g11herokuexpress.herokuapp.com", //"localhost:3000",
+  host: "localhost:3000",
+  // host: "g11herokuexpress.herokuapp.com",
   basePath: "/", // by default: "/"
   schemes: ["https", "http"], //https
   consumes: [], // by default: ['application/json']
