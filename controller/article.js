@@ -36,8 +36,8 @@ const articleController = {
             }
       */
 
-      if (!req.body.content) {
-        return appError(httpStatus.BAD_REQUES, "貼文內容為必填!", next);
+      if (!req.body.content && ! req.body.imageId ) {
+        return appError(httpStatus.BAD_REQUES, "貼文內容或圖片內容必擇一填寫!", next);
       }
       //預設讀取登入者資料
       let userId = "0";
@@ -73,7 +73,7 @@ const articleController = {
         return appError(httpStatus.BAD_REQUES, "請填寫要刪除的貼文!", next);
       }
 
-      const data = await Article.findById();
+      const data = await Article.findById(postId);
       if (!data) {
         return appError(httpStatus.BAD_REQUEST, "無該ID", next);
       }
