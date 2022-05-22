@@ -20,13 +20,16 @@
     "dotenv": "^16.0.0",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "imgur": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.2",
     "morgan": "~1.9.1",
+    "multer": "^1.4.4",
     "nodemailer": "^6.7.5",
     "swagger-autogen": "^2.21.1",
     "swagger-ui-express": "^4.3.0",
     "uuid": "^8.3.2",
+    "tslib": "^2.4.0",
     "validator": "^13.7.0"
   }
 }

@@ -259,20 +259,76 @@
       }
     },
     "/article/": {
-      "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      },
       "get": {
-        "description": "",
+        "tags": [
+          "Posts"
+        ],
+        "description": "撈所有貼文",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "建立貼文",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "someone id"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "我是廢文 我是廢文 我是廢文 我是廢文"
+                },
+                "imageId": {
+                  "type": "string",
+                  "example": "photo.jpg"
+                }
+              },
+              "required": [
+                "userId",
+                "content",
+                "imageId"
+              ]
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/article/{postId}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Posts"
+        ],
+        "description": "刪除貼文",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "postId",
@@ -281,7 +337,60 @@
             "type": "string"
           }
         ],
-        "responses": {}
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/article/{id}/likes": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "登入者按讚",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Posts"
+        ],
+        "description": "登入者退讚",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/forget": {

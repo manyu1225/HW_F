@@ -83,7 +83,7 @@ const usersController = {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const editedUer = await usersModel.findByIdAndUpdate(
+    const editedUser = await usersModel.findByIdAndUpdate(
       req.user._id,
       {
         password: hashedPassword,
@@ -91,7 +91,7 @@ const usersController = {
       { new: true, runValidators: true }
     );
 
-    if (!editedUer) {
+    if (!editedUser) {
       return appError(httpStatus.NOT_FOUND, "查無此使用者", next);
     }
 
@@ -104,7 +104,7 @@ const usersController = {
   async updateProfile(req, res, next) {
     const { name, photo } = req.body;
 
-    const editedUer = await usersModel.findByIdAndUpdate(
+    const editedUser = await usersModel.findByIdAndUpdate(
       req.user._id,
       {
         name,
@@ -113,11 +113,11 @@ const usersController = {
       { new: true, runValidators: true }
     );
 
-    if (!editedUer) {
+    if (!editedUser) {
       return appError(httpStatus.NOT_FOUND, "查無此使用者", next);
     }
 
-    await generateAndSendToken(res, httpStatus.OK, editedUer);
+    await generateAndSendToken(res, httpStatus.OK, editedUser);
   },
   async getUser(req, res, next) {
     const email = req.params.id;
