@@ -48,7 +48,6 @@ router.post(
       }
   }
 */
-
   "/posts/",
   handleErrorAsync(async (req, res, next) =>
     PostsController.createPosts(req, res, next)
@@ -96,4 +95,3 @@ router.delete(
   )
 );
 module.exports = router;
-

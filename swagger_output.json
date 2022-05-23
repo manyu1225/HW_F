@@ -15,6 +15,10 @@
     {
       "name": "Posts",
       "description": "貼文 router"
+    },
+    {
+      "name": "LINELogin",
+      "description": "LINE Login router"
     }
   ],
   "schemes": [
@@ -27,6 +31,13 @@
       "in": "header",
       "name": "Authorization",
       "description": "請加上 JWT TOKEN"
+    },
+    "oauth2": {
+      "tokenUrl": "https://access.line.me/oauth2/v2.1/authorize",
+      "scopes": {
+        "read": "Read access"
+      },
+      "type": "oauth2"
     }
   },
   "paths": {
@@ -368,6 +379,13 @@
             "apiKeyAuth": []
           }
         ]
+      }
+    },
+    "/login/authorize": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
       }
     }
   }

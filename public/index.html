@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Express</title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
+
     <script
       type="text/javascript"
       src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -12,12 +12,12 @@
         //另開popup window前，每次都取得新的LineLoginUrl(每次Url的state參數都不一樣)
         const response_type = "code";
         const client_id = "1657154166";
-        const redirect_uri = "https://intense-fortress-59028.herokuapp.com/";
+        const redirect_uri = "http://localhost:3000/cb"; //"https://intense-fortress-59028.herokuapp.com/";
         const state = "123123";
-        const scope = "profile";
+        const scope = "profile"; //URL += '&scope=openid%20profile%20email';
         const LineLoginUrl =
-          "https://access.line.me/oauth2/v2.1/authorize?" +
-          "response_type=" +
+          "https://access.line.me/oauth2/v2.1/authorize" +
+          "?response_type=" +
           response_type +
           "&client_id=" +
           client_id +
@@ -27,10 +27,10 @@
           state +
           "&scope=" +
           scope;
-        window.location.href = LineLoginUrl;
-        /*
+        // window.location.href = LineLoginUrl;
+
         $.ajax({
-          url: LineLoginUrl,
+          url: "http://localhost:3000/login/authorize",
           type: "GET",
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -41,14 +41,16 @@
           },
           crossDomain: true,
           success: function (url) {
-            console.log(url);
-            window.open(url, "_blank", "width=800px,height=600px");
+            console.log("=============================" + url.data);
+            // window.open(url, "_blank", "width=800px,height=600px");
           },
           error: function (xhr) {
+            console.log("=============================" + xhr);
             console.log(xhr);
           },
-        });
-*/
+        }); /*
+              https://intense-fortress-59028.herokuapp.com/?code=uAAFwvxcxwmGSvIOQ9Oc&state=123123
+      */
       }
     </script>
   </head>

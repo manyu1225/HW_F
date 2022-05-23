@@ -32,6 +32,13 @@ const doc = {
       name: "Authorization", // name of the header, query parameter or cookie
       description: "請加上 JWT TOKEN",
     },
+    oauth2: {
+      tokenUrl: "https://access.line.me/oauth2/v2.1/authorize",
+      scopes: {
+        read: "Read access",
+      },
+      type: "oauth2",
+    },
   }, // by default: empty object
   definitions: {},
 };
