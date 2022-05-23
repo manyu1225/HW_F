@@ -35,8 +35,6 @@ app.use(postsRouter);
 app.use(lineRouter);
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.get("/cb", function (req, res) {
-  // verify state
-  // show form
   res.send(
     "<html><body>" +
       '<form method="post" action="/token">' +
