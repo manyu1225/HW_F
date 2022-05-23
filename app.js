@@ -13,6 +13,7 @@ var httpStatusCodes = require("./utils/httpStatus");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var newPostRouter = require("./routes/article");
+var uploadRouter = require('./routes/upload');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use("/", indexRouter);
 app.use(usersRouter);
 app.use("/article", newPostRouter);
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use('/upload', uploadRouter)
 
 app.use(function (req, res, next) {
   next(createError(404));
