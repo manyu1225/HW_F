@@ -35,6 +35,8 @@ const lineAPIController = {
     const client_secret = process.env.client_secret;
     const redirect_uri =
       "https://intense-fortress-59028.herokuapp.com/line/callback";
+
+    console.log(encodeURIComponent(redirect_uri));
     res.send(
       "<html><body>" +
         '<form method="post" action="/token">' +
