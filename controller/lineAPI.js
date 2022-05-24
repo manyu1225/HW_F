@@ -11,7 +11,7 @@ const jsonwebtoken = require("jsonwebtoken");
 
 const lineAPIController = {
   async authorize(req, res, next) {
-    const redirect_uri = "https://intense-fortress-59028.herokuapp.com/cb";
+    const redirect_uri = "https://intense-fortress-59028.herokuapp.com/line/cb";
     const response_type = "code";
     const scope = "openid%20profile%20email"; //URL += 'profile';
     let url =
@@ -29,7 +29,7 @@ const lineAPIController = {
     res.redirect(url);
   },
   async cb(req, res, next) {
-    const redirect_uri = "https://intense-fortress-59028.herokuapp.com/cb";
+    const redirect_uri = "https://intense-fortress-59028.herokuapp.com/line/cb";
     res.send(
       "<html><body>" +
         '<form method="post" action="/token">' +
@@ -51,7 +51,7 @@ const lineAPIController = {
     );
   },
   async getLinetoken(req, res, next) {
-    const redirect_uri = "https://intense-fortress-59028.herokuapp.com/cb";
+    const redirect_uri = "https://intense-fortress-59028.herokuapp.com/line/cb";
     request.post(
       "https://api.line.me/oauth2/v2.1/token",
       {
@@ -71,7 +71,6 @@ const lineAPIController = {
               jsonBody.id_token,
               client_secret
             );
-
             res.send(
               "<html><body>" +
                 '<form method="post" action="/userInfo">' +

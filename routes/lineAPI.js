@@ -10,7 +10,7 @@ router.get(
 ); //https://access.line.me/oauth2/v2.1/ssoLogin?loginChannelId=1657154166&returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fscope%3Dopenid%2Bprofile%2Bemail%26response_type%3Dcode%26redirect_uri%3Dhttps%253A%252F%252Fintense-fortress-59028.herokuapp.com%252F%26state%3D123123%26client_id%3D1657154166
 // callback
 router.get(
-  "/cb",
+  "/line/cb",
   handleErrorAsync(async (req, res, next) =>
     lineAPIController.cb(req, res, next)
   )
