@@ -63,7 +63,7 @@ const lineAPIController = {
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
     console.log("client_id=" + client_id + "=== ===" + req.body.code);
-    var decoded = "";
+
     axios
       .post(
         "https://api.line.me/oauth2/v2.1/token",
@@ -77,11 +77,11 @@ const lineAPIController = {
           client_secret
       )
       .then(function (res2) {
-        decoded = jsonwebtoken.decode(res2.data.access_token);
+        let decoded = jsonwebtoken.decode(res2.data.access_token);
         let x = res2.data.access_token;
         console.log("res_Token=>", res2.data);
         console.log("decoded=>", res2.data.access_token);
-        handleSuccess(res, httpStatus.OK, { decoded, x });
+        handleSuccess(res, httpStatus.OK, res2.data);
       });
   },
   async getLineUserInfo(req, res, next) {
