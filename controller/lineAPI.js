@@ -14,7 +14,7 @@ const lineAPIController = {
     const client_id = process.env.client_id;
     const redirect_uri = "https://intense-fortress-59028.herokuapp.com/line/cb";
     const response_type = "code";
-    const scope = "openid%20profile%20email"; // ; //URL += 'profile';
+    const scope = "profile"; //"openid%20profile%20email"; // ; //URL += 'profile';
     let url =
       "https://access.line.me/oauth2/v2.1/authorize" +
       "?response_type=" +
@@ -41,7 +41,7 @@ const lineAPIController = {
         req.query.code +
         '"></td></tr>' +
         '<tr><th>redirect_uri</th><td><input type="text" name="redirect_uri" size="100" value="' +
-        redirect_uri +
+        encodeURIComponent(redirect_uri) +
         '"></td></tr>' +
         '<tr><th>client_id</th><td><input type="text" name="client_id" size="100" value="' +
         client_id +
