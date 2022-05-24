@@ -109,7 +109,7 @@ const lineAPIController = {
               "</td></tr>" +
               "</td></tr>" +
               "<tr><th>jsonBody</th><td>" +
-              jsonBody +
+              jsonBody.email +
               "</td></tr>" +
               "</table>" +
               "</body></html>"
