@@ -86,40 +86,18 @@ const lineAPIController = {
       });
   },
   async getLineUserInfo(req, res, next) {
-    request.get(
-      "https://api.line.me/v2/profile",
-      {
+    axios
+      .get("https://api.line.me/v2/profile", {
         headers: {
           Authorization: "Bearer " + req.body.access_token,
         },
-      },
-      function (e, r, body) {
-        if (!e && r.statusCode == 200) {
-          var jsonBody = JSON.parse(body);
-          res.send(
-            "<html><body>" +
-              '<table border="1"><tr><th>userId</th><td>' +
-              jsonBody.userId +
-              "</td></tr>" +
-              "<tr><th>displayName</th><td>" +
-              jsonBody.displayName +
-              "</td></tr>" +
-              "<tr><th>pictureUrl</th><td>" +
-              jsonBody.pictureUrl +
-              "</td></tr>" +
-              "</td></tr>" +
-              "<tr><th>jsonBody</th><td>" +
-              jsonBody.email +
-              "</td></tr>" +
-              "</table>" +
-              "</body></html>"
-          );
-        } else {
-          res.send("error");
-          console.log(body);
-        }
-      }
-    );
+      })
+      .then(function (body) {
+        var jsonBody = JSON.parse(body);
+        console.log(body);
+        console.log(jsonBody);
+        console.log(jsonBody.displayName);
+      });
   },
 };
 module.exports = lineAPIController;
