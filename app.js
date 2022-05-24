@@ -29,32 +29,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //靜態資源路徑設定
 app.use(express.static(path.join(__dirname, "public")));
+app.use(lineRouter);
 app.use("/", indexRouter);
 app.use(usersRouter);
 app.use(postsRouter);
-app.use(lineRouter);
+
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
-app.get("/cb", function (req, res) {
-  res.send(
-    "<html><body>" +
-      '<form method="post" action="/token">' +
-      '<table><tr><th>grant_type</th><td><input type="text" name="grant_type" size="100" value="authorization_code"></td></tr>' +
-      '<tr><th>code</th><td><input type="text" name="code" size="100" value="' +
-      req.query.code +
-      '"></td></tr>' +
-      '<tr><th>redirect_uri</th><td><input type="text" name="redirect_uri" size="100" value="' +
-      redirect_uri +
-      '"></td></tr>' +
-      '<tr><th>client_id</th><td><input type="text" name="client_id" size="100" value="' +
-      client_id +
-      '"></td></tr>' +
-      '<tr><th>client_secret</th><td><input type="text" name="client_secret" size="100" value="' +
-      client_secret +
-      '"></td></tr>' +
-      '</table><button type="submit">Exchange code to token</button><br>' +
-      "</form></body></html>"
-  );
-});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
