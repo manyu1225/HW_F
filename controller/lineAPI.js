@@ -3,6 +3,7 @@ const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
 const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
+const request = require("request");
 const qs = require("qs");
 const axios = require("axios");
 const jsonwebtoken = require("jsonwebtoken");
@@ -60,7 +61,7 @@ const lineAPIController = {
       "https://intense-fortress-59028.herokuapp.com/line/callback";
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
-    req.post(
+    request.post(
       "https://api.line.me/oauth2/v2.1/token",
       {
         form: {
@@ -117,7 +118,7 @@ const lineAPIController = {
     );
   },
   async getLineUserInfo(req, res, next) {
-    req.get(
+    request.get(
       "https://api.line.me/v2/profile",
       {
         headers: {
