@@ -11,6 +11,7 @@ const jsonwebtoken = require("jsonwebtoken");
 
 const lineAPIController = {
   async authorize(req, res, next) {
+    const client_id = process.env.client_id;
     const redirect_uri = "https://intense-fortress-59028.herokuapp.com/line/cb";
     const response_type = "code";
     const scope = "openid%20profile%20email"; // ; //URL += 'profile';
@@ -18,7 +19,7 @@ const lineAPIController = {
     "?response_type=" +
       response_type +
       "&client_id=" +
-      process.env.client_id +
+      client_id +
       "&redirect_uri=" +
       encodeURIComponent(redirect_uri) +
       "&state=" +
@@ -28,6 +29,8 @@ const lineAPIController = {
     res.redirect(url);
   },
   async cb(req, res, next) {
+    const client_id = process.env.client_id;
+    const client_secret = process.env.client_secret;
     const redirect_uri = "https://intense-fortress-59028.herokuapp.com/line/cb";
     res.send(
       "<html><body>" +
@@ -40,10 +43,10 @@ const lineAPIController = {
         redirect_uri +
         '"></td></tr>' +
         '<tr><th>client_id</th><td><input type="text" name="client_id" size="100" value="' +
-        process.env.client_id +
+        client_id +
         '"></td></tr>' +
         '<tr><th>client_secret</th><td><input type="text" name="client_secret" size="100" value="' +
-        process.env.client_secret +
+        client_secret +
         '"></td></tr>' +
         '</table><button type="submit">Exchange code to token</button><br>' +
         "</form></body></html>"
@@ -51,6 +54,8 @@ const lineAPIController = {
   },
   async getLinetoken(req, res, next) {
     const redirect_uri = "https://intense-fortress-59028.herokuapp.com/line/cb";
+    const client_id = process.env.client_id;
+    const client_secret = process.env.client_secret;
     request.post(
       "https://api.line.me/oauth2/v2.1/token",
       {
@@ -58,8 +63,8 @@ const lineAPIController = {
           grant_type: "authorization_code",
           code: req.body.code,
           redirect_uri: redirect_uri,
-          client_id: process.env.client_id,
-          client_secret: process.env.client_secret,
+          client_id: client_id,
+          client_secret: client_secret,
         },
       },
       function (e, r, body) {
