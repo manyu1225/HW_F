@@ -8,30 +8,10 @@
     ></script>
     <script>
       function LineLoginDirect() {
-        $("#result").html(""); //清空顯示結果
-        //另開popup window前，每次都取得新的LineLoginUrl(每次Url的state參數都不一樣)
-        const response_type = "code";
-        const client_id = "1657154166";
-        const redirect_uri = "http://localhost:3000/cb"; //"https://intense-fortress-59028.herokuapp.com/";
-        const state = "123123";
-        const scope = "profile"; //URL += '&scope=openid%20profile%20email';
-        const LineLoginUrl =
-          "https://access.line.me/oauth2/v2.1/authorize" +
-          "?response_type=" +
-          response_type +
-          "&client_id=" +
-          client_id +
-          "&redirect_uri=" +
-          redirect_uri +
-          "&state=" +
-          state +
-          "&scope=" +
-          scope;
-        // window.location.href = LineLoginUrl;
-
-        $.ajax({
-          url: "http://localhost:3000/login/authorize",
-          type: "GET",
+        //intense-fortress-59028.herokuapp.com/?code=DeEm0Djvqmh4qxrCXb8Z&state=123123123
+        https: $.ajax({
+          url: "https://intense-fortress-59028.herokuapp.com/line/token",
+          type: "POST",
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods":
