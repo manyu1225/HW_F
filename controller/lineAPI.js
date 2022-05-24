@@ -61,6 +61,7 @@ const lineAPIController = {
       "https://intense-fortress-59028.herokuapp.com/line/callback";
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
+    console.log("=========================" + req.body.code);
     request.post(
       "https://api.line.me/oauth2/v2.1/token",
       {
