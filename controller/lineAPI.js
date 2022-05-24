@@ -15,8 +15,9 @@ const lineAPIController = {
     const redirect_uri = "https://intense-fortress-59028.herokuapp.com/line/cb";
     const response_type = "code";
     const scope = "openid%20profile%20email"; // ; //URL += 'profile';
-    let url = "https://access.line.me/oauth2/v2.1/authorize";
-    "?response_type=" +
+    let url =
+      "https://access.line.me/oauth2/v2.1/authorize" +
+      "?response_type=" +
       response_type +
       "&client_id=" +
       client_id +
