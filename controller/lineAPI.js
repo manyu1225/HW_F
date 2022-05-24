@@ -7,6 +7,7 @@ const request = require("request");
 const qs = require("qs");
 const axios = require("axios");
 const jsonwebtoken = require("jsonwebtoken");
+const jwt_decode = require("jwt_decode");
 //一、取得授權碼 code https://access.line.me/oauth2/v2.1/authorize
 //二、以回傳的授權碼再向 Line 取用戶資料 POST https://api.line.me/oauth2/v2.1/token
 
