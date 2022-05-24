@@ -35,17 +35,15 @@ const lineAPIController = {
     const client_secret = process.env.client_secret;
     const redirect_uri =
       "https://intense-fortress-59028.herokuapp.com/line/callback";
-
-    console.log(encodeURIComponent(redirect_uri));
     res.send(
       "<html><body>" +
-        '<form method="post" action="/line/token">' +
+        '<form method="post" action="https://intense-fortress-59028.herokuapp.com/line/token">' +
         '<table><tr><th>grant_type</th><td><input type="text" name="grant_type" size="100" value="authorization_code"></td></tr>' +
         '<tr><th>code</th><td><input type="text" name="code" size="100" value="' +
         req.query.code +
         '"></td></tr>' +
         '<tr><th>redirect_uri</th><td><input type="text" name="redirect_uri" size="100" value="' +
-        encodeURIComponent(redirect_uri) +
+        redirect_uri +
         '"></td></tr>' +
         '<tr><th>client_id</th><td><input type="text" name="client_id" size="100" value="' +
         client_id +
