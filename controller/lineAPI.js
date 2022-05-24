@@ -61,7 +61,9 @@ const lineAPIController = {
       "https://intense-fortress-59028.herokuapp.com/line/callback";
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
-    console.log("=========================" + req.body.code);
+    console.log(
+      "client_id=" + client_id + "=========================" + req.body.code
+    );
     request.post(
       "https://api.line.me/oauth2/v2.1/token",
       {
@@ -74,6 +76,7 @@ const lineAPIController = {
         },
       },
       function (e, r, body) {
+        console.log("=================r.statusCode========" + r.statusCode);
         if (!e && r.statusCode == 200) {
           var jsonBody = JSON.parse(body);
           try {
@@ -108,11 +111,11 @@ const lineAPIController = {
                 "</form></body></html>"
             );
           } catch (err) {
-            res.send("error");
+            res.send("0error");
             console.log(err.toString());
           }
         } else {
-          res.send("error");
+          res.send("1error");
           console.log(body);
         }
       }
