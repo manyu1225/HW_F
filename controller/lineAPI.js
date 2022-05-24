@@ -61,65 +61,24 @@ const lineAPIController = {
       "https://intense-fortress-59028.herokuapp.com/line/callback";
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
-    console.log(
-      "client_id=" + client_id + "=========================" + req.body.code
-    );
-    request.post(
-      "https://api.line.me/oauth2/v2.1/token",
-      {
-        form: {
-          grant_type: "authorization_code",
-          code: req.body.code,
-          redirect_uri: redirect_uri,
-          client_id: client_id,
-          client_secret: client_secret,
-        },
-      },
-      function (e, r, body) {
-        console.log("=================r.statusCode========" + r.statusCode);
-        if (!e && r.statusCode == 200) {
-          var jsonBody = JSON.parse(body);
-          try {
-            var id_token = jsonwebtoken.verify(
-              jsonBody.id_token,
-              client_secret
-            );
-            res.send(
-              "<html><body>" +
-                '<form method="post" action="/userInfo">' +
-                '<table><tr><th>access_token</th><td><input type="text" name="access_token" size="100" value="' +
-                jsonBody.access_token +
-                '"></td></tr>' +
-                '<tr><th>token_type</th><td><input type="text" name="token_type" size="100" value="' +
-                jsonBody.token_type +
-                '"></td></tr>' +
-                '<tr><th>refresh_token</th><td><input type="text" name="refresh_token" size="100" value="' +
-                jsonBody.refresh_token +
-                '"></td></tr>' +
-                '<tr><th>expires_in</th><td><input type="text" name="expires_in" size="100" value="' +
-                jsonBody.expires_in +
-                '"></td></tr>' +
-                '<tr><th>scope</th><td><input type="text" name="scope" size="100" value="' +
-                jsonBody.scope +
-                '"></td></tr>' +
-                '<tr><th><a href="https://jwt.ms#id_token=' +
-                jsonBody.id_token +
-                '" target="_blank">id_token</a></th><td><input type="text" name="id_token" size="100" value="' +
-                jsonBody.id_token +
-                '"></td></tr>' +
-                '</table><button type="submit">get userInfo</button><br>' +
-                "</form></body></html>"
-            );
-          } catch (err) {
-            res.send("0error");
-            console.log(err.toString());
-          }
-        } else {
-          res.send("1error");
-          console.log(body);
-        }
-      }
-    );
+    console.log("client_id=" + client_id + "=== ===" + req.body.code);
+    axios
+      .post(
+        "https://api.line.me/oauth2/v2.1/token",
+        "grant_type=authorization_code&code=" +
+          req.body.code +
+          "&redirect_uri=" +
+          redirect_uri +
+          "&client_id=" +
+          client_id +
+          "&client_secret=" +
+          client_secret
+      )
+      .then(function (res) {
+        var decoded = res.data.id_toke;
+        console.log("res_Token=>", res);
+        console.log("decoded=>", decoded);
+      });
   },
   async getLineUserInfo(req, res, next) {
     request.get(
