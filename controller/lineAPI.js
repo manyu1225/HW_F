@@ -80,7 +80,8 @@ const lineAPIController = {
         let decoded = jsonwebtoken.decode(res2.data.access_token);
         let x = res2.data.access_token;
         console.log("res_Token=>", res2.data);
-        console.log("decoded=>", res2.data.access_token);
+        console.log("===============>", x);
+        console.log("decoded=>", decoded);
         handleSuccess(res, httpStatus.OK, res2.data);
       });
   },
