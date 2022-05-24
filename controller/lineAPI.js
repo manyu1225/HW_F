@@ -75,9 +75,11 @@ const lineAPIController = {
           client_secret
       )
       .then(function (res) {
-        var decoded = res.data.id_toke;
+        var decoded = jwt_decode(res.data.id_token);
+
         console.log("res_Token=>", res);
         console.log("decoded=>", decoded);
+        handleSuccess(res, httpStatus.OK, res.data.id_toke);
       });
   },
   async getLineUserInfo(req, res, next) {
