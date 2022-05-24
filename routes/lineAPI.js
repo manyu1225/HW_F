@@ -26,4 +26,10 @@ router.get(
     lineAPIController.cb(req, res, next)
   )
 );
+router.post(
+  "/line/token",
+  handleErrorAsync(async (req, res, next) =>
+    lineAPIController.gettoken(req, res, next)
+  )
+);
 module.exports = router;
