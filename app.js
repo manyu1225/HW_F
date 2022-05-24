@@ -15,6 +15,7 @@ var usersRouter = require("./routes/users");
 var newPostRouter = require("./routes/article");
 var uploadRouter = require('./routes/upload');
 var forgetPWRouter =require('./routes/forgetPassWord');
+var lineRouter = require("./routes/lineAPI");
 var app = express();
 
 process.on("uncaughtException", (err) => {
@@ -37,6 +38,7 @@ app.use("/article", newPostRouter);
 app.use("/forget",forgetPWRouter);
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use('/upload', uploadRouter)
+app.use(lineRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
