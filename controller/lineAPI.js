@@ -39,7 +39,7 @@ const lineAPIController = {
     console.log(encodeURIComponent(redirect_uri));
     res.send(
       "<html><body>" +
-        '<form method="post" action="/token">' +
+        '<form method="post" action="/line/token">' +
         '<table><tr><th>grant_type</th><td><input type="text" name="grant_type" size="100" value="authorization_code"></td></tr>' +
         '<tr><th>code</th><td><input type="text" name="code" size="100" value="' +
         req.query.code +
