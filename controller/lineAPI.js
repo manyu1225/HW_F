@@ -77,9 +77,9 @@ const lineAPIController = {
           client_secret
       )
       .then(function (res) {
-        decoded = jsonwebtoken.decode(res.data.id_token);
+        decoded = jsonwebtoken.decode(res.data.access_token);
         console.log("res_Token=>", res);
-        console.log("decoded=>", res.data.id_token);
+        console.log("decoded=>", res.data.access_token);
       });
     handleSuccess(res, httpStatus.OK, decoded);
   },
