@@ -107,6 +107,10 @@ const lineAPIController = {
               "<tr><th>pictureUrl</th><td>" +
               jsonBody.pictureUrl +
               "</td></tr>" +
+              "</td></tr>" +
+              "<tr><th>jsonBody</th><td>" +
+              jsonBody +
+              "</td></tr>" +
               "</table>" +
               "</body></html>"
           );
