@@ -11,6 +11,7 @@ const jsonwebtoken = require("jsonwebtoken");
 
 const lineAPIController = {
   async authorize(req, res, next) {
+    const redirect_uri = "https://intense-fortress-59028.herokuapp.com/cb";
     const response_type = "code";
     const scope = "openid%20profile%20email"; //URL += 'profile';
     let url =
@@ -20,7 +21,7 @@ const lineAPIController = {
       "&client_id=" +
       process.env.client_id +
       "&redirect_uri=" +
-      encodeURIComponent(process.env.redirect_uri) +
+      encodeURIComponent(redirect_uri) +
       "&state=" +
       process.env.state +
       "&scope=" +
@@ -28,6 +29,7 @@ const lineAPIController = {
     res.redirect(url);
   },
   async cb(req, res, next) {
+    const redirect_uri = "https://intense-fortress-59028.herokuapp.com/cb";
     res.send(
       "<html><body>" +
         '<form method="post" action="/token">' +
@@ -36,7 +38,7 @@ const lineAPIController = {
         req.query.code +
         '"></td></tr>' +
         '<tr><th>redirect_uri</th><td><input type="text" name="redirect_uri" size="100" value="' +
-        process.env.redirect_uri +
+        redirect_uri +
         '"></td></tr>' +
         '<tr><th>client_id</th><td><input type="text" name="client_id" size="100" value="' +
         process.env.client_id +
@@ -49,12 +51,14 @@ const lineAPIController = {
     );
   },
   async getLinetoken(req, res, next) {
-    process.env.token_endpoint,
+    const redirect_uri = "https://intense-fortress-59028.herokuapp.com/cb";
+    request.post(
+      "https://api.line.me/oauth2/v2.1/token",
       {
         form: {
           grant_type: "authorization_code",
           code: req.body.code,
-          redirect_uri: process.env.redirect_uri,
+          redirect_uri: redirect_uri,
           client_id: process.env.client_id,
           client_secret: process.env.client_secret,
         },
@@ -62,13 +66,12 @@ const lineAPIController = {
       function (e, r, body) {
         if (!e && r.statusCode == 200) {
           var jsonBody = JSON.parse(body);
-          // verify jwt signature
           try {
             var id_token = jsonwebtoken.verify(
               jsonBody.id_token,
               client_secret
             );
-            // verify nonce in jwt
+
             res.send(
               "<html><body>" +
                 '<form method="post" action="/userInfo">' +
@@ -103,11 +106,12 @@ const lineAPIController = {
           res.send("error");
           console.log(body);
         }
-      };
+      }
+    );
   },
   async getLineUserInfo(req, res, next) {
     request.get(
-      process.env.profile_endpoint,
+      "https://api.line.me/v2/profile",
       {
         headers: {
           Authorization: "Bearer " + req.body.access_token,
@@ -137,16 +141,5 @@ const lineAPIController = {
       }
     );
   },
-  //grant_type=authorization_code&code=DYHBuiE7ujY09oweyYAM&redirect_uri=https%253A%252F%252Fintense-fortress-59028.herokuapp.com%252F&client_id=1657154166&client_secret=f6603d07c801c0631bf0306a8058a24f
-  /* let queryData = this.$route.query;
-   const id = req.params.id;
-  getLineToken(payload).then((res) => {
-    getLineUserInfo(this.client_id, res.data.id_token).then((userInfo) => {
-      window.history.pushState('', '', window.location.pathname);
-      this.vEmail = userInfo.data.email;
-      this.vName = userInfo.data.name;
-    });
-  });
-};*/
 };
 module.exports = lineAPIController;
