@@ -36,13 +36,12 @@ const lineAPIController = {
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
     const redirect_uri = process.env.redirect_uri;
-    const code = req.query.code;
     const token_endpoint = process.env.token_endpoint;
-    console.log("code=======>",    code);
+    console.log("code=======>",req.query.code );
     axios
       .post(
         token_endpoint,
-        "grant_type=authorization_code&code=" + code+
+        "grant_type=authorization_code&code="+req.query.code+
           "&redirect_uri=" +
           redirect_uri +
           "&client_id=" +
@@ -56,7 +55,7 @@ const lineAPIController = {
         let decoded = jsonwebtoken.decode(id_token);
         console.log("decoded=>", decoded);
         handleSuccess(res, httpStatus.OK, resp.data);
-      });
+      }).catc;
   },
   async getLinetoken(req, res, next) {
     const redirect_uri = process.env.redirect_uri;
