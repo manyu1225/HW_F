@@ -38,6 +38,8 @@ const lineAPIController = {
     const redirect_uri = process.env.redirect_uri;
     const code = req.query.code;
     const token_endpoint = process.env.token_endpoint;
+    console.log("code=>",    code;
+);
     axios
       .post(
         token_endpoint,
