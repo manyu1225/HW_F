@@ -15,14 +15,11 @@ const lineAPIController = {
   async authorize(req, res, next) {
     const client_id = process.env.client_id;
     const redirect_uri = process.env.redirect_uri;
-    const response_type = "code";
     const scope =process.env.scope; //; // ; //URL += 'profile';
     const authorization_endpoint = process.env.authorization_endpoint;
     let url =
     authorization_endpoint +
-      "?response_type=" +
-      response_type +
-      "&client_id=" +
+      "?response_type=code&client_id=" +
       client_id +
       "&redirect_uri=" +
       encodeURIComponent(redirect_uri) +
