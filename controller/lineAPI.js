@@ -14,8 +14,7 @@ const jsonwebtoken = require("jsonwebtoken");
 const lineAPIController = {
   async authorize(req, res, next) {
     const client_id = process.env.client_id;
-    const redirect_uri =
-      "https://intense-fortress-59028.herokuapp.com/line/callback";
+    const redirect_uri = process.env.redirect_uri;
     const response_type = "code";
     const scope = "openid%20profile%20email"; //; // ; //URL += 'profile';
     let url =
@@ -35,31 +34,15 @@ const lineAPIController = {
   async callback(req, res, next) {
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
-    const redirect_uri =
-      "https://intense-fortress-59028.herokuapp.com/line/callback";
-    res.send(
-      "<html><body>" +
-        '<form method="post" action="https://intense-fortress-59028.herokuapp.com/line/token">' +
-        '<table><tr><th>grant_type</th><td><input type="text" name="grant_type" size="100" value="authorization_code"></td></tr>' +
-        '<tr><th>code</th><td><input type="text" name="code" size="100" value="' +
-        req.query.code +
-        '"></td></tr>' +
-        '<tr><th>redirect_uri</th><td><input type="text" name="redirect_uri" size="100" value="' +
-        redirect_uri +
-        '"></td></tr>' +
-        '<tr><th>client_id</th><td><input type="text" name="client_id" size="100" value="' +
-        client_id +
-        '"></td></tr>' +
-        '<tr><th>client_secret</th><td><input type="text" name="client_secret" size="100" value="' +
-        client_secret +
-        '"></td></tr>' +
-        '</table><button type="submit">Exchange code to token</button><br>' +
-        "</form></body></html>"
-    );
+    const redirect_uri = process.env.redirect_uri;
+    const code = req.query.code;
+
+    handleSuccess(res, httpStatus.OK, {
+      client_id,client_secret,code
+    });
   },
   async getLinetoken(req, res, next) {
-    const redirect_uri =
-      "https://intense-fortress-59028.herokuapp.com/line/callback";
+    const redirect_uri = process.env.redirect_uri;
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
     console.log("client_id=" + client_id + "=== ===" + req.body.code);
@@ -78,9 +61,9 @@ const lineAPIController = {
       )
       .then(function (res2) {
         let decoded = jsonwebtoken.decode(res2.data.access_token);
-        let x = res2.data.access_token;
+        let access_token = res2.data.access_token;
         console.log("res_Token=>", res2.data);
-        console.log("===============>", x);
+        console.log("access_token==>", access_token);
         console.log("decoded=>", decoded);
         handleSuccess(res, httpStatus.OK, res2.data);
       });
@@ -92,11 +75,11 @@ const lineAPIController = {
           Authorization: "Bearer " + req.body.access_token,
         },
       })
-      .then(function (body) {
-        var jsonBody = JSON.parse(body);
-        console.log(body);
-        console.log(jsonBody);
-        console.log(jsonBody.displayName);
+      .then(function (da) {
+        console.log(da.data);
+        let id_token = jsonwebtoken.decode(req.body.id_token);
+
+        handleSuccess(res, httpStatus.OK, id_token);
       });
   },
 };
