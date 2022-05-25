@@ -38,7 +38,6 @@ const lineAPIController = {
     const redirect_uri = process.env.redirect_uri;
     const code = req.query.code;
     const token_endpoint = process.env.token_endpoint;
-    console.log("======================================>", code);
     axios
       .post(
         token_endpoint,
@@ -50,13 +49,14 @@ const lineAPIController = {
           "&client_secret=" +
           client_secret
       )
-      .then(function (res2) {
-        let decoded = jsonwebtoken.decode(res2.data.access_token);
-        let access_token = res2.data.access_token;
-        console.log("res_Token=>", res2.data);
-        console.log("access_token==>", access_token);
+      .then(function (resp) {
+        console.log("res_Token=>", resp.data);
+        let id_token = jsonwebtoken.decode(resp.data.id_token);
+        let decoded = jsonwebtoken.decode(id_token);
         console.log("decoded=>", decoded);
-        handleSuccess(res, httpStatus.OK, res2.data);
+
+       
+        handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
   async getLinetoken(req, res, next) {
@@ -64,9 +64,6 @@ const lineAPIController = {
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
     const token_endpoint = process.env.token_endpoint;
-
-    console.log("client_id=" + client_id + "=== ===" + req.body.code);
-
     axios
       .post(
         token_endpoint,
@@ -79,29 +76,25 @@ const lineAPIController = {
           "&client_secret=" +
           client_secret
       )
-      .then(function (res2) {
-        let decoded = jsonwebtoken.decode(res2.data.access_token);
-        let access_token = res2.data.access_token;
-        console.log("res_Token=>", res2.data);
-        console.log("access_token==>", access_token);
-        console.log("decoded=>", decoded);
-        handleSuccess(res, httpStatus.OK, res2.data);
+      .then(function (resp) {
+       // let decoded = jsonwebtoken.decode(resp.data.access_token);
+        console.log("res_Token=>", resp.data);
+      //  console.log("decoded=>", decoded);
+        handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
   async getLineUserInfo(req, res, next) {
-    const authorization_endpoint = process.env.authorization_endpoint;
-
+    const profile_endpoint = process.env.profile_endpoint;
     axios
-      .get(authorization_endpoint, {
+      .get(profile_endpoint, {
         headers: {
           Authorization: "Bearer " + req.body.access_token,
         },
       })
-      .then(function (da) {
-        console.log(da.data);
-        let id_token = jsonwebtoken.decode(req.body.id_token);
+      .then(function (resp) {
+        console.log(resp.data);
 
-        handleSuccess(res, httpStatus.OK, id_token);
+        handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
 };
