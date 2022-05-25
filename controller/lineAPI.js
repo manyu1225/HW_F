@@ -15,10 +15,10 @@ const lineAPIController = {
   async authorize(req, res, next) {
     const client_id = process.env.client_id;
     const redirect_uri = process.env.redirect_uri;
-    const scope =process.env.scope; //; // ; //URL += 'profile';
+    const scope = process.env.scope; //; // ; //URL += 'profile';
     const authorization_endpoint = process.env.authorization_endpoint;
     let url =
-    authorization_endpoint +
+      authorization_endpoint +
       "?response_type=code&client_id=" +
       client_id +
       "&redirect_uri=" +
@@ -34,11 +34,12 @@ const lineAPIController = {
     const client_secret = process.env.client_secret;
     const redirect_uri = process.env.redirect_uri;
     const token_endpoint = process.env.token_endpoint;
-    console.log("code=======>",req.query.code );
+    console.log("code=======>", req.query.code);
     axios
       .post(
         token_endpoint,
-        "grant_type=authorization_code&code="+req.query.code+
+        "?grant_type=authorization_code&code=" +
+          req.query.code +
           "&redirect_uri=" +
           redirect_uri +
           "&client_id=" +
@@ -48,11 +49,11 @@ const lineAPIController = {
       )
       .then(function (resp) {
         console.log("res_Token=>", resp.data);
-        let id_token =resp.data.id_token;
+        let id_token = resp.data.id_token;
         let decoded = jsonwebtoken.decode(id_token);
         console.log("decoded=>", decoded);
         handleSuccess(res, httpStatus.OK, resp.data);
-      }).catc;
+      });
   },
   async getLinetoken(req, res, next) {
     const redirect_uri = process.env.redirect_uri;
@@ -62,7 +63,7 @@ const lineAPIController = {
     axios
       .post(
         token_endpoint,
-        "grant_type=authorization_code&code=" +
+        "?grant_type=authorization_code&code=" +
           req.body.code +
           "&redirect_uri=" +
           redirect_uri +
@@ -72,9 +73,9 @@ const lineAPIController = {
           client_secret
       )
       .then(function (resp) {
-       // let decoded = jsonwebtoken.decode(resp.data.access_token);
+        // let decoded = jsonwebtoken.decode(resp.data.access_token);
         console.log("res_Token=>", resp.data);
-      //  console.log("decoded=>", decoded);
+        //  console.log("decoded=>", decoded);
         handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
