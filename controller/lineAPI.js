@@ -38,7 +38,7 @@ const lineAPIController = {
     axios
       .post(
         token_endpoint,
-        "?grant_type=authorization_code&code=" +
+        "grant_type=authorization_code&code=" +
           req.query.code +
           "&redirect_uri=" +
           redirect_uri +
