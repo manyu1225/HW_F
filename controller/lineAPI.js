@@ -51,11 +51,9 @@ const lineAPIController = {
       )
       .then(function (resp) {
         console.log("res_Token=>", resp.data);
-        let id_token = jsonwebtoken.decode(resp.data.id_token);
+        let id_token =resp.data.id_token;
         let decoded = jsonwebtoken.decode(id_token);
         console.log("decoded=>", decoded);
-
-       
         handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
