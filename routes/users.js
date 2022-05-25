@@ -128,13 +128,17 @@ router.get(
       #swagger.method = 'GET'
       #swagger.responses[200] = {
         schema: {
-          "_id": "628909974247c44568d85428",
-          "userId": {
-            "_id": "62838f86ddb475c3f2c6d2ef",
-            "name": "Han Lai",
-            "photo": "someImage"
+          "_id": "628dea31b5315cd52aff7305",
+          "user": {
+            "_id": "6283924bddb475c3f2c6d2f9",
+            "name": "test2",
+            "email": "test2@gmail.com",
+            "photo": ""
           },
-          "createAt": "2022-05-21T15:47:35.953Z"
+          "post": {
+            "_id": "6289d155d555b60de6179f9b",
+            "createAt": "2022-05-22T05:59:49.518Z"
+          }
         }
       }
     */

@@ -233,28 +233,41 @@
               "properties": {
                 "_id": {
                   "type": "string",
-                  "example": "628909974247c44568d85428"
+                  "example": "628dea31b5315cd52aff7305"
                 },
-                "userId": {
+                "user": {
                   "type": "object",
                   "properties": {
                     "_id": {
                       "type": "string",
-                      "example": "62838f86ddb475c3f2c6d2ef"
+                      "example": "6283924bddb475c3f2c6d2f9"
                     },
                     "name": {
                       "type": "string",
-                      "example": "Han Lai"
+                      "example": "test2"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "test2@gmail.com"
                     },
                     "photo": {
                       "type": "string",
-                      "example": "someImage"
+                      "example": ""
                     }
                   }
                 },
-                "createAt": {
-                  "type": "string",
-                  "example": "2022-05-21T15:47:35.953Z"
+                "post": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "6289d155d555b60de6179f9b"
+                    },
+                    "createAt": {
+                      "type": "string",
+                      "example": "2022-05-22T05:59:49.518Z"
+                    }
+                  }
                 }
               },
               "xml": {
@@ -413,8 +426,28 @@
           }
         ],
         "responses": {
-          "205": {
-            "description": "Reset Content"
+          "201": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "new ObjectId(\"628dded3d331624c57a77e8d\")"
+                },
+                "user": {
+                  "type": "string",
+                  "example": "new ObjectId(\"62838f86ddb475c3f2c6d2ef\")"
+                },
+                "post": {
+                  "type": "string",
+                  "example": "new ObjectId(\"628909974247c44568d85428\")"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "Created"
           }
         },
         "security": [
@@ -440,8 +473,41 @@
           }
         ],
         "responses": {
-          "205": {
-            "description": "Reset Content"
+          "201": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "new ObjectId(\"628dded3d331624c57a77e8d\")"
+                    },
+                    "user": {
+                      "type": "string",
+                      "example": "new ObjectId(\"62838f86ddb475c3f2c6d2ef\")"
+                    },
+                    "post": {
+                      "type": "string",
+                      "example": "new ObjectId(\"628909974247c44568d85428\")"
+                    },
+                    "createAt": {
+                      "type": "string",
+                      "example": "2022-05-25T09:01:36.143Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "Created"
           }
         },
         "security": [
@@ -449,6 +515,17 @@
             "Bearer": []
           }
         ]
+      }
+    },
+    "/upload/": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   }
