@@ -16,9 +16,10 @@ const lineAPIController = {
     const client_id = process.env.client_id;
     const redirect_uri = process.env.redirect_uri;
     const response_type = "code";
-    const scope = "openid%20profile%20email"; //; // ; //URL += 'profile';
+    const scope =process.env.scope; //; // ; //URL += 'profile';
+    const authorization_endpoint = process.env.authorization_endpoint;
     let url =
-      "https://access.line.me/oauth2/v2.1/authorize" +
+    authorization_endpoint +
       "?response_type=" +
       response_type +
       "&client_id=" +
@@ -36,6 +37,29 @@ const lineAPIController = {
     const client_secret = process.env.client_secret;
     const redirect_uri = process.env.redirect_uri;
     const code = req.query.code;
+    const token_endpoint = process.env.token_endpoint;
+    axios
+      .post(
+        token_endpoint,
+        "grant_type=authorization_code&code=" +
+          req.body.code +
+          "&redirect_uri=" +
+          redirect_uri +
+          "&client_id=" +
+          client_id +
+          "&client_secret=" +
+          client_secret
+      )
+      .then(function (res2) {
+        let decoded = jsonwebtoken.decode(res2.data.access_token);
+        let access_token = res2.data.access_token;
+        console.log("res_Token=>", res2.data);
+        console.log("access_token==>", access_token);
+        console.log("decoded=>", decoded);
+        handleSuccess(res, httpStatus.OK, res2.data);
+      });
+
+
 
     handleSuccess(res, httpStatus.OK, {
       client_id,client_secret,code
@@ -45,11 +69,13 @@ const lineAPIController = {
     const redirect_uri = process.env.redirect_uri;
     const client_id = process.env.client_id;
     const client_secret = process.env.client_secret;
+    const token_endpoint = process.env.token_endpoint;
+
     console.log("client_id=" + client_id + "=== ===" + req.body.code);
 
     axios
       .post(
-        "https://api.line.me/oauth2/v2.1/token",
+        token_endpoint,
         "grant_type=authorization_code&code=" +
           req.body.code +
           "&redirect_uri=" +
@@ -69,8 +95,10 @@ const lineAPIController = {
       });
   },
   async getLineUserInfo(req, res, next) {
+    const authorization_endpoint = process.env.authorization_endpoint;
+
     axios
-      .get("https://api.line.me/v2/profile", {
+      .get(authorization_endpoint, {
         headers: {
           Authorization: "Bearer " + req.body.access_token,
         },
