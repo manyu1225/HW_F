@@ -477,7 +477,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "schema": {
               "type": "object",
               "properties": {
@@ -511,7 +511,7 @@
                 "name": "main"
               }
             },
-            "description": "Created"
+            "description": "OK"
           }
         },
         "security": [

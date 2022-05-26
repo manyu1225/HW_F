@@ -37,8 +37,12 @@ const articleController = {
             }
       */
 
-      if (!req.body.content && ! req.body.imageId ) {
-        return appError(httpStatus.BAD_REQUES, "貼文內容或圖片內容必擇一填寫!", next);
+      if (!req.body.content && !req.body.imageId) {
+        return appError(
+          httpStatus.BAD_REQUES,
+          "貼文內容或圖片內容必擇一填寫!",
+          next
+        );
       }
       //預設讀取登入者資料
       let userId = "0";
@@ -101,20 +105,21 @@ const articleController = {
           }
       */
       const postId = req.params.id;
+
       const foundLike = await Likes.findOne({
         user: req.user._id,
         post: postId,
       });
 
       if (foundLike) {
-        handleSuccess(res, httpStatus.NO_CONTENT, null);
-      } else {
-        const newLike = await Likes.create({
-          user: req.user._id,
-          post: postId,
-        });
-        handleSuccess(res, httpStatus.CREATED, newLike);
+        return appError(httpStatus.BAD_REQUES, "已經按過讚", next);
       }
+
+      const newLike = await Likes.create({
+        user: req.user._id,
+        post: postId,
+      });
+      handleSuccess(res, httpStatus.CREATED, newLike);
     })(req, res, next);
   },
   async unlikePost(req, res, next) {
@@ -123,7 +128,7 @@ const articleController = {
           #swagger.description = '登入者退讚'
           #swagger.produces = ["application/json"]
           #swagger.security = [{ "Bearer": [] }]
-          #swagger.responses[201] = {
+          #swagger.responses[200] = {
             schema: {
               "status": "success",
               "data": {
@@ -140,11 +145,11 @@ const articleController = {
         post: req.params.id,
       });
 
-      if (deletedLike) {
-        handleSuccess(res, httpStatus.OK, deletedLike);
-      } else {
-        handleSuccess(res, httpStatus.NO_CONTENT, null);
+      if (!deletedLike) {
+        return appError(httpStatus.BAD_REQUES, "沒有按讚紀錄", next);
       }
+
+      handleSuccess(res, httpStatus.OK, deletedLike);
     })(req, res, next);
   },
 };
