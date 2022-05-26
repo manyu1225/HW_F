@@ -1,4 +1,5 @@
 const Article = require("../models/ArticlePost");
+const Likes = require("../models/Likes");
 const appError = require("../service/appError");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
@@ -36,8 +37,12 @@ const articleController = {
             }
       */
 
-      if (!req.body.content && ! req.body.imageId ) {
-        return appError(httpStatus.BAD_REQUES, "貼文內容或圖片內容必擇一填寫!", next);
+      if (!req.body.content && !req.body.imageId) {
+        return appError(
+          httpStatus.BAD_REQUES,
+          "貼文內容或圖片內容必擇一填寫!",
+          next
+        );
       }
       //預設讀取登入者資料
       let userId = "0";
@@ -82,7 +87,7 @@ const articleController = {
         isActive: false,
       });
 
-      handleSuccess(res, httpStatus.OK, data);  
+      handleSuccess(res, httpStatus.OK, data);
     })(req, res, next);
   },
   async likePost(req, res, next) {
@@ -91,27 +96,30 @@ const articleController = {
           #swagger.description = '登入者按讚'
           #swagger.produces = ["application/json"]
           #swagger.security = [{ "Bearer": [] }]
-          #swagger.responses[205]
+          #swagger.responses[201] = {
+            schema: {
+              "_id": 'new ObjectId("628dded3d331624c57a77e8d")',
+              "user": 'new ObjectId("62838f86ddb475c3f2c6d2ef")',
+              "post": 'new ObjectId("628909974247c44568d85428")',
+            }
+          }
       */
       const postId = req.params.id;
 
-      if (!postId) {
-        return appError(httpStatus.BAD_REQUEST, "請填寫要刪除的貼文!", next);
+      const foundLike = await Likes.findOne({
+        user: req.user._id,
+        post: postId,
+      });
+
+      if (foundLike) {
+        return appError(httpStatus.BAD_REQUES, "已經按過讚", next);
       }
 
-      const updatedArticle = await Article.findByIdAndUpdate(
-        postId,
-        {
-          $addToSet: { likes: req.user._id },
-        },
-        { new: true }
-      );
-
-      if (!updatedArticle) {
-        return appError(httpStatus.BAD_REQUEST, "查無貼文!", next);
-      }
-
-      handleSuccess(res, httpStatus.NO_CONTENT, null);
+      const newLike = await Likes.create({
+        user: req.user._id,
+        post: postId,
+      });
+      handleSuccess(res, httpStatus.CREATED, newLike);
     })(req, res, next);
   },
   async unlikePost(req, res, next) {
@@ -120,27 +128,28 @@ const articleController = {
           #swagger.description = '登入者退讚'
           #swagger.produces = ["application/json"]
           #swagger.security = [{ "Bearer": [] }]
-          #swagger.responses[205]
+          #swagger.responses[200] = {
+            schema: {
+              "status": "success",
+              "data": {
+                "_id": 'new ObjectId("628dded3d331624c57a77e8d")',
+                "user": 'new ObjectId("62838f86ddb475c3f2c6d2ef")',
+                "post": 'new ObjectId("628909974247c44568d85428")',
+                "createAt": "2022-05-25T09:01:36.143Z"
+              }
+            }
+          }
       */
-      const postId = req.params.id;
+      const deletedLike = await Likes.findOneAndDelete({
+        user: req.user._id,
+        post: req.params.id,
+      });
 
-      if (!postId) {
-        return appError(httpStatus.BAD_REQUEST, "請填寫要刪除的貼文!", next);
+      if (!deletedLike) {
+        return appError(httpStatus.BAD_REQUES, "沒有按讚紀錄", next);
       }
 
-      const updatedArticle = await Article.findByIdAndUpdate(
-        postId,
-        {
-          $pull: { likes: req.user._id },
-        },
-        { new: true }
-      );
-
-      if (!updatedArticle) {
-        return appError(httpStatus.BAD_REQUEST, "查無貼文!", next);
-      }
-
-      handleSuccess(res, httpStatus.NO_CONTENT, null);
+      handleSuccess(res, httpStatus.OK, deletedLike);
     })(req, res, next);
   },
 };
