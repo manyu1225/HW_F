@@ -3,10 +3,11 @@ const newArticleSchema = new mongoose.Schema(
   {
     content: {
       type: String,
-      required: [true, "貼文內容是必填項目"],
+      required: function(){return !this.imageId ;}
     },
     imageId: {
       type: String,
+      required: function(){return !this.content; }
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,10 +18,6 @@ const newArticleSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
       select: false,
-    },
-    likes: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "users",
     },
     updateAt: {
       type: Date,

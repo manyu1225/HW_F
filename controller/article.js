@@ -40,7 +40,7 @@ const articleController = {
         return appError(httpStatus.BAD_REQUES, "貼文內容或圖片內容必擇一填寫!", next);
       }
       //預設讀取登入者資料
-      let userId = "0";
+      let userId = req.user._id;
       if (!userId) {
         return appError(httpStatus.BAD_REQUES, "請先登入在填寫!", next);
       }
