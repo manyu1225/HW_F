@@ -9,18 +9,48 @@ const articleController = {
   async getAll(req, res, next) {
     handleErrorAsync(async (req, res, next) => {
       /*  #swagger.tags = ['Posts']
+          #swagger.params="撈所有貼文"
           #swagger.description = '撈所有貼文'
           #swagger.method = 'GET'
           #swagger.produces = ["application/json"]
           #swagger.security = [{ "Bearer": [] }]
+          #swagger.parameters['body'] = {
+            in: 'body',
+            type :"object",
+            required:true,
+            schema: {
+                  "pageCount":10,
+                  "page":1,
+                  "sort":1,
+                  "reverse":true,
+                  "$userId":'指定要查的使用者',
+                  "$content":'搜尋貼文內容(模糊搜尋)',
+                }
+            }
       */
-      let result = await Article.find();
+      let pageCount = req.body.pageCount || 10; //預設為10筆
+      let page = (req.body.page || 1 )-1; //頁數最小為0頁，但閱讀不易所以改成第1頁為開始
+      let startIndex=  pageCount*page;
+      let keyWord = req.body.content;
+      let searchMode = {}
+      let sort = (req.body.sort|| "createAt")
+      if (keyWord) {
+        searchMode={
+          content:{$regex:new RegExp(keyWord,'i')}
+        }
+      }
+      let result = await Article.find(searchMode)
+      .skip(startIndex)
+      .limit(pageCount);
+      
+
       handleSuccess(res, httpStatus.OK, result);
     })(req, res, next);
   },
   async createPosts(req, res, next) {
     handleErrorAsync(async (req, res, next) => {
       /*  #swagger.tags = ['Posts']
+          #swagger.params="建立貼文"
           #swagger.description = '建立貼文'
           #swagger.method = 'POST'
           #swagger.produces = ["application/json"]
