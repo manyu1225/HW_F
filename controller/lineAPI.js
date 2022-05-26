@@ -41,7 +41,7 @@ const lineAPIController = {
       process.env.client_secret;
     axios.post(process.env.token_endpoint, reqPramater).then(function (resp) {
       console.log("resp.data=>", resp.data);
-      var decoded = jwt_decode(resp.data.id_token);
+      var decoded = jsonwebtoken(resp.data.id_token);
       console.log(decoded.email);
       resp.email = decoded.email;
       handleSuccess(res, httpStatus.OK, resp.data);
@@ -63,7 +63,7 @@ const lineAPIController = {
       .then(function (resp) {
         console.log("res_Token=>", resp.data);
         //  console.log("decoded=>", decoded);
-        var decoded = jwt_decode(resp.data.id_token);
+        var decoded = jsonwebtoken(resp.data.id_token);
         console.log(decoded.email);
         resp.email = decoded.email;
         handleSuccess(res, httpStatus.OK, resp.data);
