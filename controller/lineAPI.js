@@ -6,8 +6,7 @@ const appError = require("../service/appError");
 const request = require("request");
 const qs = require("qs");
 const axios = require("axios");
-const jsonwebtoken = require("jsonwebtoken");
-
+const jsonwebtoken = require("jwt-decode");
 //一、取得授權碼 code https://access.line.me/oauth2/v2.1/authorize
 //二、以回傳的授權碼再向 Line 取用戶資料 POST https://api.line.me/oauth2/v2.1/token
 
@@ -15,7 +14,7 @@ const lineAPIController = {
   async authorize(req, res, next) {
     const client_id = process.env.client_id;
     const redirect_uri = process.env.redirect_uri;
-    const scope = process.env.scope; //; // ; //URL += 'profile';
+    const scope = process.env.scope;
     const authorization_endpoint = process.env.authorization_endpoint;
     let url =
       authorization_endpoint +
@@ -30,66 +29,52 @@ const lineAPIController = {
     res.redirect(url);
   },
   async callback(req, res, next) {
-    const client_id = process.env.client_id;
-    const client_secret = process.env.client_secret;
-    const redirect_uri = process.env.redirect_uri;
-    const token_endpoint = process.env.token_endpoint;
     console.log("code=======>", req.query.code);
-    axios
-      .post(
-        token_endpoint,
-        "grant_type=authorization_code&code=" +
-          req.query.code +
-          "&redirect_uri=" +
-          redirect_uri +
-          "&client_id=" +
-          client_id +
-          "&client_secret=" +
-          client_secret
-      )
-      .then(function (resp) {
-        console.log("res_Token=>", resp.data);
-        let id_token = resp.data.id_token;
-        let decoded = jsonwebtoken.decode(id_token);
-        console.log("decoded=>", decoded);
-        handleSuccess(res, httpStatus.OK, resp.data);
-      });
+    const reqPramater =
+      "grant_type=authorization_code&code=" +
+      req.query.code +
+      "&redirect_uri=" +
+      process.env.redirect_uri +
+      "&client_id=" +
+      process.env.client_id +
+      "&client_secret=" +
+      process.env.client_secret;
+    axios.post(process.env.token_endpoint, reqPramater).then(function (resp) {
+      console.log("resp.data=>", resp.data);
+      handleSuccess(res, httpStatus.OK, resp.data);
+    });
   },
   async getLinetoken(req, res, next) {
-    const redirect_uri = process.env.redirect_uri;
-    const client_id = process.env.client_id;
-    const client_secret = process.env.client_secret;
-    const token_endpoint = process.env.token_endpoint;
     axios
       .post(
-        token_endpoint,
+        process.env.token_endpoint,
         "?grant_type=authorization_code&code=" +
           req.body.code +
           "&redirect_uri=" +
-          redirect_uri +
+          process.env.redirect_uri +
           "&client_id=" +
-          client_id +
+          process.env.client_id +
           "&client_secret=" +
-          client_secret
+          process.env.client_secret
       )
       .then(function (resp) {
-        // let decoded = jsonwebtoken.decode(resp.data.access_token);
         console.log("res_Token=>", resp.data);
         //  console.log("decoded=>", decoded);
+        var decoded = jwt_decode(resp.data.id_token);
+        console.log(decoded.email);
+        resp.email = decoded.email;
         handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
   async getLineUserInfo(req, res, next) {
-    const profile_endpoint = process.env.profile_endpoint;
     axios
-      .get(profile_endpoint, {
+      .get(process.env.profile_endpoint, {
         headers: {
           Authorization: "Bearer " + req.body.access_token,
         },
       })
       .then(function (resp) {
         console.log(resp.data);
-
         handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
