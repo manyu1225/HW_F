@@ -32,12 +32,14 @@ const articleController = {
       let page = (req.body.page || 1 )-1; //頁數最小為0頁，但閱讀不易所以改成第1頁為開始
       let startIndex=  pageCount*page;
       let keyWord = req.body.content;
+      let userId=req.body.userId;
       let searchMode = {}
       let sort = (req.body.sort|| "createAt")
       if (keyWord) {
-        searchMode={
-          content:{$regex:new RegExp(keyWord,'i')}
-        }
+        searchMode.content={$regex:new RegExp(keyWord,'i')};
+      }
+      if(userId){
+        searchMode.userId=userId;
       }
       let result = await Article.find(searchMode)
       .skip(startIndex)
