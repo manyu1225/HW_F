@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "localhost:3005",
   "basePath": "/",
   "tags": [
     {
@@ -19,6 +19,10 @@
     {
       "name": "Comments",
       "description": "回覆 router"
+    },
+    {
+      "name": "forget",
+      "description": "忘記密碼 router"
     }
   ],
   "schemes": [
@@ -30,7 +34,7 @@
       "type": "apiKey",
       "in": "header",
       "name": "Authorization",
-      "description": "請加上 JWT TOKEN"
+      "description": "請加上 JWT TOKEN /忘記密碼token 同規"
     }
   },
   "paths": {
@@ -510,6 +514,89 @@
             "description": "Created"
           }
         },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/forget": {
+      "post": {
+        "tags": [
+          "forget"
+        ],
+        "description": "忘記密碼_寄信",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "test@gmail.com"
+                }
+              },
+              "required": [
+                "email"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/forget/Update": {
+      "post": {
+        "tags": [
+          "forget"
+        ],
+        "description": "忘記密碼_修改密碼",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "a12345678"
+                },
+                "passwordConfirm": {
+                  "type": "string",
+                  "example": "a12345678"
+                }
+              },
+              "required": [
+                "password",
+                "passwordConfirm"
+              ]
+            }
+          }
+        ],
+        "responses": {},
         "security": [
           {
             "Bearer": []
