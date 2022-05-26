@@ -43,7 +43,7 @@ const lineAPIController = {
       console.log("resp.data=>", resp.data);
       var decoded = jsonwebtoken(resp.data.id_token);
       console.log(decoded.email);
-      resp.email = decoded.email;
+      resp.data.email = decoded.email;
       handleSuccess(res, httpStatus.OK, resp.data);
     });
   },
@@ -65,7 +65,7 @@ const lineAPIController = {
         //  console.log("decoded=>", decoded);
         var decoded = jsonwebtoken(resp.data.id_token);
         console.log(decoded.email);
-        resp.email = decoded.email;
+        resp.data.email = decoded.email;
         handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
