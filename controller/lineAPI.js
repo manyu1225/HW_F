@@ -1,19 +1,20 @@
+const usersModel = require("../models/User");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
+const handleErrorAsync = require("../service/handleErrorAsync");
+const appError = require("../service/appError");
 const axios = require("axios");
-const jsonwebtoken = require("jsonwebtoken");
+const jsonwebtoken = require("jwt-decode");
 
 const lineAPIController = {
   async authorize(req, res, next) {
     const client_id = process.env.client_id;
-    const redirect_uri = "https://g11herokuexpress.herokuapp.com/line/callback";
-    const response_type = "code";
-    const scope = "openid%20profile%20email";
-    let url =
-      "https://access.line.me/oauth2/v2.1/authorize" +
-      "?response_type=" +
-      response_type +
-      "&client_id=" +
+    const redirect_uri = process.env.redirect_uri;
+    const scope = process.env.scope;
+    const authorization_endpoint = process.env.authorization_endpoint;
+    const url =
+      authorization_endpoint +
+      "?response_type=code&client_id=" +
       client_id +
       "&redirect_uri=" +
       encodeURIComponent(redirect_uri) +
@@ -24,65 +25,55 @@ const lineAPIController = {
     res.redirect(url);
   },
   async callback(req, res, next) {
-    const client_id = process.env.client_id;
-    const client_secret = process.env.client_secret;
-    const redirect_uri = "https://g11herokuexpress.herokuapp.com/line/callback";
-    res.send(
-      "<html><body>" +
-        '<form method="post" action="https://g11herokuexpress.herokuapp.com/line/token">' +
-        '<table><tr><th>grant_type</th><td><input type="text" name="grant_type" size="100" value="authorization_code"></td></tr>' +
-        '<tr><th>code</th><td><input type="text" name="code" size="100" value="' +
-        req.query.code +
-        '"></td></tr>' +
-        '<tr><th>redirect_uri</th><td><input type="text" name="redirect_uri" size="100" value="' +
-        redirect_uri +
-        '"></td></tr>' +
-        '<tr><th>client_id</th><td><input type="text" name="client_id" size="100" value="' +
-        client_id +
-        '"></td></tr>' +
-        '<tr><th>client_secret</th><td><input type="text" name="client_secret" size="100" value="' +
-        client_secret +
-        '"></td></tr>' +
-        '</table><button type="submit">Exchange code to token</button><br>' +
-        "</form></body></html>"
-    );
+    console.log("code=======>", req.query.code);
+    const reqPramater =
+      "grant_type=authorization_code&code=" +
+      req.query.code +
+      "&redirect_uri=" +
+      process.env.redirect_uri +
+      "&client_id=" +
+      process.env.client_id +
+      "&client_secret=" +
+      process.env.client_secret;
+    axios.post(process.env.token_endpoint, reqPramater).then(function (resp) {
+      console.log("resp.data=>", resp.data);
+      const decoded = jsonwebtoken(resp.data.id_token);
+      console.log(decoded.email);
+      resp.data.email = decoded.email;
+      handleSuccess(res, httpStatus.OK, resp.data);
+    });
   },
   async getLinetoken(req, res, next) {
-    const redirect_uri = "https://g11herokuexpress.herokuapp.com/line/callback";
-    const client_id = process.env.client_id;
-    const client_secret = process.env.client_secret;
     axios
       .post(
-        "https://api.line.me/oauth2/v2.1/token",
-        "grant_type=authorization_code&code=" +
+        process.env.token_endpoint,
+        "?grant_type=authorization_code&code=" +
           req.body.code +
           "&redirect_uri=" +
-          redirect_uri +
+          process.env.redirect_uri +
           "&client_id=" +
-          client_id +
+          process.env.client_id +
           "&client_secret=" +
-          client_secret
+          process.env.client_secret
       )
       .then(function (resp) {
-        let decoded = jsonwebtoken.decode(resp.data.access_token);
-        let access_token = resp.data.access_token;
         console.log("res_Token=>", resp.data);
-        console.log("access_token=>", access_token);
-        console.log("decoded=>", decoded);
+        const decoded = jsonwebtoken(resp.data.id_token);
+        console.log(decoded.email);
+        resp.data.email = decoded.email;
         handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
   async getLineUserInfo(req, res, next) {
     axios
-      .get("https://api.line.me/v2/profile", {
+      .get(process.env.profile_endpoint, {
         headers: {
           Authorization: "Bearer " + req.body.access_token,
         },
       })
-      .then(function (da) {
-        console.log(da.data);
-        let user = jsonwebtoken.decode(req.body.id_token);
-        handleSuccess(res, httpStatus.OK, { email: user.email });
+      .then(function (resp) {
+        console.log(resp.data);
+        handleSuccess(res, httpStatus.OK, resp.data);
       });
   },
 };
