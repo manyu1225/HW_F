@@ -8,16 +8,20 @@ const jsonwebtoken = require("jwt-decode");
 
 const lineAPIController = {
   async authorize(req, res, next) {
+    const client_id = process.env.client_id;
+    const redirect_uri = process.env.redirect_uri;
+    const scope = process.env.scope;
+    const authorization_endpoint = process.env.authorization_endpoint;
     let url =
-      process.env.authorization_endpoint +
+      authorization_endpoint +
       "?response_type=code&client_id=" +
-      process.env.client_id +
+      client_id +
       "&redirect_uri=" +
-      encodeURIComponent(process.env.redirect_uri) +
+      encodeURIComponent(redirect_uri) +
       "&state=" +
-      process.env.state +
+      state +
       "&scope=" +
-      process.env.scope;
+      scope;
     res.redirect(url);
   },
   async callback(req, res, next) {
