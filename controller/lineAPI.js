@@ -30,7 +30,7 @@ const lineAPIController = {
       "grant_type=authorization_code&code=" +
       req.query.code +
       "&redirect_uri=" +
-      process.env.redirect_uri_ui +
+      process.env.redirect_uri +
       "&client_id=" +
       process.env.client_id +
       "&client_secret=" +
