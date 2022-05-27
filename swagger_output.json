@@ -23,6 +23,10 @@
     {
       "name": "forget",
       "description": "忘記密碼 router"
+    },
+    {
+      "name": "Follow",
+      "description": "追蹤 router"
     }
   ],
   "schemes": [
@@ -613,6 +617,110 @@
             "description": "OK"
           }
         }
+      }
+    },
+    "/follow/": {
+      "get": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "取得追蹤清單",
+        "description": "取得追蹤清單",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pageCount": {
+                  "type": "string",
+                  "example": "每頁筆數 (required,預設10筆,number)"
+                },
+                "page": {
+                  "type": "string",
+                  "example": "目前第幾頁(required,最小為 1,number) "
+                },
+                "sort": {
+                  "type": "string",
+                  "example": "排序類型(required, [ 1 發文時間、 2 按讚數(熱門) ],number)"
+                },
+                "reverse": {
+                  "type": "string",
+                  "example": "排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) "
+                }
+              }
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "新增追蹤",
+        "description": "新增追蹤",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "targetUserId": {
+                  "type": "string",
+                  "example": "被追蹤的人ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/follow/{followId}": {
+      "delete": {
+        "tags": [
+          "Follow"
+        ],
+        "summary": "取消追蹤",
+        "description": "取消追蹤",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "followId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     }
   }

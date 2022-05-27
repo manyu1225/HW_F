@@ -27,6 +27,10 @@ const doc = {
     {
       name:"forget",
       description:"忘記密碼 router",
+    },
+    {
+      name:"Follow",
+      description:"追蹤 router",
     }
   ],
   securityDefinitions: {
