@@ -25,8 +25,6 @@
     "jwt-decode": "^3.1.2",
     "mongoose": "^6.3.2",
     "morgan": "~1.9.1",
-    "qs": "^6.10.3",
-    "request": "^2.88.2",
     "swagger-autogen": "^2.21.1",
     "swagger-ui-express": "^4.4.0"
   }
