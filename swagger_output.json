@@ -530,6 +530,7 @@
         "tags": [
           "forget"
         ],
+        "summary": "忘記密碼_寄信",
         "description": "忘記密碼_寄信",
         "produces": [
           "application/json"
@@ -558,12 +559,7 @@
           "200": {
             "description": "OK"
           }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
+        }
       }
     },
     "/forget/Update": {
@@ -571,6 +567,7 @@
         "tags": [
           "forget"
         ],
+        "summary": "忘記密碼_修改密碼",
         "description": "忘記密碼_修改密碼",
         "produces": [
           "application/json"
@@ -600,12 +597,7 @@
             }
           }
         ],
-        "responses": {},
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
+        "responses": {}
       }
     },
     "/upload/": {

@@ -9,11 +9,11 @@ const tokenCheck =require('../middleware/tokenCheck');
 
 router.post(
     /*  #swagger.tags = ['forget']
+      #swagger.summary="忘記密碼_寄信"
       #swagger.description = '忘記密碼_寄信'
       #swagger.path = '/forget'
       #swagger.method = 'POST'
       #swagger.produces = ["application/json"]
-      #swagger.security = [{ "Bearer": [] }]
       #swagger.parameters['body'] = {
         in: 'body',
         type :"object",
@@ -31,11 +31,11 @@ async(req, res, next)=> forgetPWController.sentMailForChangePW(req,res,next)
 
 router.post(
     /*  #swagger.tags = ['forget']
+      #swagger.summary="忘記密碼_修改密碼"
       #swagger.description = '忘記密碼_修改密碼'
       #swagger.path = '/forget/Update'
       #swagger.method = 'POST'
       #swagger.produces = ["application/json"]
-      #swagger.security = [{ "Bearer": [] }]
       #swagger.parameters['body'] = {
         in: 'body',
         type :"object",
