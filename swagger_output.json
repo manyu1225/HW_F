@@ -334,22 +334,58 @@
         "tags": [
           "Posts"
         ],
-        "description": "撈所有貼文",
+        "summary": "撈貼文(有給userId為指定人物貼文列) *熱門貼文排序還在修正中* ",
+        "description": "撈貼文(有給userId為指定人物貼文列) *熱門貼文排序還在修正中*",
         "produces": [
           "application/json"
         ],
-        "parameters": [],
-        "responses": {},
-        "security": [
+        "parameters": [
           {
-            "Bearer": []
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pageCount": {
+                  "type": "string",
+                  "example": "每頁筆數 (required,預設10筆,number)"
+                },
+                "page": {
+                  "type": "string",
+                  "example": "目前第幾頁(required,最小為 1,number) "
+                },
+                "sort": {
+                  "type": "string",
+                  "example": "排序類型(required, [ 1 發文時間、 2 按讚數(熱門) ],number)"
+                },
+                "reverse": {
+                  "type": "string",
+                  "example": "排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) "
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "指定要查的使用者"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "搜尋貼文內容(模糊搜尋)"
+                }
+              },
+              "required": [
+                "userId",
+                "content"
+              ]
+            }
           }
-        ]
+        ],
+        "responses": {}
       },
       "post": {
         "tags": [
           "Posts"
         ],
+        "summary": "建立貼文",
         "description": "建立貼文",
         "produces": [
           "application/json"
@@ -362,13 +398,9 @@
             "schema": {
               "type": "object",
               "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "someone id"
-                },
                 "content": {
                   "type": "string",
-                  "example": "我是廢文 我是廢文 我是廢文 我是廢文"
+                  "example": "文章內容"
                 },
                 "imageId": {
                   "type": "string",
@@ -376,7 +408,6 @@
                 }
               },
               "required": [
-                "userId",
                 "content",
                 "imageId"
               ]
@@ -396,6 +427,7 @@
         "tags": [
           "Posts"
         ],
+        "summary": "刪除貼文",
         "description": "刪除貼文",
         "produces": [
           "application/json"

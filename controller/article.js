@@ -4,25 +4,25 @@ const appError = require("../service/appError");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
 const handleErrorAsync = require("../service/handleErrorAsync");
+const { aggregate } = require("../models/ArticlePost");
 
 const articleController = {
   async getAll(req, res, next) {
     handleErrorAsync(async (req, res, next) => {
       /*  #swagger.tags = ['Posts']
-          #swagger.params="撈所有貼文"
-          #swagger.description = '撈所有貼文'
+          #swagger.summary="撈貼文(有給userId為指定人物貼文列) *熱門貼文排序還在修正中* "
+          #swagger.description = '撈貼文(有給userId為指定人物貼文列) *熱門貼文排序還在修正中*'
           #swagger.method = 'GET'
           #swagger.produces = ["application/json"]
-          #swagger.security = [{ "Bearer": [] }]
           #swagger.parameters['body'] = {
             in: 'body',
             type :"object",
             required:true,
             schema: {
-                  "pageCount":10,
-                  "page":1,
-                  "sort":1,
-                  "reverse":true,
+                  "pageCount":"每頁筆數 (required,預設10筆,number)", 
+                  "page":"目前第幾頁(required,最小為 1,number) ", 
+                  "sort":"排序類型(required, [ 1 發文時間、 2 按讚數(熱門) ],number)", 
+                  "reverse":"排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) ", 
                   "$userId":'指定要查的使用者',
                   "$content":'搜尋貼文內容(模糊搜尋)',
                 }
@@ -33,18 +33,35 @@ const articleController = {
       let startIndex=  pageCount*page;
       let keyWord = req.body.content;
       let userId=req.body.userId;
-      let searchMode = {}
-      let sort = (req.body.sort|| "createAt")
+      
+      let searchMode = {
+        isActive:true
+      }
+      let reverse = req.body.reverse ?  1 : -1;
+      let sort = {"createAt":reverse};
+      
+      if (req.body.sort == 2) {
+         sort = {"likeCount":reverse};
+      }
       if (keyWord) {
         searchMode.content={$regex:new RegExp(keyWord,'i')};
       }
       if(userId){
         searchMode.userId=userId;
       }
-      let result = await Article.find(searchMode)
+      let result = await Article
+      .find(searchMode)      
+      .populate({
+        path: "userId",
+        select: "_id name photo",
+      })
+      .populate({
+        path:"likeCount",
+        select:" likeCount "
+      })
+      .sort(sort)
       .skip(startIndex)
       .limit(pageCount);
-      
 
       handleSuccess(res, httpStatus.OK, result);
     })(req, res, next);
@@ -52,7 +69,7 @@ const articleController = {
   async createPosts(req, res, next) {
     handleErrorAsync(async (req, res, next) => {
       /*  #swagger.tags = ['Posts']
-          #swagger.params="建立貼文"
+          #swagger.summary="建立貼文"
           #swagger.description = '建立貼文'
           #swagger.method = 'POST'
           #swagger.produces = ["application/json"]
@@ -62,8 +79,7 @@ const articleController = {
             type :"object",
             required:true,
             schema: {
-                  "$userId":'someone id',
-                  "$content":'我是廢文 我是廢文 我是廢文 我是廢文',
+                  "$content":'文章內容',
                   "$imageId":'photo.jpg',
                 }
             }
@@ -76,6 +92,7 @@ const articleController = {
           next
         );
       }
+
       //預設讀取登入者資料
       let userId = req.user._id;
       if (!userId) {
@@ -99,6 +116,7 @@ const articleController = {
   async deletePosts(req, res, next) {
     handleErrorAsync(async (req, res, next) => {
       /*  #swagger.tags = ['Posts']
+          #swagger.summary='刪除貼文'
           #swagger.description = '刪除貼文'
           #swagger.method = 'DELETE'
           #swagger.produces = ["application/json"]

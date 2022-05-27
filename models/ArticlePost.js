@@ -32,8 +32,18 @@ const newArticleSchema = new mongoose.Schema(
   },
   {
     versionKey: false,
+    toJSON:{virtuals:true},
+    toObject:{virtuals:true}
   }
 );
+
+newArticleSchema.virtual('likeCount',{
+    ref:"Likes",
+    localField:"_id",
+    foreignField:"post",
+    justOne: false,
+    count:true
+})
 
 const newArticleposts = mongoose.model("newArticle", newArticleSchema);
 
