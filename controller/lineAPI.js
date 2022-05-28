@@ -5,6 +5,8 @@ const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
 const axios = require("axios");
 const jsonwebtoken = require("jwt-decode");
+//一、取得授權碼 code https://access.line.me/oauth2/v2.1/authorize
+//二、以回傳的授權碼再向 Line 取用戶資料 POST https://api.line.me/oauth2/v2.1/token
 
 const lineAPIController = {
   async authorize(req, res, next) {
@@ -12,7 +14,7 @@ const lineAPIController = {
     const redirect_uri = process.env.redirect_uri;
     const scope = process.env.scope;
     const authorization_endpoint = process.env.authorization_endpoint;
-    const url =
+    let url =
       authorization_endpoint +
       "?response_type=code&client_id=" +
       client_id +
@@ -30,14 +32,14 @@ const lineAPIController = {
       "grant_type=authorization_code&code=" +
       req.query.code +
       "&redirect_uri=" +
-      process.env.redirect_uri_ui +
+      process.env.redirect_uri +
       "&client_id=" +
       process.env.client_id +
       "&client_secret=" +
       process.env.client_secret;
     axios.post(process.env.token_endpoint, reqPramater).then(function (resp) {
       console.log("resp.data=>", resp.data);
-      const decoded = jsonwebtoken(resp.data.id_token);
+      let decoded = jsonwebtoken(resp.data.id_token);
       console.log(decoded.email);
       resp.data.email = decoded.email;
       handleSuccess(res, httpStatus.OK, resp.data);
@@ -58,7 +60,8 @@ const lineAPIController = {
       )
       .then(function (resp) {
         console.log("res_Token=>", resp.data);
-        const decoded = jsonwebtoken(resp.data.id_token);
+        //  console.log("decoded=>", decoded);
+        var decoded = jsonwebtoken(resp.data.id_token);
         console.log(decoded.email);
         resp.data.email = decoded.email;
         handleSuccess(res, httpStatus.OK, resp.data);
