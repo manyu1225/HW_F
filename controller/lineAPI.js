@@ -41,27 +41,25 @@ const lineAPIController = {
       handleSuccess(res, httpStatus.OK, resp.data);
       console.log("=======>state unmatch!");
     } else {
-      axios
-        .post(process.env.token_endpoint, reqPramater, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-          },
-        })
-        .then(function (resp) {
-          console.log("resp.data=>", resp.data);
-          let decoded = jsonwebtoken(resp.data.id_token);
-          console.log("decoded.email=>", decoded.email);
-          resp.data.email = decoded.email;
-          res.status(200).json({
-            status: "success",
-            data: resp.data,
-          });
-          return;
-        })
-        .catch((e) => {
-          console.log("error", e.response.request._response);
-          return appError(httpStatus.BAD_REQUEST, "ERR.", next);
-        });
+      res.send(
+        "<html><body>" +
+          '<form method="post" action="/line/token">' +
+          '<table><tr><th>grant_type</th><td><input type="text" name="grant_type" size="100" value="authorization_code"></td></tr>' +
+          '<tr><th>code</th><td><input type="text" name="code" size="100" value="' +
+          req.query.code +
+          '"></td></tr>' +
+          '<tr><th>redirect_uri</th><td><input type="text" name="redirect_uri" size="100" value="' +
+          process.env.redirect_uri +
+          '"></td></tr>' +
+          '<tr><th>client_id</th><td><input type="text" name="client_id" size="100" value="' +
+          process.env.client_id +
+          '"></td></tr>' +
+          '<tr><th>client_secret</th><td><input type="text" name="client_secret" size="100" value="' +
+          process.env.client_secret +
+          '"></td></tr>' +
+          '</table><button type="submit">Exchange code to token</button><br>' +
+          "</form></body></html>"
+      );
     }
     return;
   },
