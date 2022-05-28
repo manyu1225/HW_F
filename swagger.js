@@ -2,11 +2,12 @@ const swaggerAutogen = require("swagger-autogen")();
 
 const doc = {
   info: {
-    version: "1.0.0",
-    title: "MY API",
+    version: "1.0.2",
+    title: "REST API",
     description: "",
   },
-  host: "https://intense-fortress-59028.herokuapp.com", //""localhost:3000
+  host: "g11herokuexpress.herokuapp.com",
+  // ,
   basePath: "/", // by default: "/"
   schemes: ["https", "http"], //https
   consumes: [], // by default: ['application/json']
@@ -21,8 +22,8 @@ const doc = {
       description: "貼文 router",
     },
     {
-      name: "LINELogin",
-      description: "LINE Login router",
+      name: "Comments",
+      description: "回覆 router",
     },
   ],
   securityDefinitions: {
@@ -31,13 +32,6 @@ const doc = {
       in: "header", // can be 'header', 'query' or 'cookie'
       name: "Authorization", // name of the header, query parameter or cookie
       description: "請加上 JWT TOKEN",
-    },
-    oauth2: {
-      tokenUrl: "https://access.line.me/oauth2/v2.1/authorize",
-      scopes: {
-        read: "Read access",
-      },
-      type: "oauth2",
     },
   }, // by default: empty object
   definitions: {},
