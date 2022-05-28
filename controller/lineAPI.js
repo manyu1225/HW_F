@@ -25,16 +25,14 @@ const lineAPIController = {
     res.redirect(url);
   },
   async callback(req, res, next) {
-    console.log("code=======>", req.query.code);
-
+    console.log("=======>", req.query.code);
     if (!req.query.code) {
-      handleSuccess(res, httpStatus.OK, resp.data);
-      console.log("=======>state unmatch!");
+      return appError(httpStatus.BAD_REQUEST, "code 必須有值!", next);
     } else {
       let reqPramater = qs.stringify({
         grant_type: "authorization_code",
         code: req.query.code,
-        redirect_uri: encodeURIComponent(process.env.redirect_uri),
+        redirect_uri: process.env.redirect_uri,
         client_id: process.env.client_id,
         client_secret: process.env.client_secret,
       });
@@ -44,63 +42,33 @@ const lineAPIController = {
             "Content-Type": "application/x-www-form-urlencoded",
           },
         })
-        .then(function (res) {
-          console.log("resp.data=>", res.data);
-          let decoded = jsonwebtoken(res.data.id_token);
+        .then(function (response) {
+          console.log("response.data=>", response.data);
+          let decoded = jsonwebtoken(response.data.id_token);
           console.log("decoded.email=>", decoded.email);
-          res.data.email = decoded.email;
-
-          handleSuccess(res, httpStatus.OK, res.data);
-        });
-    }
-    return;
-  },
-  async getLinetoken(req, res, next) {
-    console.log("getLinetoken====>", req.body.code);
-
-    if (!req.body.code) {
-      console.log("=======>state unmatch!");
-      return appError(httpStatus.BAD_REQUEST, "ERR...", next);
-    } else {
-      let reqPramater = qs.stringify({
-        grant_type: "authorization_code",
-        code: req.query.code,
-        redirect_uri: encodeURIComponent(process.env.redirect_uri),
-        client_id: process.env.client_id,
-        client_secret: process.env.client_secret,
-      });
-      console.log("reqPramater=======>", reqPramater);
-
-      axios
-        .post(process.env.token_endpoint, reqPramater, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
+          response.data.email = decoded.email;
+          handleSuccess(res, httpStatus.OK, response.data);
         })
-        .then(function (resp) {
-          console.log("resp.data=>", resp.data);
-          let decoded = jsonwebtoken(resp.data.id_token);
-          console.log("decoded.email=>", decoded.email);
-          resp.data.email = decoded.email;
-          handleSuccess(res, httpStatus.OK, resp.data);
-        })
-        .catch((e) => {
-          console.log(e);
+        .catch(function (error) {
+          console.log("err=====>", error);
           return appError(httpStatus.BAD_REQUEST, "ERR.", next);
         });
     }
-    return appError(httpStatus.BAD_REQUEST, "ERR..", next);
   },
   async getLineUserInfo(req, res, next) {
     axios
-      .get(process.env.profile_endpoint, {
+      .post(process.env.profile_endpoint, {
         headers: {
           Authorization: "Bearer " + req.body.access_token,
         },
       })
-      .then(function (resp) {
-        console.log(resp.data);
-        handleSuccess(res, httpStatus.OK, resp.data);
+      .then(function (response) {
+        console.log("response.data===>", response.data);
+        handleSuccess(res, httpStatus.OK, response.data);
+      })
+      .catch(function (error) {
+        console.log("err=====>", error);
+        return appError(httpStatus.BAD_REQUEST, "ERR.", next);
       });
   },
 };
