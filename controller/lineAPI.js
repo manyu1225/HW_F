@@ -39,7 +39,6 @@ const lineAPIController = {
         client_id: process.env.client_id,
         client_secret: process.env.client_secret,
       });
-      console.log("reqPramater=======>", reqPramater);
       axios
         .post(process.env.token_endpoint, reqPramater, {
           headers: {
@@ -62,21 +61,26 @@ const lineAPIController = {
   },
   async getLinetoken(req, res, next) {
     console.log("getLinetoken====>", req.body.code);
-    let reqPramater =
-      "grant_type=authorization_code&code=" +
-      req.body.code +
-      "&redirect_uri=" +
-      process.env.redirect_uri +
-      "&client_id=" +
-      process.env.client_id +
-      "&client_secret=" +
-      process.env.client_secret;
+
     if (!req.body.code) {
       console.log("=======>state unmatch!");
       return appError(httpStatus.BAD_REQUEST, "ERR", next);
     } else {
+      let reqPramater = qs.stringify({
+        grant_type: "authorization_code",
+        code: req.query.code,
+        redirect_uri: encodeURIComponent(process.env.redirect_uri),
+        client_id: process.env.client_id,
+        client_secret: process.env.client_secret,
+      });
+      console.log("reqPramater=======>", reqPramater);
+
       axios
-        .post(process.env.token_endpoint, reqPramater)
+        .post(process.env.token_endpoint, reqPramater, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        })
         .then(function (resp) {
           console.log("resp.data=>", resp.data);
           let decoded = jsonwebtoken(resp.data.id_token);
