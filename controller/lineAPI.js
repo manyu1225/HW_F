@@ -47,7 +47,8 @@ const lineAPIController = {
           let decoded = jsonwebtoken(response.data.id_token);
           console.log("decoded.email=>", decoded.email);
           response.data.email = decoded.email;
-          handleSuccess(res, httpStatus.OK, response.data);
+          // handleSuccess(res, httpStatus.OK, response.data);
+          getLineUserInfo(req, res, next);
         })
         .catch(function (error) {
           console.log("err=====>", error);
