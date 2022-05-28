@@ -39,19 +39,25 @@ const lineAPIController = {
         client_id: process.env.client_id,
         client_secret: process.env.client_secret,
       });
-
-      fetch("https://api.line.me/oauth2/v2.1/token", {
-        method: "post",
-        body: qs.stringify(reqPramater),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      })
-        .then((res) => handleSuccess(res, httpStatus.OK, res.data))
-        .then((response) => {
-          const { access_token } = response;
-          req.body.accessToken = access_token;
+      axios
+        .post(process.env.token_endpoint, reqPramater, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
         })
-        .catch((error) => res.send(error));
+        .then(function (resp) {
+          console.log("resp.data=>", resp.data);
+          let decoded = jsonwebtoken(resp.data.id_token);
+          console.log("decoded.email=>", decoded.email);
+          resp.data.email = decoded.email;
+          res.send({
+            status: "success",
+            data: resp.data,
+          });
+          return;
+        });
     }
+    return;
   },
   async getLinetoken(req, res, next) {
     console.log("getLinetoken====>", req.body.code);
