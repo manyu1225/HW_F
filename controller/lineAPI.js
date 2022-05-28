@@ -60,7 +60,7 @@ const lineAPIController = {
   async getLineUserInfo(req, res, next) {
     console.log("============5=====" + req.body.access_token);
     axios
-      .get(process.env.profile_endpoint, {
+      .get("https://api.line.me/v2/profile", {
         headers: {
           Authorization: "Bearer " + req.query.access_token,
         },
