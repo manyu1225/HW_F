@@ -52,32 +52,40 @@ const lineAPIController = {
         })
         .catch((e) => {
           console.log(e);
+          return appError(httpStatus.BAD_REQUEST, "ERR.", next);
         });
     }
   },
   async getLinetoken(req, res, next) {
-    axios
-      .post(
-        process.env.token_endpoint,
-        "grant_type=authorization_code&code=" +
-          req.body.code +
-          "&redirect_uri=" +
-          process.env.redirect_uri +
-          "&client_id=" +
-          process.env.client_id +
-          "&client_secret=" +
-          process.env.client_secret
-      )
-      .then(function (resp) {
-        console.log("res_Token=>", resp.data);
-        let decoded = jsonwebtoken(resp.data.id_token);
-        console.log(decoded.email);
-        resp.data.email = decoded.email;
-        handleSuccess(res, httpStatus.OK, resp.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    console.log("getLinetoken=======>", req.body.code);
+    let reqPramater =
+      "grant_type=authorization_code&code=" +
+      req.body.code +
+      "&redirect_uri=" +
+      process.env.redirect_uri +
+      "&client_id=" +
+      process.env.client_id +
+      "&client_secret=" +
+      process.env.client_secret;
+    if (!req.body.code) {
+      console.log("=======>state unmatch!");
+      return appError(httpStatus.BAD_REQUEST, "ERR", next);
+    } else {
+      axios
+        .post(process.env.token_endpoint, reqPramater)
+        .then(function (resp) {
+          console.log("resp.data=>", resp.data);
+          let decoded = jsonwebtoken(resp.data.id_token);
+          console.log("decoded.email=>", decoded.email);
+          resp.data.email = decoded.email;
+          handleSuccess(res, httpStatus.OK, resp.data);
+        })
+        .catch((e) => {
+          console.log(e);
+          return appError(httpStatus.BAD_REQUEST, "ERR", next);
+        });
+    }
+    return appError(httpStatus.BAD_REQUEST, "ERR", next);
   },
   async getLineUserInfo(req, res, next) {
     axios
