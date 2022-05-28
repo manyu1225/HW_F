@@ -13,24 +13,25 @@ const lineAPIController = {
     const scope = process.env.scope;
     const authorization_endpoint = process.env.authorization_endpoint;
     let url =
-      process.env.authorization_endpoint +
+      authorization_endpoint +
       "?response_type=code&client_id=" +
-      process.env.client_id +
+      client_id +
       "&redirect_uri=" +
-      encodeURIComponent(process.env.redirect_uri) +
+      encodeURIComponent(redirect_uri) +
       "&state=" +
       process.env.state +
       "&scope=" +
-      process.env.scope;
+      scope;
     res.redirect(url);
   },
   async callback(req, res, next) {
     console.log("code=======>", req.query.code);
+
     let reqPramater =
       "grant_type=authorization_code&code=" +
       req.query.code +
       "&redirect_uri=" +
-      process.env.redirect_uri_ui +
+      process.env.redirect_uri +
       "&client_id=" +
       process.env.client_id +
       "&client_secret=" +
