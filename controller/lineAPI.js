@@ -36,6 +36,8 @@ const lineAPIController = {
       process.env.client_id +
       "&client_secret=" +
       process.env.client_secret;
+    console.log("reqPramater=======>", reqPramater);
+
     axios
       .post(process.env.token_endpoint, reqPramater)
       .then(function (resp) {
