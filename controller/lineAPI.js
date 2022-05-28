@@ -50,7 +50,15 @@ const lineAPIController = {
           console.log("decoded.email=>", decoded.email);
           res.data.email = decoded.email;
           linedata.email = decoded.email;
-          handleSuccess(res, httpStatus.OK, linedata);
+          res.send(
+            res.data.access_token +
+              res.data.token_type +
+              res.data.refresh_token +
+              res.data.expires_in +
+              res.data.scope +
+              res.data.id_token +
+              res.data.id_token
+          );
         })
         .catch(function (error) {
           console.log("err=====>", error);
