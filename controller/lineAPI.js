@@ -53,7 +53,9 @@ const lineAPIController = {
           console.log("err=====>", error);
           return appError(httpStatus.BAD_REQUEST, "ERR.", next);
         });
+      console.log("===========2========");
     }
+    console.log("=============3======");
   },
   async getLineUserInfo(req, res, next) {
     axios
