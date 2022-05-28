@@ -59,6 +59,7 @@ const lineAPIController = {
     console.log("=============3======");
   },
   async getLineUserInfo(req, res, next) {
+    console.log("============5=====");
     axios
       .post(process.env.profile_endpoint, {
         headers: {
