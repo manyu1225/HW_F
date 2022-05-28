@@ -6,7 +6,7 @@ const appError = require("../service/appError");
 const axios = require("axios");
 const jsonwebtoken = require("jwt-decode");
 const qs = require("qs");
-
+const fetch = require("node-fetch");
 const lineAPIController = {
   async authorize(req, res, next) {
     const client_id = process.env.client_id;
