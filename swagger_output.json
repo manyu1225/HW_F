@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "g11herokuexpress.herokuapp.com",
   "basePath": "/",
   "tags": [
     {
@@ -637,11 +637,7 @@
       "post": {
         "description": "",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       }
     },
     "/follow/": {
