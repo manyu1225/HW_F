@@ -26,12 +26,11 @@ const lineAPIController = {
   },
   async callback(req, res, next) {
     console.log("code=======>", req.query.code);
-
+    let linedata = {};
     if (!req.query.code) {
       handleSuccess(res, httpStatus.OK, res.data);
       console.log("=======>state unmatch!");
     } else {
-      let linedata = {};
       let reqPramater = qs.stringify({
         grant_type: "authorization_code",
         code: req.query.code,
