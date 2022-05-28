@@ -26,7 +26,7 @@ const lineAPIController = {
   },
   async callback(req, res, next) {
     console.log("code=======>", req.query.code);
-    let data;
+
     let reqPramater =
       "grant_type=authorization_code&code=" +
       req.query.code +
@@ -41,6 +41,7 @@ const lineAPIController = {
       handleSuccess(res, httpStatus.OK, resp.data);
       console.log("=======>state unmatch!");
     } else {
+      let data;
       axios
         .post(process.env.token_endpoint, reqPramater)
         .then(function (resp) {
@@ -54,11 +55,11 @@ const lineAPIController = {
           console.log("errer==>", e);
           return appError(httpStatus.BAD_REQUEST, "ERR.", next);
         });
+      handleSuccess(res, httpStatus.OK, data);
     }
-    handleSuccess(res, httpStatus.OK, data);
   },
   async getLinetoken(req, res, next) {
-    console.log("getLinetoken=======>", req.body.code);
+    console.log("getLinetoken====>", req.body.code);
     let reqPramater =
       "grant_type=authorization_code&code=" +
       req.body.code +
