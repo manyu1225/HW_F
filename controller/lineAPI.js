@@ -59,7 +59,6 @@ const lineAPIController = {
   },
   async getLineUserInfo(req, res, next) {
     console.log("============5=====" + req.body.access_token);
-    console.log("============6=====" + req.query.access_token);
     axios
       .get(process.env.profile_endpoint, {
         headers: {
@@ -74,6 +73,9 @@ const lineAPIController = {
         console.log("err=====>", error);
         return appError(httpStatus.BAD_REQUEST, "ERR.", next);
       });
+    console.log(
+      "======profile_endpoin====5=====" + process.env.profile_endpoin
+    );
   },
 };
 module.exports = lineAPIController;
