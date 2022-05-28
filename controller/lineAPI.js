@@ -37,7 +37,7 @@ const lineAPIController = {
       "&client_secret=" +
       process.env.client_secret;
     console.log("reqPramater=======>", reqPramater);
-    if (req.query.state) {
+    if (!req.query.code) {
       res.send("state unmatch error");
       console.log("=======>state unmatch!");
     } else {
