@@ -31,6 +31,7 @@ const lineAPIController = {
       handleSuccess(res, httpStatus.OK, res.data);
       console.log("=======>state unmatch!");
     } else {
+      let linedata = {};
       let reqPramater = qs.stringify({
         grant_type: "authorization_code",
         code: req.query.code,
@@ -49,13 +50,14 @@ const lineAPIController = {
           let decoded = jsonwebtoken(res.data.id_token);
           console.log("decoded.email=>", decoded.email);
           res.data.email = decoded.email;
+          linedata.email = decoded.email;
         })
         .catch(function (error) {
           console.log("err=====>", error);
         });
     }
     console.log("=========================err==========");
-    handleSuccess(res, httpStatus.OK, res.data);
+    handleSuccess(res, httpStatus.OK, linedata);
   },
   async getLinetoken(req, res, next) {
     console.log("getLinetoken====>", req.body.code);
