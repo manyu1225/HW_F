@@ -25,9 +25,13 @@ const doc = {
       description: "回覆 router",
     },
     {
-      name: "forget",
-      description: "忘記密碼 router",
+      name:"forget",
+      description:"忘記密碼 router",
     },
+    {
+      name:"Follow",
+      description:"追蹤 router",
+    }
   ],
   securityDefinitions: {
     Bearer: {

@@ -1,6 +1,9 @@
 node_modules/
 *.env
 slnx.sqlite
+VSWorkspaceState.json
+*.suo
+.vscode/settings.json
 #gitHub推薦node版控忽略清單
 logs
 *.log
