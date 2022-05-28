@@ -50,13 +50,15 @@ const lineAPIController = {
           console.log("decoded.email=>", decoded.email);
           resp.data.email = decoded.email;
           v_data = resp.data;
+          handleSuccess(res, httpStatus.OK, v_data);
+          return;
         })
         .catch((e) => {
           console.log("errer==>", e);
           return appError(httpStatus.BAD_REQUEST, "ERR.", next);
         });
-      handleSuccess(res, httpStatus.OK, v_data);
     }
+    return;
   },
   async getLinetoken(req, res, next) {
     console.log("getLinetoken====>", req.body.code);
