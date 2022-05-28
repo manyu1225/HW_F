@@ -35,7 +35,7 @@ const lineAPIController = {
       let reqPramater = qs.stringify({
         grant_type: "authorization_code",
         code: req.query.code,
-        redirect_uri: process.env.redirect_uri,
+        redirect_uri: encodeURIComponent(process.env.redirect_uri),
         client_id: process.env.client_id,
         client_secret: process.env.client_secret,
       });
@@ -43,7 +43,7 @@ const lineAPIController = {
       axios
         .post(process.env.token_endpoint, reqPramater, {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Content-Type": "application/x-www-form-urlencoded",
           },
         })
         .then(function (resp) {
