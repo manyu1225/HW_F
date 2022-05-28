@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3005",
+  "host": "localhost:3000",
   "basePath": "/",
   "tags": [
     {
@@ -135,7 +135,7 @@
             "name": "body",
             "in": "body",
             "required": true,
-            "description": "密碼需至少 8 碼以上，並中英混合",
+            "description": "密碼需至少 8 碼以上，並數字與英文或符號混合",
             "schema": {
               "type": "object",
               "properties": {
@@ -192,7 +192,8 @@
           {
             "name": "body",
             "in": "body",
-            "description": "資料格式",
+            "required": true,
+            "description": "gender enum: [unknown, male, female]",
             "schema": {
               "type": "object",
               "properties": {
@@ -203,12 +204,12 @@
                 "photo": {
                   "type": "string",
                   "example": "https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png"
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "male"
                 }
-              },
-              "required": [
-                "name",
-                "photo"
-              ]
+              }
             }
           }
         ],

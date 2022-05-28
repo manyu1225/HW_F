@@ -12,8 +12,8 @@ router.post(
       #swagger.produces = ["application/json"]
       #swagger.parameters['body'] = {
         in: 'body',
-        type :"object",
-        required:true,
+        type:"object",
+        required: true,
         description: "資料格式",
         schema: {
                 "$name": 'HELLOYO',
@@ -60,7 +60,7 @@ router.post(
         in: 'body',
         type :"object",
         required:true,
-        description: "密碼需至少 8 碼以上，並中英混合",
+        description: "密碼需至少 8 碼以上，並數字與英文或符號混合",
         schema: {
                 "$password":'password123',
                 "$passwordConfirm":'password123',
@@ -106,10 +106,12 @@ router.patch(
       #swagger.parameters['body'] = {
         in: 'body',
         type :"object",
-        description: "資料格式",
+        required: true,
+        description: "gender enum: [unknown, male, female]",
         schema: {
-                "$name": 'Jhon DoeC',
-                "$photo": 'https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png'
+                "name": 'Jhon DoeC',
+                "photo": 'https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png',
+                "gender": 'male'
             }
         }
      */
