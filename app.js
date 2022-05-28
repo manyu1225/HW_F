@@ -43,7 +43,12 @@ app.use(lineRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404)); // 呼叫 next 把控制權轉移到下一個 middleware
+  console.error("出現重大錯誤.....", err);
+  // 送出罐頭預設訊息
+  res.status(404).json({
+    status: "error",
+    message: "系統錯誤，請恰系統管理員......d",
+  }); // 呼叫 next 把控制權轉移到下一個 middleware
 });
 
 // 自己設定的 err 錯誤

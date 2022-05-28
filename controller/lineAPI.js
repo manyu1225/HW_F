@@ -28,7 +28,7 @@ const lineAPIController = {
     console.log("code=======>", req.query.code);
 
     if (!req.query.code) {
-      handleSuccess(res, httpStatus.OK, resp.data);
+      handleSuccess(res, httpStatus.OK, res.data);
       console.log("=======>state unmatch!");
     } else {
       let reqPramater = qs.stringify({
