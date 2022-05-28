@@ -38,28 +38,22 @@ const lineAPIController = {
         client_id: process.env.client_id,
         client_secret: process.env.client_secret,
       });
-      try {
-        const response = axios
-          .post(process.env.token_endpoint, reqPramater, {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          })
-          .then(function (res) {
-            console.log("resp.data=>", res.data);
-            let decoded = jsonwebtoken(res.data.id_token);
-            console.log("decoded.email=>", decoded.email);
-            res.data.email = decoded.email;
-          })
-          .catch(function (error) {
-            console.log("err=====>", error);
-          });
 
-        console.log("===========>>", response.data);
-        res.send(response.data);
-      } catch (err) {
-        next(err);
-      }
+      return axios
+        .post(process.env.token_endpoint, reqPramater, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        })
+        .then(function (res) {
+          console.log("resp.data=>", res.data);
+          let decoded = jsonwebtoken(res.data.id_token);
+          console.log("decoded.email=>", decoded.email);
+          res.data.email = decoded.email;
+        })
+        .catch(function (error) {
+          console.log("err=====>", error);
+        });
     }
     console.log("=========================err==========");
   },
