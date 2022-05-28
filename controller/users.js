@@ -7,6 +7,7 @@ const Likes = require("../models/Likes");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
 const appError = require("../service/appError");
+const filterObject = require("../utils/filterObject");
 
 const generateAndSendToken = async (res, statusCode, user) => {
   const token = jwt.sign(
@@ -103,14 +104,16 @@ const usersController = {
     handleSuccess(res, httpStatus.OK, req.user);
   },
   async updateProfile(req, res, next) {
-    const { name, photo } = req.body;
+    const allowFileds = ["name", "photo", "gender"];
+    const filteredBody = filterObject(req.body, allowFileds);
+
+    if (Object.keys(filteredBody).length === 0) {
+      return appError(httpStatus.BAD_REQUEST, "請輸入正確欄位", next);
+    }
 
     const editedUser = await usersModel.findByIdAndUpdate(
       req.user._id,
-      {
-        name,
-        photo,
-      },
+      filteredBody,
       { new: true, runValidators: true }
     );
 

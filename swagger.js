@@ -6,7 +6,7 @@ const doc = {
     title: "REST API",
     description: "",
   },
-  host: "localhost:3005", //"localhost:3000",
+  host: "localhost:3000", //"localhost:3000",
   basePath: "/", // by default: "/"
   schemes: ["https", "http"], //https
   consumes: [], // by default: ['application/json']
@@ -25,9 +25,9 @@ const doc = {
       description: "回覆 router",
     },
     {
-      name:"forget",
-      description:"忘記密碼 router",
-    }
+      name: "forget",
+      description: "忘記密碼 router",
+    },
   ],
   securityDefinitions: {
     Bearer: {
