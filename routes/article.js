@@ -5,7 +5,7 @@ const articleController = require("../controller/article");
 
 router
   .route("/")
-  .get([isAuth, articleController.getAll]) // 檢測用
+  .get([articleController.getAll]) // 檢測用
   .post([isAuth, articleController.createPosts]); // 新增貼文
 
 // 刪除貼文
