@@ -62,7 +62,7 @@ const lineAPIController = {
     axios
       .get("https://api.line.me/v2/profile", {
         headers: {
-          Authorization: "Bearer " + req.query.access_token,
+          Authorization: "Bearer " + req.body.access_token,
         },
       })
       .then(function (response) {
