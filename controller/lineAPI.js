@@ -75,7 +75,7 @@ const lineAPIController = {
       "&client_secret=" +
       process.env.client_secret;
     if (!req.body.code) {
-      console.log("=======>state unmatch!");
+      console.log("getLinetoken=======>state unmatch!");
       return appError(httpStatus.BAD_REQUEST, "ERR", next);
     } else {
       axios
@@ -92,7 +92,7 @@ const lineAPIController = {
           return appError(httpStatus.BAD_REQUEST, "ERR", next);
         });
     }
-    return appError(httpStatus.BAD_REQUEST, "ERR", next);
+    return appError(httpStatus.BAD_REQUEST, "ERR...", next);
   },
   async getLineUserInfo(req, res, next) {
     axios
@@ -102,9 +102,10 @@ const lineAPIController = {
         },
       })
       .then(function (resp) {
-        console.log(resp.data);
+        console.log("getLineUserInfo", resp.data);
         handleSuccess(res, httpStatus.OK, resp.data);
       });
+    return appError(httpStatus.BAD_REQUEST, "ERR.....", next);
   },
 };
 module.exports = lineAPIController;
