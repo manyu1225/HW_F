@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "g11herokuexpress.herokuapp.com",
+  "host": "https://g11herokuexpress.herokuapp.com/",
   "basePath": "/",
   "tags": [
     {
