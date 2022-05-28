@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.2",
+    "version": "1.0.1",
     "title": "REST API",
     "description": ""
   },
-  "host": "g11herokuexpress.herokuapp.com",
+  "host": "localhost:3005",
   "basePath": "/",
   "tags": [
     {
@@ -19,6 +19,10 @@
     {
       "name": "Comments",
       "description": "回覆 router"
+    },
+    {
+      "name": "forget",
+      "description": "忘記密碼 router"
     }
   ],
   "schemes": [
@@ -30,7 +34,7 @@
       "type": "apiKey",
       "in": "header",
       "name": "Authorization",
-      "description": "請加上 JWT TOKEN"
+      "description": "請加上 JWT TOKEN /忘記密碼token 同規"
     }
   },
   "paths": {
@@ -212,6 +216,127 @@
         ]
       }
     },
+    "/users/{id}/likes": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得使用者的按讚列表",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "628909974247c44568d85428"
+                },
+                "userId": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "62838f86ddb475c3f2c6d2ef"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Han Lai"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "example": "someImage"
+                    }
+                  }
+                },
+                "createAt": {
+                  "type": "string",
+                  "example": "2022-05-21T15:47:35.953Z"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{id}/likes": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "取得使用者的按讚列表",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "628dea31b5315cd52aff7305"
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "6283924bddb475c3f2c6d2f9"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "test2"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "test2@gmail.com"
+                    },
+                    "photo": {
+                      "type": "string",
+                      "example": ""
+                    }
+                  }
+                },
+                "post": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "6289d155d555b60de6179f9b"
+                    },
+                    "createAt": {
+                      "type": "string",
+                      "example": "2022-05-22T05:59:49.518Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": [
@@ -358,7 +483,36 @@
             "type": "string"
           }
         ],
-        "responses": {},
+        "responses": {
+          "205": {
+            "description": "Reset Content"
+          }
+        },
+        "responses": {
+          "201": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "new ObjectId(\"628dded3d331624c57a77e8d\")"
+                },
+                "user": {
+                  "type": "string",
+                  "example": "new ObjectId(\"62838f86ddb475c3f2c6d2ef\")"
+                },
+                "post": {
+                  "type": "string",
+                  "example": "new ObjectId(\"628909974247c44568d85428\")"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "Created"
+          }
+        },
         "security": [
           {
             "Bearer": []
@@ -379,6 +533,131 @@
             "in": "path",
             "required": true,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "205": {
+            "description": "Reset Content"
+          }
+        },
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "new ObjectId(\"628dded3d331624c57a77e8d\")"
+                    },
+                    "user": {
+                      "type": "string",
+                      "example": "new ObjectId(\"62838f86ddb475c3f2c6d2ef\")"
+                    },
+                    "post": {
+                      "type": "string",
+                      "example": "new ObjectId(\"628909974247c44568d85428\")"
+                    },
+                    "createAt": {
+                      "type": "string",
+                      "example": "2022-05-25T09:01:36.143Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/forget": {
+      "post": {
+        "tags": [
+          "forget"
+        ],
+        "description": "忘記密碼_寄信",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "test@gmail.com"
+                }
+              },
+              "required": [
+                "email"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/forget/Update": {
+      "post": {
+        "tags": [
+          "forget"
+        ],
+        "description": "忘記密碼_修改密碼",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "a12345678"
+                },
+                "passwordConfirm": {
+                  "type": "string",
+                  "example": "a12345678"
+                }
+              },
+              "required": [
+                "password",
+                "passwordConfirm"
+              ]
+            }
           }
         ],
         "responses": {},
