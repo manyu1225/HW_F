@@ -58,7 +58,7 @@ const lineAPIController = {
     console.log("=============3======");
   },
   async getLineUserInfo(req, res, next) {
-    console.log("============5=====" + req.body.access_token);
+    console.log("==========access_token=======>" + req.body.access_token);
     axios
       .get("https://api.line.me/v2/profile", {
         headers: {
@@ -73,9 +73,6 @@ const lineAPIController = {
         console.log("err=====>", error);
         return appError(httpStatus.BAD_REQUEST, "ERR.", next);
       });
-    console.log(
-      "======profile_endpoin====5=====" + process.env.profile_endpoin
-    );
   },
 };
 module.exports = lineAPIController;
