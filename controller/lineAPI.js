@@ -54,7 +54,8 @@ const lineAPIController = {
           console.log("err=====>", error);
         });
     }
-    return;
+    console.log("=========================err==========");
+    handleSuccess(res, httpStatus.OK, res.data);
   },
   async getLinetoken(req, res, next) {
     console.log("getLinetoken====>", req.body.code);

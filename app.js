@@ -46,7 +46,7 @@ app.use(function (req, res, next) {
   // 送出罐頭預設訊息
   res.status(404).json({
     status: "error",
-    message: "系統錯誤，請恰系統管理員......d",
+    message: "系統錯誤，請恰系統管理員......d" + req.query,
   }); // 呼叫 next 把控制權轉移到下一個 middleware
 });
 
