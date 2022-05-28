@@ -27,17 +27,20 @@ const lineAPIController = {
     res.redirect(url);
   },
   async callback(req, res, next) {
+    const client_id = process.env.client_id;
+    const redirect_uri = process.env.redirect_uri;
+    const token_endpoint = process.env.token_endpoint;
     console.log("code=======>", req.query.code);
     const reqPramater =
       "grant_type=authorization_code&code=" +
       req.query.code +
       "&redirect_uri=" +
-      process.env.redirect_uri +
+      redirect_uri +
       "&client_id=" +
-      process.env.client_id +
+      client_id +
       "&client_secret=" +
       process.env.client_secret;
-    axios.post(process.env.token_endpoint, reqPramater).then(function (resp) {
+    axios.post(token_endpoint, reqPramater).then(function (resp) {
       console.log("resp.data=>", resp.data);
       var decoded = jsonwebtoken(resp.data.id_token);
       console.log(decoded.email);
