@@ -26,6 +26,11 @@ const usersSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    gender: {
+      type: String,
+      default: "unknown",
+      enum: ["unknown", "male", "female"],
+    },
     createdAt: {
       type: Date,
       default: Date.now,
