@@ -58,11 +58,12 @@ const lineAPIController = {
     console.log("=============3======");
   },
   async getLineUserInfo(req, res, next) {
-    console.log("============5=====");
+    console.log("============5=====" + req.body.access_token);
+    console.log("============6=====" + req.query.access_token);
     axios
       .get(process.env.profile_endpoint, {
         headers: {
-          Authorization: "Bearer " + req.body.access_token,
+          Authorization: "Bearer " + req.query.access_token,
         },
       })
       .then(function (response) {
