@@ -5,6 +5,7 @@ const handleErrorAsync = require("../service/handleErrorAsync");
 const appError = require("../service/appError");
 const axios = require("axios");
 const jsonwebtoken = require("jwt-decode");
+const qs = require("qs");
 
 const lineAPIController = {
   async authorize(req, res, next) {
@@ -27,20 +28,18 @@ const lineAPIController = {
   async callback(req, res, next) {
     console.log("code=======>", req.query.code);
 
-    let reqPramater =
-      "grant_type=authorization_code&code=" +
-      req.query.code +
-      "&redirect_uri=" +
-      process.env.redirect_uri +
-      "&client_id=" +
-      process.env.client_id +
-      "&client_secret=" +
-      process.env.client_secret;
-    console.log("reqPramater=======>", reqPramater);
     if (!req.query.code) {
       handleSuccess(res, httpStatus.OK, resp.data);
       console.log("=======>state unmatch!");
     } else {
+      let reqPramater = qs.stringify({
+        grant_type: "authorization_code",
+        code: req.query.code,
+        redirect_uri: process.env.redirect_uri,
+        client_id: process.env.client_id,
+        client_secret: process.env.client_secret,
+      });
+      console.log("reqPramater=======>", reqPramater);
       axios
         .post(process.env.token_endpoint, reqPramater, {
           headers: {
