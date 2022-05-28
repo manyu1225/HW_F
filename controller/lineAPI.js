@@ -43,7 +43,7 @@ const lineAPIController = {
       .then(function (resp) {
         console.log("resp.data=>", resp.data);
         let decoded = jsonwebtoken(resp.data.id_token);
-        console.log(decoded.email);
+        console.log("decoded.email=>", decoded.email);
         resp.data.email = decoded.email;
         handleSuccess(res, httpStatus.OK, resp.data);
       })
