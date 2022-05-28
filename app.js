@@ -43,7 +43,6 @@ app.use(lineRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  console.error("出現重大錯誤.....", err);
   // 送出罐頭預設訊息
   res.status(404).json({
     status: "error",
