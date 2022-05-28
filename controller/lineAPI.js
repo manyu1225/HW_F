@@ -31,7 +31,7 @@ const lineAPIController = {
       "grant_type=authorization_code&code=" +
       req.query.code +
       "&redirect_uri=" +
-      process.env.redirect_uri +
+      "https://g11herokuexpress.herokuapp.com/" +
       "&client_id=" +
       process.env.client_id +
       "&client_secret=" +
