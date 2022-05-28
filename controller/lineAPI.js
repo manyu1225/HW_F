@@ -49,10 +49,8 @@ const lineAPIController = {
           let decoded = jsonwebtoken(res.data.id_token);
           console.log("decoded.email=>", decoded.email);
           res.data.email = decoded.email;
-          res.send({
-            status: "success",
-            data: res.data,
-          });
+
+          handleSuccess(res, httpStatus.OK, res.data);
         });
     }
     return;
