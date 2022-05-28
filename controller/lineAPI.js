@@ -31,25 +31,29 @@ const lineAPIController = {
       "grant_type=authorization_code&code=" +
       req.query.code +
       "&redirect_uri=" +
-      "https://g11herokuexpress.herokuapp.com/" +
+      process.env.redirect_uri +
       "&client_id=" +
       process.env.client_id +
       "&client_secret=" +
       process.env.client_secret;
     console.log("reqPramater=======>", reqPramater);
-
-    axios
-      .post(process.env.token_endpoint, reqPramater)
-      .then(function (resp) {
-        console.log("resp.data=>", resp.data);
-        let decoded = jsonwebtoken(resp.data.id_token);
-        console.log("decoded.email=>", decoded.email);
-        resp.data.email = decoded.email;
-        handleSuccess(res, httpStatus.OK, resp.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (req.query.state) {
+      res.send("state unmatch error");
+      console.log("=======>state unmatch!");
+    } else {
+      axios
+        .post(process.env.token_endpoint, reqPramater)
+        .then(function (resp) {
+          console.log("resp.data=>", resp.data);
+          let decoded = jsonwebtoken(resp.data.id_token);
+          console.log("decoded.email=>", decoded.email);
+          resp.data.email = decoded.email;
+          handleSuccess(res, httpStatus.OK, resp.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   },
   async getLinetoken(req, res, next) {
     axios
