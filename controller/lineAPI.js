@@ -44,16 +44,15 @@ const lineAPIController = {
             "Content-Type": "application/x-www-form-urlencoded",
           },
         })
-        .then(function (resp) {
-          console.log("resp.data=>", resp.data);
-          let decoded = jsonwebtoken(resp.data.id_token);
+        .then(function (res) {
+          console.log("resp.data=>", res.data);
+          let decoded = jsonwebtoken(res.data.id_token);
           console.log("decoded.email=>", decoded.email);
-          resp.data.email = decoded.email;
+          res.data.email = decoded.email;
           res.send({
             status: "success",
-            data: resp.data,
+            data: res.data,
           });
-          return;
         });
     }
     return;
