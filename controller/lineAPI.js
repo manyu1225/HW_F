@@ -34,7 +34,7 @@ const lineAPIController = {
       let reqPramater = qs.stringify({
         grant_type: "authorization_code",
         code: req.query.code,
-        redirect_uri: encodeURIComponent(process.env.redirect_uri),
+        redirect_uri: process.env.redirect_uri,
         client_id: process.env.client_id,
         client_secret: process.env.client_secret,
       });

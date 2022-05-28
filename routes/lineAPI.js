@@ -20,7 +20,8 @@ router.post(
   handleErrorAsync(async (req, res, next) =>
     lineAPIController.getLinetoken(req, res, next)
   )
-);
+); //https://intense-fortress-59028.herokuapp.com/?code=MtKd8W32KlL4trPnt18N&state=123123
+
 router.post(
   "/line/userInfo",
   handleErrorAsync(async (req, res, next) =>
