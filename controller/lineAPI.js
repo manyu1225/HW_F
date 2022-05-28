@@ -52,11 +52,14 @@ const lineAPIController = {
           let decoded = jsonwebtoken(resp.data.id_token);
           console.log("decoded.email=>", decoded.email);
           resp.data.email = decoded.email;
-          handleSuccess(res, httpStatus.OK, resp.data);
+          res.status(200).json({
+            status: "success",
+            data: resp.data,
+          });
           return;
         })
         .catch((e) => {
-          console.log(e.response.request._response);
+          console.log("error", e.response.request._response);
           return appError(httpStatus.BAD_REQUEST, "ERR.", next);
         });
     }
