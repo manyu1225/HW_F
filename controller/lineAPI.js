@@ -41,7 +41,6 @@ const lineAPIController = {
       handleSuccess(res, httpStatus.OK, resp.data);
       console.log("=======>state unmatch!");
     } else {
-      let v_data;
       axios
         .post(process.env.token_endpoint, reqPramater, {
           headers: {
@@ -53,8 +52,7 @@ const lineAPIController = {
           let decoded = jsonwebtoken(resp.data.id_token);
           console.log("decoded.email=>", decoded.email);
           resp.data.email = decoded.email;
-          v_data = resp.data;
-          handleSuccess(res, httpStatus.OK, v_data);
+          handleSuccess(res, httpStatus.OK, resp.data);
           return;
         })
         .catch((e) => {
