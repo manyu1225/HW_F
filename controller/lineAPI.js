@@ -43,7 +43,11 @@ const lineAPIController = {
     } else {
       let v_data;
       axios
-        .post(process.env.token_endpoint, reqPramater)
+        .post(process.env.token_endpoint, reqPramater, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          },
+        })
         .then(function (resp) {
           console.log("resp.data=>", resp.data);
           let decoded = jsonwebtoken(resp.data.id_token);
