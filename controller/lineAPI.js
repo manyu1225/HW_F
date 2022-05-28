@@ -39,22 +39,24 @@ const lineAPIController = {
         client_secret: process.env.client_secret,
       });
 
-      return axios
+      axios
         .post(process.env.token_endpoint, reqPramater, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
         })
-        .then(function (res) {
-          console.log("resp.data=>", res.data);
-          let decoded = jsonwebtoken(res.data.id_token);
+        .then(function (response) {
+          console.log("resp.data=>", response.data);
+          let decoded = jsonwebtoken(response.data.id_token);
           console.log("decoded.email=>", decoded.email);
-          res.data.email = decoded.email;
+          response.data.email = decoded.email;
+          handleSuccess(res, httpStatus.OK, response.data);
         })
         .catch(function (error) {
           console.log("err=====>", error);
         });
     }
+
     console.log("=========================err==========");
   },
   async getLinetoken(req, res, next) {
