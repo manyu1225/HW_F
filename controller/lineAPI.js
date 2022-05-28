@@ -57,10 +57,6 @@ const lineAPIController = {
             data: resp.data,
           });
           return;
-        })
-        .catch((e) => {
-          console.log("error", e.response.request._response);
-          return appError(httpStatus.BAD_REQUEST, "ERR.", next);
         });
     }
     return;
