@@ -48,6 +48,26 @@ const lineAPIController = {
           let decoded = jsonwebtoken(response.data.id_token);
           console.log("decoded.email=>", decoded.email);
           response.data.email = decoded.email;
+          const user = usersModel
+            .findOne({ email: decoded.email })
+            .select("+password");
+          if (!user) {
+            return appError(
+              httpStatus.BAD_REQUEST,
+              "請先註冊會員，謝謝！",
+              next
+            );
+          }
+          const editedUser = usersModel.findByIdAndUpdate(
+            user._id,
+            {
+              token: response.data.access_token,
+            },
+            { new: true, runValidators: true }
+          );
+          if (!editedUser) {
+            console.log("取得TOKEN失敗!");
+          }
           handleSuccess(res, httpStatus.OK, response.data);
         })
         .catch(function (error) {
