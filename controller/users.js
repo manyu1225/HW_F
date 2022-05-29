@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt"); //處理密碼，獲得 hashed password
 const jwt = require("jsonwebtoken"); //JWT 產生與驗證
-const { isAlpha, isNumeric, isLength } = require("validator");
+const { isLength, isNumeric, isAlpha } = require("validator");
 
 const usersModel = require("../models/User");
 const Likes = require("../models/Likes");
@@ -63,24 +63,25 @@ const usersController = {
   //從 Middleware 之 JWT 取得 User 資訊
   async updatePassword(req, res, next) {
     const { password, passwordConfirm } = req.body;
+
     if (!password || !passwordConfirm) {
       return appError(httpStatus.BAD_REQUEST, "欄位不可為空", next);
     }
 
+    if (password !== passwordConfirm) {
+      return appError(httpStatus.BAD_REQUEST, "密碼輸入不一致", next);
+    }
+
     if (
-      isAlpha(password) ||
+      !isLength(password, { min: 8 }) ||
       isNumeric(password) ||
-      !isLength(password, { min: 8 })
+      isAlpha(password)
     ) {
       return appError(
         httpStatus.BAD_REQUEST,
-        "密碼需至少8碼以上，並中英混合",
+        "密碼需至少 8 碼以上，並數字與英文或符號混合",
         next
       );
-    }
-
-    if (password !== passwordConfirm) {
-      return appError(httpStatus.BAD_REQUEST, "密碼輸入不一致", next);
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -90,14 +91,10 @@ const usersController = {
       {
         password: hashedPassword,
       },
-      { new: true, runValidators: true }
+      { new: true }
     );
 
-    if (!editedUser) {
-      return appError(httpStatus.NOT_FOUND, "查無此使用者", next);
-    }
-
-    await generateAndSendToken(res, httpStatus.OK, editedUer);
+    await generateAndSendToken(res, httpStatus.OK, editedUser);
   },
   //從 Middleware 之 JWT 取得 User 資訊
   async getProfile(req, res, next) {
