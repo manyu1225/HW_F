@@ -17,6 +17,7 @@ var uploadRouter = require("./routes/upload");
 var forgetPWRouter = require("./routes/forgetPassWord");
 var followRouter = require("./routes/follow");
 var lineRouter = require("./routes/lineAPI");
+var commentRouter = require("./routes/comment");
 var app = express();
 
 process.on("uncaughtException", (err) => {
@@ -37,10 +38,11 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/article", newPostRouter);
 app.use("/forget", forgetPWRouter);
-app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use("/upload", uploadRouter);
 app.use("/follow", followRouter);
 app.use("/line", lineRouter);
+app.use("/comments", commentRouter);
+app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use(function (req, res, next) {
   next(createError(404));
@@ -122,4 +124,3 @@ process.on("unhandledRejection", (err, promise) => {
   // 記錄於 log 上
 });
 module.exports = app;
-

@@ -7,7 +7,7 @@ const auth = require("../middleware/auth");
 router.post(
   /*  #swagger.tags = ['Users']
       #swagger.description = '註冊'
-      #swagger.path = '/sign_up'
+      #swagger.path = '/users/sign_up'
       #swagger.method = 'POST'
       #swagger.produces = ["application/json"]
       #swagger.parameters['body'] = {
@@ -30,7 +30,7 @@ router.post(
 router.post(
   /* #swagger.tags = ['Users']
      #swagger.description = '登入'
-     #swagger.path = '/sign_in'
+     #swagger.path = '/users/sign_in'
      #swagger.method = 'POST'
      #swagger.produces = ["application/json"]
      #swagger.parameters['body'] = {
@@ -53,7 +53,7 @@ router.post(
 router.post(
   /* #swagger.tags = ['Users']
      #swagger.description = '重設密碼'
-     #swagger.path = '/updatePassword'
+     #swagger.path = '/users/updatePassword'
      #swagger.method = 'POST'
      #swagger.produces = ["application/json"]
      #swagger.parameters['body'] = {
@@ -80,7 +80,7 @@ router.post(
 router.get(
   /* #swagger.tags = ['Users']
      #swagger.description = '取得個人資料'
-     #swagger.path = '/profile'
+     #swagger.path = '/users/profile'
      #swagger.method = 'GET'
      #swagger.produces = ["application/json"]
      #swagger.security = [{
@@ -97,7 +97,7 @@ router.get(
 router.patch(
   /*  #swagger.tags = ['Users']
       #swagger.description = '更新個人資料'
-      #swagger.path = '/profile'
+      #swagger.path = '/users/profile'
       #swagger.method = 'PATCH'
       #swagger.produces = ["application/json"]
       #swagger.security = [{
@@ -162,7 +162,7 @@ router.delete(
 router.get(
   /*#swagger.tags = ['Users']
     #swagger.description = 'Endpoint to get All Users(測試用)'
-    #swagger.path = '/'
+    #swagger.path = '/users'
     #swagger.method = 'GET'
     #swagger.responses[200] = { description: 'Some description...' }
    */
@@ -175,7 +175,7 @@ router.get(
 router.get(
   /* #swagger.tags = ['Users']
      #swagger.description = '取得個人資料(測試用)'
-      #swagger.path = '/{email}'
+      #swagger.path = '/users/{email}'
       #swagger.method = 'GET'
       #swagger.produces = ["application/json"]
   */
@@ -189,7 +189,7 @@ router.delete(
   /* 
   #swagger.tags = ['Users']
   #swagger.description = 'DELETE所有資料(測試用)'
-  #swagger.path = '/'
+  #swagger.path = '/users'
   #swagger.method = 'DELETE'
   */
   "/",
