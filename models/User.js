@@ -3,18 +3,18 @@ const usersSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "name must have value."],
+      required: [true, "姓名必須要有值"],
     },
     email: {
       type: String,
       lowercase: true,
-      required: [true, "email must have value."],
+      required: [true, "email必須要有值"],
       select: true,
       unique: true,
     },
     password: {
       type: String,
-      required: [true, "password must have value."],
+      required: [true, "密碼必須要有值"],
       minlength: 8,
       select: false,
     },

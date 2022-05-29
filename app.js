@@ -13,9 +13,11 @@ var httpStatusCodes = require("./utils/httpStatus");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var newPostRouter = require("./routes/article");
-var uploadRouter = require('./routes/upload');
-var forgetPWRouter =require('./routes/forgetPassWord');
-var followRouter =require('./routes/follow');
+var uploadRouter = require("./routes/upload");
+var forgetPWRouter = require("./routes/forgetPassWord");
+var followRouter = require("./routes/follow");
+var lineRouter = require("./routes/lineAPI");
+var commentRouter = require("./routes/comment");
 var app = express();
 
 process.on("uncaughtException", (err) => {
@@ -33,12 +35,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use(usersRouter);
+app.use("/users", usersRouter);
 app.use("/article", newPostRouter);
-app.use("/forget",forgetPWRouter);
+app.use("/forget", forgetPWRouter);
+app.use("/upload", uploadRouter);
+app.use("/follow", followRouter);
+app.use("/line", lineRouter);
+app.use("/comments", commentRouter);
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
-app.use('/upload', uploadRouter)
-app.use('/follow', followRouter)
 
 app.use(function (req, res, next) {
   next(createError(404));
