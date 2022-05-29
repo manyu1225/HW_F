@@ -42,7 +42,7 @@
     }
   },
   "paths": {
-    "/users/sign_up": {
+    "/sign_up": {
       "post": {
         "tags": [
           "Users"
@@ -84,7 +84,7 @@
         "responses": {}
       }
     },
-    "/users/sign_in": {
+    "/sign_in": {
       "post": {
         "tags": [
           "Users"
@@ -121,7 +121,7 @@
         "responses": {}
       }
     },
-    "/users/updatePassword": {
+    "/updatePassword": {
       "post": {
         "tags": [
           "Users"
@@ -163,7 +163,7 @@
         ]
       }
     },
-    "/users/profile": {
+    "/profile": {
       "get": {
         "tags": [
           "Users"
@@ -288,7 +288,7 @@
         }
       }
     },
-    "/users": {
+    "/": {
       "get": {
         "tags": [
           "Users"
@@ -310,7 +310,7 @@
         "responses": {}
       }
     },
-    "/users/{email}": {
+    "/{email}": {
       "get": {
         "tags": [
           "Users"
@@ -637,11 +637,7 @@
       "post": {
         "description": "",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       }
     },
     "/follow/": {
@@ -746,6 +742,27 @@
             "Bearer": []
           }
         ]
+      }
+    },
+    "/line/authorize": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/line/callback": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/line/userInfo": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
       }
     }
   }

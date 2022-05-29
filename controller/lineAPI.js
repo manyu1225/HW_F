@@ -6,6 +6,7 @@ const appError = require("../service/appError");
 const axios = require("axios");
 const jsonwebtoken = require("jwt-decode");
 const qs = require("qs");
+
 const lineAPIController = {
   async authorize(req, res, next) {
     const client_id = process.env.client_id;
@@ -51,16 +52,14 @@ const lineAPIController = {
         })
         .catch(function (error) {
           console.log("err=====>", error);
-          return appError(httpStatus.BAD_REQUEST, "ERR.", next);
+          return appError(httpStatus.BAD_REQUEST, error, next);
         });
-      console.log("===========2========");
     }
-    console.log("=============3======");
   },
   async getLineUserInfo(req, res, next) {
-    console.log("============5=====");
+    console.log("==========access_token=======>" + req.body.access_token);
     axios
-      .post(process.env.profile_endpoint, {
+      .get("https://api.line.me/v2/profile", {
         headers: {
           Authorization: "Bearer " + req.body.access_token,
         },
