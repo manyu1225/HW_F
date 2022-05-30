@@ -746,22 +746,48 @@
     },
     "/line/authorize": {
       "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
-    "/line/callback": {
-      "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "LINE登入",
+        "description": "LINE登入",
+        "produces": [
+          ""
+        ],
         "parameters": [],
         "responses": {}
       }
     },
     "/line/userInfo": {
       "post": {
-        "description": "",
-        "parameters": [],
+        "tags": [
+          "Users"
+        ],
+        "summary": "利用LINE TOKEN取個人資料(測試用)",
+        "description": "利用LINE TOKEN取個人資料(測試用)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiJ9.s0l1EmYB25ysUIUdT8sUhX-a7IPwLDjI8Pj4-NySnNZYx5YWdlAti9chTsHGCUKIHcIoRLv5xcV4QCvS7dAUrD1X4YP_bBb42HyDZl4xLNgntpvwXmlw4vror0gLa_g90F8UwIQPZ0xvm8QLtgxBvv5T91fdT8i1Pgc1sQ688Xo.fxMngyaDzhvDA_ICH87D-9UAPYJzpvcPwmNe1YhLW3E"
+                }
+              },
+              "required": [
+                "access_token"
+              ]
+            }
+          }
+        ],
         "responses": {}
       }
     },
