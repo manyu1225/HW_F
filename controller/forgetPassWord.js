@@ -55,7 +55,7 @@ const forgetPasswordController={
         const emailContent = 
         '您好\n\n'
         + '按一下下方連結以重設您帳戶的密碼。\n\n'
-        + `https://carolchyang.github.io/nodeFinal/#/forget/${token}\n\n`
+        + `https://carolchyang.github.io/nodeFinal/#/signin/${token}\n\n`
         + '此連結將從您收到此封電子郵件起 24 小時內有效。如果您沒有提出此要求，請忽略此電子郵件，您的密碼並未變更。\n' ;
         
         //設定寄件選項
