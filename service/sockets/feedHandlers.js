@@ -1,7 +1,4 @@
-const { server } = require("http");
-const io = require("socket.io")(server);
-
-io.on("connection", (socket) => {
+module.exports = (io, socket) => {
   // 每個連線者各自的登記表
   let registerBook;
 
@@ -37,4 +34,4 @@ io.on("connection", (socket) => {
       io.emit("updateLikeCount", { postId, likeCount });
     }
   });
-});
+};
