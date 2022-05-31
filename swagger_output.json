@@ -364,6 +364,10 @@
                   "type": "string",
                   "example": "排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) "
                 },
+                "postId": {
+                  "type": "string",
+                  "example": "指定貼文Id"
+                },
                 "userId": {
                   "type": "string",
                   "example": "指定要查的使用者"
