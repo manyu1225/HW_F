@@ -6,6 +6,22 @@ const appError = require("../service/appError");
 const axios = require("axios");
 const jsonwebtoken = require("jwt-decode");
 const qs = require("qs");
+const jwt = require("jsonwebtoken");
+
+const generateAndSendToken = async (res, statusCode, user) => {
+  const token = jwt.sign(
+    { id: user._id, name: user.name },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_DAY,
+    }
+  );
+  const resData = {
+    token,
+    user,
+  };
+  handleSuccess(res, statusCode, resData);
+};
 
 const lineAPIController = {
   async authorize(req, res, next) {
@@ -26,7 +42,6 @@ const lineAPIController = {
     res.redirect(url);
   },
   async callback(req, res, next) {
-    console.log("=======>", req.query.code);
     if (!req.query.code) {
       return appError(httpStatus.BAD_REQUEST, "code 必須有值!", next);
     } else {
@@ -37,47 +52,51 @@ const lineAPIController = {
         client_id: process.env.client_id,
         client_secret: process.env.client_secret,
       });
-      axios
+      await axios
         .post(process.env.token_endpoint, reqPramater, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
         })
-        .then(function (response) {
-          console.log("response.data=>", response.data);
+        .then(async function (response) {
           let decoded = jsonwebtoken(response.data.id_token);
-          console.log("decoded.email=>", decoded.email);
           response.data.email = decoded.email;
-          const user = usersModel
+
+          const user = await usersModel
             .findOne({ email: decoded.email })
             .select("+password");
+
           if (!user) {
-            return appError(
-              httpStatus.BAD_REQUEST,
-              "請先註冊會員，謝謝！",
-              next
-            );
-          }
-          const editedUser = usersModel.findByIdAndUpdate(
-            user._id,
-            {
+            const newUser = await usersModel.create({
+              name: decoded.name,
+              email: decoded.email,
               token: response.data.access_token,
-            },
-            { new: true, runValidators: true }
-          );
-          if (!editedUser) {
-            console.log("取得TOKEN失敗!");
+              password: response.data.access_token,
+            });
+            if (!newUser) {
+              return appError(httpStatus.BAD_REQUEST, "LINE登入失敗!", next);
+            }
+            generateAndSendToken(res, httpStatus.CREATED, newUser);
+          } else {
+            const editedUser = await usersModel.findByIdAndUpdate(
+              user.id,
+              {
+                token: response.data.access_token,
+              },
+              { new: true, runValidators: true }
+            );
+            if (!editedUser) {
+              return appError(httpStatus.BAD_REQUEST, "LINE登入失敗!", next);
+            }
+            generateAndSendToken(res, httpStatus.CREATED, editedUser);
           }
-          handleSuccess(res, httpStatus.OK, response.data);
         })
         .catch(function (error) {
-          console.log("err=====>", error);
           return appError(httpStatus.BAD_REQUEST, error, next);
         });
     }
   },
   async getLineUserInfo(req, res, next) {
-    console.log("==========access_token=======>" + req.body.access_token);
     axios
       .get("https://api.line.me/v2/profile", {
         headers: {
@@ -85,12 +104,10 @@ const lineAPIController = {
         },
       })
       .then(function (response) {
-        console.log("response.data===>", response.data);
         handleSuccess(res, httpStatus.OK, response.data);
       })
       .catch(function (error) {
-        console.log("err=====>", error);
-        return appError(httpStatus.BAD_REQUEST, "ERR.", next);
+        return appError(httpStatus.BAD_REQUEST, error, next);
       });
   },
 };

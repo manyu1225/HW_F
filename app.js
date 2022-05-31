@@ -45,7 +45,9 @@ app.use("/comments", commentRouter);
 app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use(function (req, res, next) {
-  next(createError(404));
+  res.status(404).json({
+    message: "無此路由!",
+  });
 });
 
 // 自己設定的 err 錯誤

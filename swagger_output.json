@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "https://g11herokuexpress.herokuapp.com",
+  "host": "g11herokuexpress.herokuapp.com",
   "basePath": "/",
   "tags": [
     {
@@ -42,7 +42,7 @@
     }
   },
   "paths": {
-    "/sign_up": {
+    "/users/sign_up": {
       "post": {
         "tags": [
           "Users"
@@ -84,7 +84,7 @@
         "responses": {}
       }
     },
-    "/sign_in": {
+    "/users/sign_in": {
       "post": {
         "tags": [
           "Users"
@@ -121,7 +121,7 @@
         "responses": {}
       }
     },
-    "/updatePassword": {
+    "/users/updatePassword": {
       "post": {
         "tags": [
           "Users"
@@ -163,7 +163,7 @@
         ]
       }
     },
-    "/profile": {
+    "/users/profile": {
       "get": {
         "tags": [
           "Users"
@@ -288,7 +288,7 @@
         }
       }
     },
-    "/": {
+    "/users": {
       "get": {
         "tags": [
           "Users"
@@ -310,7 +310,7 @@
         "responses": {}
       }
     },
-    "/{email}": {
+    "/users/{email}": {
       "get": {
         "tags": [
           "Users"
@@ -363,6 +363,10 @@
                 "reverse": {
                   "type": "string",
                   "example": "排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) "
+                },
+                "postId": {
+                  "type": "string",
+                  "example": "指定貼文Id"
                 },
                 "userId": {
                   "type": "string",
@@ -746,23 +750,209 @@
     },
     "/line/authorize": {
       "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
-    "/line/callback": {
-      "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "summary": "LINE登入",
+        "description": "LINE登入",
+        "produces": [
+          ""
+        ],
         "parameters": [],
         "responses": {}
       }
     },
     "/line/userInfo": {
       "post": {
-        "description": "",
-        "parameters": [],
+        "tags": [
+          "Users"
+        ],
+        "summary": "利用LINE TOKEN取個人資料(測試用)",
+        "description": "利用LINE TOKEN取個人資料(測試用)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiJ9.s0l1EmYB25ysUIUdT8sUhX-a7IPwLDjI8Pj4-NySnNZYx5YWdlAti9chTsHGCUKIHcIoRLv5xcV4QCvS7dAUrD1X4YP_bBb42HyDZl4xLNgntpvwXmlw4vror0gLa_g90F8UwIQPZ0xvm8QLtgxBvv5T91fdT8i1Pgc1sQ688Xo.fxMngyaDzhvDA_ICH87D-9UAPYJzpvcPwmNe1YhLW3E"
+                }
+              },
+              "required": [
+                "access_token"
+              ]
+            }
+          }
+        ],
         "responses": {}
+      }
+    },
+    "/comments": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "查詢回覆",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "新增回覆",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "XXXXXXXXXXXXXXXXXXXXXXXxxx"
+                },
+                "postId": {
+                  "type": "string",
+                  "example": "62932decf5ca8d7e2a82bcaf"
+                }
+              },
+              "required": [
+                "content",
+                "postId"
+              ]
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/comments/{id}": {
+      "delete": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "刪除回覆",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/comments": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "查詢回覆",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "新增回覆",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "XXXXXXXXXXXXXXXXXXXXXXXxxx"
+                },
+                "postId": {
+                  "type": "string",
+                  "example": "62932decf5ca8d7e2a82bcaf"
+                }
+              },
+              "required": [
+                "content",
+                "postId"
+              ]
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/comments/{id}": {
+      "delete": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "刪除回覆",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     }
   }

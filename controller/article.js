@@ -23,6 +23,7 @@ const articleController = {
                   "page":"目前第幾頁(required,最小為 1,number) ", 
                   "sort":"排序類型(required, [ 1 發文時間、 2 按讚數(熱門) ],number)", 
                   "reverse":"排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) ", 
+                  "postId":"指定貼文Id",
                   "$userId":'指定要查的使用者',
                   "$content":'搜尋貼文內容(模糊搜尋)',
                 }
@@ -39,13 +40,19 @@ const articleController = {
       }
       let reverse = req.body.reverse ?  1 : -1;
       let sort = {"createAt":reverse};
-      
+      let postId =req.body.postId ||"";
+
       if (req.body.sort == 2) {
          sort = {"likeCount":reverse};
       }
       if (keyWord) {
         searchMode.content={$regex:new RegExp(keyWord,'i')};
       }
+
+      if(postId){
+        searchMode._id=postId;
+      }
+
       if(userId){
         searchMode.userId=userId;
       }
@@ -63,6 +70,16 @@ const articleController = {
       .skip(startIndex)
       .limit(pageCount);
 
+      let dataCounts = await Article.countDocuments({});
+      let totalPages = Math.floor(dataCounts/pageCount,0)+1
+      result = {
+        pagination:{
+          "current_pages":page+1,
+          "total_pages":totalPages,
+          "total_datas":dataCounts
+        },
+        data:result
+      }
       handleSuccess(res, httpStatus.OK, result);
     })(req, res, next);
   },
