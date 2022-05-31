@@ -42,7 +42,7 @@
     }
   },
   "paths": {
-    "/sign_up": {
+    "/users/sign_up": {
       "post": {
         "tags": [
           "Users"
@@ -84,7 +84,7 @@
         "responses": {}
       }
     },
-    "/sign_in": {
+    "/users/sign_in": {
       "post": {
         "tags": [
           "Users"
@@ -121,7 +121,7 @@
         "responses": {}
       }
     },
-    "/updatePassword": {
+    "/users/updatePassword": {
       "post": {
         "tags": [
           "Users"
@@ -163,7 +163,7 @@
         ]
       }
     },
-    "/profile": {
+    "/users/profile": {
       "get": {
         "tags": [
           "Users"
@@ -288,7 +288,7 @@
         }
       }
     },
-    "/": {
+    "/users": {
       "get": {
         "tags": [
           "Users"
@@ -310,7 +310,7 @@
         "responses": {}
       }
     },
-    "/{email}": {
+    "/users/{email}": {
       "get": {
         "tags": [
           "Users"
@@ -763,6 +763,86 @@
         "description": "",
         "parameters": [],
         "responses": {}
+      }
+    },
+    "/comments": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "查詢回覆",
+        "parameters": [],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "新增回覆",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "資料格式",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "XXXXXXXXXXXXXXXXXXXXXXXxxx"
+                },
+                "postId": {
+                  "type": "string",
+                  "example": "62932decf5ca8d7e2a82bcaf"
+                }
+              },
+              "required": [
+                "content",
+                "postId"
+              ]
+            }
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/comments/{id}": {
+      "delete": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "刪除回覆",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     }
   }
