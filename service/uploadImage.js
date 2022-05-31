@@ -4,11 +4,10 @@ const appError = require("./appError");
 const { ImgurClient } = require('imgur');
 const { MulterError } = require('multer');
 const { nextTick } = require('process');
-
 const httpStatus = require("../utils/httpStatus");
-
 const imagMaxSize = 1;
-const upload = multer({
+
+const uploadImage = multer({
   limits: {
     fileSize: imagMaxSize*1024*1024,
   },
@@ -19,25 +18,22 @@ const upload = multer({
     }
     cb(null, true);
   },
+});
 
-}).single('img');
+const handleUploadImageError = (err, next) => {
+  if (err) {
+    console.log(err);
 
-const uploadImage = (req, res, next) => {
-  upload(req, res, (err) => {
-    if (err) {
-      console.log(err);
-  
-      if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
-        return appError(httpStatus.BAD_REQUEST, '圖片 size 不得超過' + imagMaxSize + 'M', next);
-      } else if (err instanceof Error) {
-        return appError(httpStatus.BAD_REQUEST, "檔案格式錯誤，僅限上傳 jpg、jpeg 與 png 格式", next);
-      }
-      
-      return appError(httpStatus.BAD_REQUEST, "圖片上傳錯誤", next);      
+    if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
+      return appError(httpStatus.BAD_REQUEST, '圖片 size 不得超過' + imagMaxSize + 'M', next);
+    } else if (err instanceof Error) {
+      return appError(httpStatus.BAD_REQUEST, "檔案格式錯誤，僅限上傳 jpg、jpeg 與 png 格式", next);
     }
+    
+    return appError(httpStatus.BAD_REQUEST, "圖片上傳錯誤", next);      
+  }
 
-    next();
-}); 
+  next();
 };
 
-module.exports = uploadImage; 
+module.exports = { uploadImage, handleUploadImageError }; 
