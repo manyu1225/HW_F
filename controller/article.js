@@ -191,7 +191,7 @@ const articleController = {
         return appError(httpStatus.BAD_REQUEST, "無該ID", next);
       }
 
-      await Article.findOneAndUpdate(postId, {
+      await Article.findByIdAndUpdate(postId, {
         isActive: false,
       });
 
