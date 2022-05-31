@@ -5,44 +5,74 @@ const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
 const handleErrorAsync = require("../service/handleErrorAsync");
 const { aggregate } = require("../models/ArticlePost");
-
+const { uploadImage, handleUploadImageError } = require('../service/uploadImage');
+const saveImage = require('../service/saveImage');
+	
 const articleController = {
   async getAll(req, res, next) {
     handleErrorAsync(async (req, res, next) => {
       /*  #swagger.tags = ['Posts']
-          #swagger.summary="撈貼文(有給userId為指定人物貼文列) *熱門貼文排序還在修正中* "
-          #swagger.description = '撈貼文(有給userId為指定人物貼文列) *熱門貼文排序還在修正中*'
+          #swagger.summary="撈貼文(有給userId為指定人物貼文列)  "
+          #swagger.description = '撈貼文(有給userId為指定人物貼文列)'
           #swagger.method = 'GET'
           #swagger.produces = ["application/json"]
-          #swagger.parameters['body'] = {
-            in: 'body',
-            type :"object",
-            required:true,
-            schema: {
-                  "pageCount":"每頁筆數 (required,預設10筆,number)", 
-                  "page":"目前第幾頁(required,最小為 1,number) ", 
-                  "sort":"排序類型(required, [ 1 發文時間、 2 按讚數(熱門) ],number)", 
-                  "reverse":"排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) ", 
-                  "postId":"指定貼文Id",
-                  "$userId":'指定要查的使用者',
-                  "$content":'搜尋貼文內容(模糊搜尋)',
-                }
-            }
+          #swagger.parameters['query'] = [{
+            in: 'query',
+            name:"pageCount"
+            type :"number",
+            description:"每頁筆數 (required,預設10筆,number)"
+          },
+          {
+            in: 'query',
+            name:"page"
+            type :"number",
+            description:"目前第幾頁(required,最小為 1,number)"
+          },
+          {
+            in: 'query',
+            name:"sort"
+            type :"number",
+            description:"排序類型(required, [ 1 發文時間],number)"
+          },
+          {
+            in: 'query',
+            name:"reverse"
+            type :"boolean",
+            description:"排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) "
+          },          
+          {
+            in: 'query',
+            name:"postId"
+            type :"string",
+            description:"指定貼文Id"
+          },
+          {
+            in: 'userId',
+            name:"postId"
+            type :"string",
+            description:"指定要查的使用者"
+          },
+          {
+            in: 'query',
+            name:"content"
+            type :"string",
+            description:"搜尋貼文內容(模糊搜尋)"
+          }]
       */
-      let pageCount = req.body.pageCount || 10; //預設為10筆
-      let page = (req.body.page || 1 )-1; //頁數最小為0頁，但閱讀不易所以改成第1頁為開始
+      let pageCount = req.query.pageCount || 10; //預設為10筆
+      let page = (req.query.page || 1 )-1; //頁數最小為0頁，但閱讀不易所以改成第1頁為開始
       let startIndex=  pageCount*page;
-      let keyWord = req.body.content;
-      let userId=req.body.userId;
+      let keyWord = req.query.content;
+      let userId=req.query.userId;
       
       let searchMode = {
         isActive:true
       }
-      let reverse = req.body.reverse ?  1 : -1;
+      let reverse = req.query.reverse ?  1 : -1;
       let sort = {"createAt":reverse};
-      let postId =req.body.postId ||"";
+      let postId =req.query.postId ||"";
 
-      if (req.body.sort == 2) {
+      if (req.query.sort == 2) {
          sort = {"likeCount":reverse};
       }
       if (keyWord) {
@@ -70,8 +100,8 @@ const articleController = {
       .skip(startIndex)
       .limit(pageCount);
 
-      let dataCounts = await Article.countDocuments({});
-      let totalPages = Math.floor(dataCounts/pageCount,0)+1
+      let dataCounts = await Article.find(searchMode).countDocuments({});
+      let totalPages = Math.floor(dataCounts/pageCount,0) + (((dataCounts%pageCount)>0)? 1:0) //如果有餘數表示要多一頁
       result = {
         pagination:{
           "current_pages":page+1,
@@ -91,18 +121,19 @@ const articleController = {
           #swagger.method = 'POST'
           #swagger.produces = ["application/json"]
           #swagger.security = [{ "Bearer": [] }]
-          #swagger.parameters['body'] = {
-            in: 'body',
-            type :"object",
-            required:true,
-            schema: {
-                  "$content":'文章內容',
-                  "$imageId":'photo.jpg',
-                }
-            }
+          #swagger.parameters['formData'] = [{
+            in: 'formData',
+            name:'img',
+            type :'file',
+            description:'圖片'
+            },{
+            in: 'formData',
+            name:'content',
+            type :'string',
+            description:'貼文內容'
+            }]
       */
-
-      if (!req.body.content && !req.body.imageId) {
+      if (!req.body.content && !req.files['img']) {
         return appError(
           httpStatus.BAD_REQUES,
           "貼文內容或圖片內容必擇一填寫!",
@@ -115,16 +146,26 @@ const articleController = {
       if (!userId) {
         return appError(httpStatus.BAD_REQUES, "請先登入在填寫!", next);
       }
+      let imgData={}
+      if (req.files['img']) {
+        req.file=req.files['img'][0]
+        //存到圖床，回傳物件 { isSave, imgUrl }
+        imgData =  await saveImage(req, res, next);
+        if (! imgData.isSave) {
+          return appError(httpStatus.BAD_REQUES, "圖片上傳失敗!", next);
+        }
 
-      let imageId = req.body.imageId;
-      if (!imageId) {
-        imageId = "";
+      }
+
+      let imagePath = imgData.imgUrl;
+      if (!imagePath) {
+        imagePath = "";
       }
 
       const newUser = await Article.create({
         content: req.body.content,
         userId: userId,
-        imageId: imageId,
+        imageId: imagePath,
       });
 
       handleSuccess(res, httpStatus.CREATED, newUser);
