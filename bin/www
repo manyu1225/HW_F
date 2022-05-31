@@ -60,6 +60,13 @@ io.on("connection", (socket) => {
       });
     }
   });
+
+  // 通知有該貼文的連線者，變更其按讚數
+  socket.on("changeLikeCount", ({ postId, likeCount }) => {
+    if (registerBook.has(postId)) {
+      io.emit("updateLikeCount", { postId, likeCount });
+    }
+  });
 });
 
 /**
