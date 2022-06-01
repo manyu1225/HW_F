@@ -30,7 +30,7 @@ router.post(
     #swagger.summary='利用LINE TOKEN取個人資料(測試用)'
     #swagger.path = '/line/userInfo'
     #swagger.method = 'POST'
-    #swagger.produces = ["application/json"]
+    #swagger.produces = ["application/x-www-form-urlencoded"]
     #swagger.parameters['body'] = {
      in: 'body',
      type:"object",

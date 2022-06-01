@@ -7,13 +7,13 @@ const auth = require("../middleware/auth");
 router.get(
   /*  #swagger.tags = ['Comments']
       #swagger.description = '查詢回覆'
-      #swagger.path = '/comments'
+      #swagger.path = '/comments/{id}'
       #swagger.method = 'GET'
       #swagger.security = [{
          "Bearer": []
      }]
    */
-  "/",
+  "/:id",
   auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
     CommentController.getComment(req, res, next)
