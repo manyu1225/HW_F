@@ -104,17 +104,26 @@ router.post(
       #swagger.security = [{
          "Bearer": []
       }]
-      #swagger.parameters['body'] = {
-        in: 'body',
-        type :"object",
-        required: true,
-        description: "gender enum: [unknown, male, female]",
-        schema: {
-                "name": 'Jhon DoeC',
-                "photo": 'https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png',
-                "gender": 'male'
-            }
+      #swagger.parameters['formData'] = [
+        {
+          in: 'formData',
+          name:'photo',
+          type :'file',
+          description:'圖片'
+        },
+        {
+          in: 'formData',
+          name:'name',
+          type :'string',
+          description:'使用者名稱'
+        },
+        {
+          in: 'formData',
+          name:'gender',
+          type :'string',
+          description:'使者性別：unknown, male, female'
         }
+      ]
      */
   "/profile",
   auth.isAuth,
