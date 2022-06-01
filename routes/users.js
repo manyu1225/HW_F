@@ -3,6 +3,7 @@ const router = express.Router();
 const UsersController = require("../controller/users");
 const handleErrorAsync = require("../service/handleErrorAsync");
 const auth = require("../middleware/auth");
+const checkAvatar = require("../middleware/checkAvatar");
 
 router.post(
   /*  #swagger.tags = ['Users']
@@ -94,7 +95,7 @@ router.get(
   )
 );
 // PATCH：{url}/users/profile: 更新個人資料，需設計 isAuth middleware
-router.patch(
+router.post(
   /*  #swagger.tags = ['Users']
       #swagger.description = '更新個人資料'
       #swagger.path = '/users/profile'
@@ -117,6 +118,7 @@ router.patch(
      */
   "/profile",
   auth.isAuth,
+  checkAvatar,
   handleErrorAsync(async (req, res, next) =>
     UsersController.updateProfile(req, res, next)
   )
