@@ -7,7 +7,7 @@ const Likes = require("../models/Likes");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
 const appError = require("../service/appError");
-const filterObject = require("../utils/filterObject");
+const saveImage = require("../service/saveImage");
 
 const generateAndSendToken = async (res, statusCode, user) => {
   const token = jwt.sign(
@@ -101,16 +101,16 @@ const usersController = {
     handleSuccess(res, httpStatus.OK, req.user);
   },
   async updateProfile(req, res, next) {
-    const allowFileds = ["name", "photo", "gender"];
-    const filteredBody = filterObject(req.body, allowFileds);
-
-    if (Object.keys(filteredBody).length === 0) {
-      return appError(httpStatus.BAD_REQUEST, "請輸入正確欄位", next);
+    // 取得 Imgur 網址
+    if (req.file) {
+      const resObj = await saveImage(req, res, next);
+      req.body["photo"] = resObj.imgUrl;
+      req.file = undefined;
     }
 
     const editedUser = await usersModel.findByIdAndUpdate(
       req.user._id,
-      filteredBody,
+      req.body,
       { new: true, runValidators: true }
     );
 
@@ -118,7 +118,11 @@ const usersController = {
       return appError(httpStatus.NOT_FOUND, "查無此使用者", next);
     }
 
-    await generateAndSendToken(res, httpStatus.OK, editedUser);
+    if (req.body["name"]) {
+      await generateAndSendToken(res, httpStatus.OK, editedUser);
+    } else {
+      handleSuccess(res, httpStatus.OK, editedUser);
+    }
   },
   async getlikeList(req, res, next) {
     const likes = await Likes.find({ user: req.params.id })

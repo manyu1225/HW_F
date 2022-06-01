@@ -3,6 +3,7 @@ const router = express.Router();
 const UsersController = require("../controller/users");
 const handleErrorAsync = require("../service/handleErrorAsync");
 const auth = require("../middleware/auth");
+const checkAvatar = require("../middleware/checkAvatar");
 
 router.post(
   /*  #swagger.tags = ['Users']
@@ -94,7 +95,7 @@ router.get(
   )
 );
 // PATCH：{url}/users/profile: 更新個人資料，需設計 isAuth middleware
-router.patch(
+router.post(
   /*  #swagger.tags = ['Users']
       #swagger.description = '更新個人資料'
       #swagger.path = '/users/profile'
@@ -103,20 +104,30 @@ router.patch(
       #swagger.security = [{
          "Bearer": []
       }]
-      #swagger.parameters['body'] = {
-        in: 'body',
-        type :"object",
-        required: true,
-        description: "gender enum: [unknown, male, female]",
-        schema: {
-                "name": 'Jhon DoeC',
-                "photo": 'https://carolchyang.github.io/nodeFinal/img/login.e25e826d.png',
-                "gender": 'male'
-            }
+      #swagger.parameters['formData'] = [
+        {
+          in: 'formData',
+          name:'photo',
+          type :'file',
+          description:'圖片'
+        },
+        {
+          in: 'formData',
+          name:'name',
+          type :'string',
+          description:'使用者名稱'
+        },
+        {
+          in: 'formData',
+          name:'gender',
+          type :'string',
+          description:'使者性別：unknown, male, female'
         }
+      ]
      */
   "/profile",
   auth.isAuth,
+  checkAvatar,
   handleErrorAsync(async (req, res, next) =>
     UsersController.updateProfile(req, res, next)
   )
