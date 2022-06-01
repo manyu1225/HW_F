@@ -758,7 +758,7 @@
         "summary": "利用LINE TOKEN取個人資料(測試用)",
         "description": "利用LINE TOKEN取個人資料(測試用)",
         "produces": [
-          "application/json"
+          "application/x-www-form-urlencoded"
         ],
         "parameters": [
           {
@@ -783,13 +783,20 @@
         "responses": {}
       }
     },
-    "/comments": {
+    "/comments/{id}": {
       "get": {
         "tags": [
           "Comments"
         ],
         "description": "查詢回覆",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {},
         "security": [
           {
@@ -797,6 +804,31 @@
           }
         ]
       },
+      "delete": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "刪除回覆",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/comments": {
       "post": {
         "tags": [
           "Comments"
@@ -828,31 +860,6 @@
                 "postId"
               ]
             }
-          }
-        ],
-        "responses": {},
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
-      }
-    },
-    "/comments/{id}": {
-      "delete": {
-        "tags": [
-          "Comments"
-        ],
-        "description": "刪除回覆",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {},
