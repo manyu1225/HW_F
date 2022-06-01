@@ -14,25 +14,46 @@ const articleController = {
           #swagger.method = 'GET'
           #swagger.produces = ["application/json"]
           #swagger.security = [{ "Bearer": [] }]
-          #swagger.parameters['body'] = {
-            in: 'body',
-            type :"object",
-            required:true,
-            schema: {
-                  "pageCount":"每頁筆數 (required,預設10筆,number)", 
-                  "page":"目前第幾頁(required,最小為 1,number) ", 
-                  "sort":"排序類型(required, [ 1 發文時間、 2 按讚數(熱門) ],number)", 
-                  "reverse":"排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) ", 
-                }
-            }
+          #swagger.parameters['query'] = [{
+            in: 'query',
+            name:"pageCount"
+            type :"number",
+            description:"每頁筆數 (required,預設10筆,number)"
+          },
+          {
+            in: 'query',
+            name:"page"
+            type :"number",
+            description:"目前第幾頁(required,最小為 1,number)"
+          },
+          {
+            in: 'query',
+            name:"sort"
+            type :"number",
+            description:"排序類型(required, [ 1 發文時間],number)"
+          },
+          {
+            in: 'query',
+            name:"reverse"
+            type :"boolean",
+            description:"排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) "
+          }]
       */
-      let pageCount = req.body.pageCount || 10; //預設為10筆
-      let page = (req.body.page || 1 )-1; //頁數最小為0頁，但閱讀不易所以改成第1頁為開始
+      let pageCount = req.query.pageCount || 10; //預設為10筆
+      let page = (req.query.page || 1 )-1; //頁數最小為0頁，但閱讀不易所以改成第1頁為開始
       let startIndex=  pageCount*page;
-      let keyWord = req.body.content;
-      let userId=req.body.userId;
-      let sort = (req.body.sort|| "createAt")
+      let keyWord = req.query.content;
+      let userId=req.query.userId;
+      let sort = (req.query.sort|| "createAt")
       let result = await Follow.find()
+      .populate({
+        path: "userId",
+        select: "_id name photo",
+      })      
+      .populate({
+        path: "targetUserId",
+        select: "_id name photo",
+      })
       .skip(startIndex)
       .limit(pageCount);     
       handleSuccess(res, httpStatus.OK, result);

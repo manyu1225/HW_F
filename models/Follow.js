@@ -14,7 +14,6 @@ const followSchema = new mongoose.Schema(
     createAt: {
       type: Date,
       default: Date.now,
-      select: false,
     },
   },
   {
