@@ -33,11 +33,13 @@ const CommentController = {
     );
     const user = await User.findById(newComment.user);
     handleSuccess(res, httpStatus.OK, {
+      content: newComment.content,
+      userId: user._id,
       postId: newComment.post,
+      _id: newComment._id,
       updateAt: newComment.updateAt,
       createAt: newComment.createAt,
-      content: newComment.content,
-      user: user._id,
+      id: newComment._id,
     });
   },
 
@@ -59,12 +61,25 @@ const CommentController = {
   },
 
   //該貼文德
-  async getComment(req, res, next) {
+  async getCommentById(req, res, next) {
+    const commentId = req.params.id;
+    const data = await Comment.find({ commentId: commentId })
+      .populate({
+        path: "user",
+        select: "_id name email photo",
+      })
+      .populate({
+        path: "post",
+        select: "id  content userId updateAt createAt",
+      });
+    if (!data) return appError(httpStatus.BAD_REQUEST, "查詢失敗!", next);
+    handleSuccess(res, httpStatus.OK, data);
+  },
+
+  async getCommentByPostId(req, res, next) {
     const postId = req.params.id;
-    const isCommentExist = await Comment.findById(commentId).exec();
-    if (!isCommentExist)
-      return appError(httpStatus.BAD_REQUEST, "查詢失敗!", next);
     const data = await Article.find({ postId: postId });
+    if (!data) return appError(httpStatus.BAD_REQUEST, "查詢失敗!", next);
     handleSuccess(res, httpStatus.OK, data);
   },
 };

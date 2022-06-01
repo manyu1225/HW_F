@@ -7,6 +7,21 @@ const auth = require("../middleware/auth");
 router.get(
   /*  #swagger.tags = ['Comments']
       #swagger.description = '查詢回覆'
+      #swagger.path = '/comments/post/{id}'
+      #swagger.method = 'GET'
+      #swagger.security = [{
+         "Bearer": []
+     }]
+   */
+  "/post/:id",
+  auth.isAuth,
+  handleErrorAsync(async (req, res, next) =>
+    CommentController.getCommentByPostId(req, res, next)
+  )
+);
+router.get(
+  /*  #swagger.tags = ['Comments']
+      #swagger.description = '查詢回覆'
       #swagger.path = '/comments/{id}'
       #swagger.method = 'GET'
       #swagger.security = [{
@@ -16,10 +31,9 @@ router.get(
   "/:id",
   auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
-    CommentController.getComment(req, res, next)
+    CommentController.getCommentById(req, res, next)
   )
 );
-
 router.post(
   /*  #swagger.tags = ['Comments']
       #swagger.description = '新增回覆'
