@@ -5,7 +5,7 @@ var followController =require('../controller/follow');
 
 router
   .route("/")
-  .get([followController.getAll])           // 取得追蹤清單
+  .get([isAuth,followController.getAll])           // 取得追蹤清單
   .post([isAuth, followController.createFollow]);    // 新增追蹤
 
 router.route("/:followId").delete([isAuth, followController.deleteFollow]);  // 取消追蹤
