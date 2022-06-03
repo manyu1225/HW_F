@@ -125,7 +125,14 @@ const usersController = {
     }
   },
   async getlikeList(req, res, next) {
-    const likes = await Likes.find({ user: req.params.id })
+    const user = req.params.id;
+    const { pageCount, page, reverse } = req.query;
+    const pageNumber = Number(page) || 1;
+    const limit = Number(pageCount) || 10;
+    const sortBy = Number(reverse) === 1 ? "createAt" : "-createAt";
+    const skip = (pageNumber - 1) * limit;
+
+    const likes = await Likes.find({ user })
       .populate({
         path: "user",
         select: "name photo",
@@ -137,9 +144,22 @@ const usersController = {
           path: "userId",
           select: "name photo",
         },
-      });
+      })
+      .skip(skip)
+      .limit(limit)
+      .sort(sortBy);
 
-    handleSuccess(res, httpStatus.OK, likes);
+    const likesCount = await Likes.countDocuments({ user });
+    const totalPages = Math.ceil(likesCount / limit);
+
+    handleSuccess(res, httpStatus.OK, {
+      pagination: {
+        current_pages: pageNumber,
+        total_pages: totalPages,
+        total_datas: likesCount,
+      },
+      likes,
+    });
   },
   async getUser(req, res, next) {
     const email = req.params.id;
