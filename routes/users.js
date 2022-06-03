@@ -30,18 +30,18 @@ router.post(
 );
 router.post(
   /* #swagger.tags = ['Users']
-     #swagger.description = '登入'
-     #swagger.path = '/users/sign_in'
-     #swagger.method = 'POST'
-     #swagger.produces = ["application/json"]
-     #swagger.parameters['body'] = {
+    #swagger.description = '登入'
+    #swagger.path = '/users/sign_in'
+    #swagger.method = 'POST'
+    #swagger.produces = ["application/json"]
+    #swagger.parameters['body'] = {
         in: 'body',
         type :"object",
         required:true,
         description: "資料格式",
         schema: {
-               "$email":'test@gmail.com',
-               "$password":'a12345678',
+              "$email":'test@gmail.com',
+              "$password":'a12345678',
             }
         }
   */
@@ -53,23 +53,23 @@ router.post(
 // POST：{url}/users/updatePassword: 重設密碼，登入後才可以重設密碼
 router.post(
   /* #swagger.tags = ['Users']
-     #swagger.description = '重設密碼'
-     #swagger.path = '/users/updatePassword'
-     #swagger.method = 'POST'
-     #swagger.produces = ["application/json"]
-     #swagger.parameters['body'] = {
-        in: 'body',
-        type :"object",
-        required:true,
-        description: "密碼需至少 8 碼以上，並數字與英文或符號混合",
-        schema: {
-                "$password":'password123',
-                "$passwordConfirm":'password123',
-            }
-        }
-     #swagger.security = [{
-          "Bearer": []
-     }]
+    #swagger.description = '重設密碼'
+    #swagger.path = '/users/updatePassword'
+    #swagger.method = 'POST'
+    #swagger.produces = ["application/json"]
+    #swagger.parameters['body'] = {
+      in: 'body',
+      type :"object",
+      required:true,
+      description: "密碼需至少 8 碼以上，並數字與英文或符號混合",
+      schema: {
+              "$password":'password123',
+              "$passwordConfirm":'password123',
+          }
+      }
+    #swagger.security = [{
+        "Bearer": []
+    }]
   */
   "/updatePassword",
   auth.isAuth,
@@ -134,27 +134,47 @@ router.post(
 );
 
 router.get(
-  "/:id/likes",
-  handleErrorAsync(async (req, res, next) =>
-    /*#swagger.tags = ['Users']
+  /*#swagger.tags = ['Users']
       #swagger.description = '取得使用者的按讚列表'
       #swagger.method = 'GET'
       #swagger.responses[200] = {
         schema: {
-          "_id": "628dea31b5315cd52aff7305",
-          "user": {
-            "_id": "6283924bddb475c3f2c6d2f9",
-            "name": "test2",
-            "email": "test2@gmail.com",
-            "photo": ""
-          },
-          "post": {
-            "_id": "6289d155d555b60de6179f9b",
-            "createAt": "2022-05-22T05:59:49.518Z"
+          "status": "success",
+          "data": {
+            "pagination": {
+                "current_pages": 1,
+                "total_pages": 3,
+                "total_datas": 3
+            },
+            "likes": [
+              {
+                "_id": "628de9fcb5315cd52aff72fe",
+                "user": {
+                  "_id": "628dded3d331624c57a77e8d",
+                  "name": "Jack",
+                  "email": "test@gmail.com",
+                  "photo": "someImage.jpg"
+                },
+                "post": {
+                  "_id": "6289d155d555b60de6179f9b",
+                  "content": "content content",
+                  "userId": {
+                    "_id": "62838f86ddb475c3f2c6d2ef",
+                    "name": "Tom",
+                    "email": "tommy@gmail.com",
+                    "photo": "photo.png"
+                  },
+                  "createAt": "2022-05-22T05:59:49.518Z",
+                  "id": "6289d155d555b60de6179f9b"
+                }
+              }
+            ]
           }
         }
       }
     */
+  "/:id/likes",
+  handleErrorAsync(async (req, res, next) =>
     UsersController.getlikeList(req, res, next)
   )
 );
@@ -184,8 +204,8 @@ router.get(
 );
 //測試用
 router.get(
-  /* #swagger.tags = ['Users']
-     #swagger.description = '取得個人資料(測試用)'
+  /*  #swagger.tags = ['Users']
+      #swagger.description = '取得個人資料(測試用)'
       #swagger.path = '/users/{email}'
       #swagger.method = 'GET'
       #swagger.produces = ["application/json"]
