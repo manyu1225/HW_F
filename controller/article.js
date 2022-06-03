@@ -37,8 +37,8 @@ const articleController = {
           {
             in: 'query',
             name:"reverse"
-            type :"boolean",
-            description:"排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) "
+            type :"number",
+            description:"排序順反向(required, [0順向(大到小、新到舊)、1(反向、與前者相反)],number) "
           },          
           {
             in: 'query',
@@ -68,7 +68,7 @@ const articleController = {
       let searchMode = {
         isActive:true
       }
-      let reverse = req.query.reverse ?  1 : -1;
+      let reverse = req.query.reverse == 0 ?  1 : -1;
       let sort = {"createAt":reverse};
       let postId =req.query.postId ||"";
 
@@ -95,6 +95,11 @@ const articleController = {
       .populate({
         path:"likeCount",
         select:" likeCount "
+      })
+      .populate({
+        path:"comments",
+        select:" _id content createdAt name photo",
+        populate:"user"
       })
       .sort(sort)
       .skip(startIndex)

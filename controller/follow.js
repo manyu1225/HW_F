@@ -35,8 +35,8 @@ const articleController = {
           {
             in: 'query',
             name:"reverse"
-            type :"boolean",
-            description:"排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],boolean) "
+            type :"number",
+            description:"排序順反向(required, [true順向(大到小、新到舊)、false(反向、與前者相反)],number) "
           }]
       */
       let pageCount = req.query.pageCount || 10; //預設為10筆
@@ -44,8 +44,13 @@ const articleController = {
       let startIndex=  pageCount*page;
       let keyWord = req.query.content;
       let userId=req.query.userId;
-      let sort = (req.query.sort|| "createAt")
-      let result = await Follow.find()
+      let reverse = req.query.reverse == 0 ?  1 : -1;
+      let sort = {"createAt":reverse};
+      
+
+      let result = await Follow.find(
+        {userId:req.user._id}
+      )
       .populate({
         path: "userId",
         select: "_id name photo",
@@ -54,8 +59,10 @@ const articleController = {
         path: "targetUserId",
         select: "_id name photo",
       })
+      .sort(sort)
       .skip(startIndex)
       .limit(pageCount);     
+
       handleSuccess(res, httpStatus.OK, result);
     })(req, res, next);
   },
