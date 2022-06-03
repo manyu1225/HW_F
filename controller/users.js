@@ -132,7 +132,7 @@ const usersController = {
       })
       .populate({
         path: "post",
-        select: "createAt",
+        select: "userId content createAt",
       });
 
     handleSuccess(res, httpStatus.OK, likes);
