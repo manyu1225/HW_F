@@ -43,13 +43,13 @@ const articleController = {
       let page = (req.query.page || 1 )-1; //頁數最小為0頁，但閱讀不易所以改成第1頁為開始
       let startIndex=  pageCount*page;
       let keyWord = req.query.content;
-      let userId=req.query.userId;
+      let userId=req.user._id;
       let reverse = req.query.reverse == 0 ?  1 : -1;
       let sort = {"createAt":reverse};
       
 
       let result = await Follow.find(
-        {userId:req.user._id}
+        {"userId":userId}
       )
       .populate({
         path: "userId",
@@ -62,6 +62,20 @@ const articleController = {
       .sort(sort)
       .skip(startIndex)
       .limit(pageCount);     
+
+
+      let dataCounts = await Follow.find({"userId":userId}).countDocuments({});
+      let totalPages = Math.floor(dataCounts/pageCount,0) + (((dataCounts%pageCount)>0)? 1:0) //如果有餘數表示要多一頁
+      
+      result = {
+        pagination:{
+          "current_pages":page+1,
+          "total_pages":totalPages,
+          "total_datas":dataCounts
+        },
+        data:result
+      }
+
 
       handleSuccess(res, httpStatus.OK, result);
     })(req, res, next);
