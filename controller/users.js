@@ -133,6 +133,10 @@ const usersController = {
       .populate({
         path: "post",
         select: "userId content createAt",
+        populate: {
+          path: "userId",
+          select: "name photo",
+        },
       });
 
     handleSuccess(res, httpStatus.OK, likes);
