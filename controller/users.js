@@ -4,6 +4,7 @@ const { isLength, isNumeric, isAlpha } = require("validator");
 
 const usersModel = require("../models/User");
 const Likes = require("../models/Likes");
+const Follow = require("../models/Follow");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
 const appError = require("../service/appError");
@@ -162,12 +163,14 @@ const usersController = {
     });
   },
   async getUser(req, res, next) {
-    const email = req.params.id;
-    const data = await usersModel.find({ email: email });
-    if (!data.length) {
-      return appError(httpStatus.BAD_REQUES, "email 不存在", next);
-    }
-    handleSuccess(res, httpStatus.OK, data);
+    const followerCount = await Follow.countDocuments({
+      targetUserId: req.user._id,
+    });
+
+    handleSuccess(res, httpStatus.OK, {
+      user: req.user,
+      followerCount,
+    });
   },
   async getAllUsers(req, res, next) {
     const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt";

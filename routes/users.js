@@ -195,8 +195,7 @@ router.get(
     #swagger.description = 'Endpoint to get All Users(測試用)'
     #swagger.path = '/users'
     #swagger.method = 'GET'
-    #swagger.responses[200] = { description: 'Some description...' }
-   */
+  */
   "/",
   handleErrorAsync(async (req, res, next) =>
     UsersController.getAllUsers(req, res, next)
@@ -204,13 +203,28 @@ router.get(
 );
 //測試用
 router.get(
-  /*  #swagger.tags = ['Users']
-      #swagger.description = '取得個人資料(測試用)'
-      #swagger.path = '/users/{email}'
-      #swagger.method = 'GET'
-      #swagger.produces = ["application/json"]
+  /*#swagger.tags = ['Users']
+    #swagger.description = '取得個人資料'
+    #swagger.produces = ["application/json"]
+    #swagger.responses[200] = {
+      schema: {
+        "status": "success",
+        "data": {
+          "user": {
+              "_id": "62838f86ddb475c3f2c6d2ef",
+              "name": "someone",
+              "email": "someone@gmail.com",
+              "photo": "someImage",
+              "updatedAt": "2022-05-28T04:21:57.051Z",
+              "gender": "female"
+          },
+          "followerCount": 0
+        }
+      }
+    }
   */
   "/:id",
+  auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
     UsersController.getUser(req, res, next)
   )
