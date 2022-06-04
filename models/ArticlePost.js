@@ -55,11 +55,6 @@ newArticleSchema.virtual("likeCount", {
   count: false,
 });
 
-newArticleSchema.virtual("comment", {
-  ref: "comment",
-  foreignField: "newArticle",
-  localField: "_id",
-});
 const newArticleposts = mongoose.model("newArticle", newArticleSchema);
 
 module.exports = newArticleposts;

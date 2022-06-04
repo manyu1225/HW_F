@@ -15,21 +15,18 @@ const commentSchema = new mongoose.Schema(
       ref: "newArticle",
       required: [true, "ArticleId 必填"],
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      select: false,
-    },
     createAt: {
       type: Date,
       default: Date.now,
-      select: false,
+    },
+    updateAt: {
+      type: Date,
+      default: Date.now,
     },
   },
   {
     versionKey: false,
     toJSON: { virtuals: true },
-    toObject: { virtuals: true },
   }
 );
 

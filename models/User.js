@@ -9,7 +9,6 @@ const usersSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       required: [true, "email必須要有值"],
-      select: true,
       unique: true,
     },
     password: {
