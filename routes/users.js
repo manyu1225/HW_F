@@ -53,6 +53,51 @@ router.post(
 
 router.get(
   /*#swagger.tags = ['Users']
+      #swagger.description = '取得使用者的按讚列表'
+      #swagger.method = 'GET'
+      #swagger.responses[200] = {
+        schema: {
+          "status": "success",
+          "data": {
+            "pagination": {
+                "current_pages": 1,
+                "total_pages": 3,
+                "total_datas": 3
+            },
+            "likes": [
+              {
+                "_id": "628de9fcb5315cd52aff72fe",
+                "user": {
+                  "_id": "628dded3d331624c57a77e8d",
+                  "name": "Jack",
+                  "photo": "someImage.jpg"
+                },
+                "post": {
+                  "_id": "6289d155d555b60de6179f9b",
+                  "content": "content content",
+                  "userId": {
+                    "_id": "62838f86ddb475c3f2c6d2ef",
+                    "name": "Tom",
+                    "photo": "photo.png"
+                  },
+                  "createAt": "2022-05-22T05:59:49.518Z",
+                  "id": "6289d155d555b60de6179f9b"
+                }
+              }
+            ]
+          }
+        }
+      }
+    */
+  "/likes",
+  auth.isAuth,
+  handleErrorAsync(async (req, res, next) =>
+    UsersController.getlikeList(req, res, next)
+  )
+);
+
+router.get(
+  /*#swagger.tags = ['Users']
     #swagger.description = '取得使用者資料'
     #swagger.produces = ["application/json"]
     #swagger.responses[200] = {
@@ -73,7 +118,6 @@ router.get(
     }
   */
   "/:id",
-  auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
     UsersController.getUser(req, res, next)
   )
@@ -143,53 +187,6 @@ router.post(
   checkAvatar,
   handleErrorAsync(async (req, res, next) =>
     UsersController.updateProfile(req, res, next)
-  )
-);
-
-router.get(
-  /*#swagger.tags = ['Users']
-      #swagger.description = '取得使用者的按讚列表'
-      #swagger.method = 'GET'
-      #swagger.responses[200] = {
-        schema: {
-          "status": "success",
-          "data": {
-            "pagination": {
-                "current_pages": 1,
-                "total_pages": 3,
-                "total_datas": 3
-            },
-            "likes": [
-              {
-                "_id": "628de9fcb5315cd52aff72fe",
-                "user": {
-                  "_id": "628dded3d331624c57a77e8d",
-                  "name": "Jack",
-                  "email": "test@gmail.com",
-                  "photo": "someImage.jpg"
-                },
-                "post": {
-                  "_id": "6289d155d555b60de6179f9b",
-                  "content": "content content",
-                  "userId": {
-                    "_id": "62838f86ddb475c3f2c6d2ef",
-                    "name": "Tom",
-                    "email": "tommy@gmail.com",
-                    "photo": "photo.png"
-                  },
-                  "createAt": "2022-05-22T05:59:49.518Z",
-                  "id": "6289d155d555b60de6179f9b"
-                }
-              }
-            ]
-          }
-        }
-      }
-    */
-  "/likes",
-  auth.isAuth,
-  handleErrorAsync(async (req, res, next) =>
-    UsersController.getlikeList(req, res, next)
   )
 );
 
