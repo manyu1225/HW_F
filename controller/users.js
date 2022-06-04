@@ -4,6 +4,7 @@ const { isLength, isNumeric, isAlpha } = require("validator");
 
 const usersModel = require("../models/User");
 const Likes = require("../models/Likes");
+const Follow = require("../models/Follow");
 const httpStatus = require("../utils/httpStatus");
 const handleSuccess = require("../service/handleSuccess");
 const appError = require("../service/appError");
@@ -60,6 +61,16 @@ const usersController = {
 
     await generateAndSendToken(res, httpStatus.OK, user);
   },
+  async getUser(req, res, next) {
+    const followerCount = await Follow.countDocuments({
+      targetUserId: req.user._id,
+    });
+
+    handleSuccess(res, httpStatus.OK, {
+      user: req.user,
+      followerCount,
+    });
+  },
   //從 Middleware 之 JWT 取得 User 資訊
   async updatePassword(req, res, next) {
     const { password, passwordConfirm } = req.body;
@@ -96,10 +107,6 @@ const usersController = {
 
     await generateAndSendToken(res, httpStatus.OK, editedUser);
   },
-  //從 Middleware 之 JWT 取得 User 資訊
-  async getProfile(req, res, next) {
-    handleSuccess(res, httpStatus.OK, req.user);
-  },
   async updateProfile(req, res, next) {
     // 取得 Imgur 網址
     if (req.file) {
@@ -125,7 +132,7 @@ const usersController = {
     }
   },
   async getlikeList(req, res, next) {
-    const user = req.params.id;
+    const user = req.user._id;
     const { pageCount, page, reverse } = req.query;
     const pageNumber = Number(page) || 1;
     const limit = Number(pageCount) || 10;
@@ -160,38 +167,6 @@ const usersController = {
       },
       likes,
     });
-  },
-  async getUser(req, res, next) {
-    const email = req.params.id;
-    const data = await usersModel.find({ email: email });
-    if (!data.length) {
-      return appError(httpStatus.BAD_REQUES, "email 不存在", next);
-    }
-    handleSuccess(res, httpStatus.OK, data);
-  },
-  async getAllUsers(req, res, next) {
-    const timeSort = req.query.timeSort === "asc" ? "createAt" : "-createAt";
-    const limit = req.query.limit;
-    const all = await usersModel.find().sort(timeSort).limit(limit);
-    handleSuccess(res, httpStatus.OK, all);
-  },
-  async delUser(req, res, next) {
-    const email = req.params.id;
-    const originalUrl = req.originalUrl;
-    if (!email || !originalUrl) {
-      return appError(httpStatus.BAD_REQUEST, "參數有缺", next);
-    }
-    const user = await usersModel.find({ email: email });
-    if (!user.length) {
-      return appError(httpStatus.BAD_REQUEST, "無此email", next);
-    }
-    const data = await usersModel.findByIdAndDelete(user);
-    handleSuccess(res, httpStatus.OK, data);
-  },
-  async delAllUsers(req, res, next) {
-    // return appError(httpStatus.BAD_REQUEST, "參數有缺", next);
-    await usersModel.deleteMany({});
-    handleSuccess(res, httpStatus.OK, []);
   },
 };
 module.exports = usersController;
