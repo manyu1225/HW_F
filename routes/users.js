@@ -186,7 +186,8 @@ router.get(
         }
       }
     */
-  "/:id/likes",
+  "/likes",
+  auth.isAuth,
   handleErrorAsync(async (req, res, next) =>
     UsersController.getlikeList(req, res, next)
   )

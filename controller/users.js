@@ -132,7 +132,7 @@ const usersController = {
     }
   },
   async getlikeList(req, res, next) {
-    const user = req.params.id;
+    const user = req.user._id;
     const { pageCount, page, reverse } = req.query;
     const pageNumber = Number(page) || 1;
     const limit = Number(pageCount) || 10;
