@@ -62,12 +62,19 @@ const usersController = {
     await generateAndSendToken(res, httpStatus.OK, user);
   },
   async getUser(req, res, next) {
+    const userId = req.params.id;
+    const user = await usersModel.findById(userId);
+
+    if (!user) {
+      return appError(httpStatus.NOT_FOUND, "查無此使用者", next);
+    }
+
     const followerCount = await Follow.countDocuments({
-      targetUserId: req.user._id,
+      targetUserId: userId,
     });
 
     handleSuccess(res, httpStatus.OK, {
-      user: req.user,
+      user,
       followerCount,
     });
   },
