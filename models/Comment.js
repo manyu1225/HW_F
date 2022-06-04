@@ -8,28 +8,25 @@ const commentSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
-      required: [true, "userId 必填"],
+      required: [true, "登入後才可填寫"],
     },
     post: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "newArticle",
       required: [true, "ArticleId 必填"],
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      select: false,
-    },
     createAt: {
       type: Date,
       default: Date.now,
-      select: false,
+    },
+    updateAt: {
+      type: Date,
+      default: Date.now,
     },
   },
   {
     versionKey: false,
     toJSON: { virtuals: true },
-    toObject: { virtuals: true },
   }
 );
 

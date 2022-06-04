@@ -170,7 +170,7 @@ const usersController = {
     handleSuccess(res, httpStatus.OK, data);
   },
   async getAllUsers(req, res, next) {
-    const timeSort = req.query.timeSort === "asc" ? "createdAt" : "-createdAt";
+    const timeSort = req.query.timeSort === "asc" ? "createAt" : "-createAt";
     const limit = req.query.limit;
     const all = await usersModel.find().sort(timeSort).limit(limit);
     handleSuccess(res, httpStatus.OK, all);
