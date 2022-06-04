@@ -8,7 +8,7 @@ const commentSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
-      required: [true, "登入後才可填寫"],
+      required: [true, "userId 必填"],
     },
     post: {
       type: mongoose.Schema.Types.ObjectId,
