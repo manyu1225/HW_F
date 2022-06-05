@@ -75,7 +75,7 @@ const articleController = {
       if (req.query.sort == 2) {
          sort = {"likeCount":reverse};
       }
-      if (keyWord) {
+      if (keyWord && keyWord != '""' && keyWord != "''" ) {
         searchMode.content={$regex:new RegExp(keyWord,'i')};
       }
 
@@ -94,7 +94,7 @@ const articleController = {
       })
       .populate({
         path:"likeCount",
-        select:" likeCount "
+        options: { select: '_id' }
       })
       .populate({
         path:"comments",
@@ -104,6 +104,10 @@ const articleController = {
       .sort(sort)
       .skip(startIndex)
       .limit(pageCount);
+
+      for(var item of result){
+        item.likeCount = item.likeCount.map(({_id})=> _id )
+      }
 
       let dataCounts = await Article.find(searchMode).countDocuments({});
       let totalPages = Math.floor(dataCounts/pageCount,0) + (((dataCounts%pageCount)>0)? 1:0) //如果有餘數表示要多一頁
