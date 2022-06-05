@@ -98,8 +98,9 @@ const articleController = {
       })
       .populate({
         path:"comments",
-        select:" _id content createdAt name photo",
-        populate:"user"
+        select:" _id content createAt name photo",
+        populate:"user",
+        options: { sort: { createdAt: 1 }}
       })
       .sort(sort)
       .skip(startIndex)
