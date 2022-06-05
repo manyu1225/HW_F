@@ -50,8 +50,9 @@ newArticleSchema.virtual("likeCount", {
   ref: "Likes",
   localField: "_id",
   foreignField: "post",
+  select:"_id",
   justOne: false,
-  count: true,
+  count: false,
 });
 
 const newArticleposts = mongoose.model("newArticle", newArticleSchema);
