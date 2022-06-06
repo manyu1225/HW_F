@@ -114,6 +114,9 @@ const usersController = {
 
     await generateAndSendToken(res, httpStatus.OK, editedUser);
   },
+  async getProfile(req, res, next) {
+    handleSuccess(res, httpStatus.OK, req.user);
+  },
   async updateProfile(req, res, next) {
     // 取得 Imgur 網址
     if (req.file) {
