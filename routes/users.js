@@ -52,6 +52,36 @@ router.post(
 );
 
 router.get(
+  /*  #swagger.tags = ['Users']
+      #swagger.description = '更新個人資料'
+      #swagger.produces = ["application/json"]
+      #swagger.security = [{
+        "Bearer": []
+      }]
+      #swagger.responses[200] = {
+        schema: {
+          "status": "success",
+          "data": {
+            "user": {
+                "_id": "62838f86ddb475c3f2c6d2ef",
+                "name": "someone",
+                "email": "someone@gmail.com",
+                "photo": "someImage",
+                "updatedAt": "2022-05-28T04:21:57.051Z",
+                "gender": "female"
+            },
+          }
+        }
+      }
+     */
+  "/profile",
+  auth.isAuth,
+  handleErrorAsync(async (req, res, next) =>
+    UsersController.getProfile(req, res, next)
+  )
+);
+
+router.get(
   /*#swagger.tags = ['Users']
       #swagger.description = '取得使用者的按讚列表'
       #swagger.method = 'GET'
@@ -155,8 +185,6 @@ router.post(
 router.post(
   /*  #swagger.tags = ['Users']
       #swagger.description = '更新個人資料'
-      #swagger.path = '/users/profile'
-      #swagger.method = 'PATCH'
       #swagger.produces = ["application/json"]
       #swagger.security = [{
         "Bearer": []
