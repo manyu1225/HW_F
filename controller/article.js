@@ -94,7 +94,7 @@ const articleController = {
       })
       .populate({
         path:"likeCount",
-        options: { select: '_id' }
+        options: { select: 'user' }
       })
       .populate({
         path:"comments",
@@ -107,7 +107,7 @@ const articleController = {
       .limit(pageCount);
 
       for(var item of result){
-        item.likeCount = item.likeCount.map(({_id})=> _id )
+        item.likeCount = item.likeCount.map(({user})=> user )
       }
 
       let dataCounts = await Article.find(searchMode).countDocuments({});
