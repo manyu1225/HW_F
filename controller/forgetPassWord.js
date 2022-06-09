@@ -41,7 +41,7 @@ const forgetPasswordController={
 
         const transporter = nodemailer.createTransport(
             {
-                service: 'gmail',
+                service: 'Hotmail',
                 auth: {
                   user: `${process.env.MAILER_ACCOUNT}`,
                   pass: `${process.env.MAILER_PASSWORD}`,
@@ -60,7 +60,7 @@ const forgetPasswordController={
         
         //設定寄件選項
         const mailOptions = {
-            from: 'mySqlDemoEmail@gmail.com',
+            from: 'hexnodejs2022team11@hotmail.com',
             to: `${userData.email}`,
             subject: title,
             text:emailContent,
