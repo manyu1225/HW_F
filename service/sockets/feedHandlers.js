@@ -14,24 +14,24 @@ module.exports = (io, socket) => {
   // 通知有該貼文的連線者，於該貼文增加留言
   socket.on("createComment", (comment) => {
     if (registerBook.has(comment.postId)) {
-      io.emit("addComment", comment);
+      socket.broadcast.emit("addComment", comment);
     }
   });
 
   // 通知有該貼文的連線者，移除留言
-  socket.on("deleteComment", (data) => {
-    if (registerBook.has(data.postId)) {
-      io.emit("removeComment", {
-        postId: data.postId,
-        commentId: data.commentId,
+  socket.on("deleteComment", ({ postId, commentId }) => {
+    if (registerBook.has(postId)) {
+      socket.broadcast.emit("removeComment", {
+        postId,
+        commentId,
       });
     }
   });
 
   // 通知有該貼文的連線者，變更其按讚數
-  socket.on("changeLikeCount", ({ postId, likeCount }) => {
+  socket.on("changeLikeCount", ({ isLike, userId, postId }) => {
     if (registerBook.has(postId)) {
-      io.emit("updateLikeCount", { postId, likeCount });
+      socket.broadcast.emit("updateLikeCount", { isLike, userId, postId });
     }
   });
 };
